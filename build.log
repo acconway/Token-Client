@@ -1,0 +1,148 @@
+Logfile initialized
+[INFO] logfile = /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build.log
+[DEBUG] /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/builder.py install SCWT /Applications/android-sdk-mac_x86 /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT com.scwt 7
+[INFO] Titanium SDK version: 2.1.0 (04/30/12 15:18 984661b)
+[DEBUG] Waiting for device to be ready ...
+[TRACE] adb devices returned 1 devices/emulators
+[DEBUG] Device connected... (waited 0 seconds)
+[DEBUG] waited 3.354809 seconds on emulator to get ready
+[INFO] Waiting for the Android Emulator to become available
+[DEBUG] com.scwt installed? False
+[INFO] Copying CommonJS modules...
+[INFO] Copying project resources..
+[INFO] Detected change in tiapp.xml, or assets deleted. Forcing full re-build...
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/appicon.png => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/appicon.png
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/default.png => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/default.png
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/app.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/app.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/cfg/cfg_app.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/cfg/cfg_app.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/images/arrow.png => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/images/arrow.png
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/KS_nav_ui.png => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/KS_nav_ui.png
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/KS_nav_views.png => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/KS_nav_views.png
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/lib/lib_data.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/lib/lib_data.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/lib/lib_date.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/lib/lib_date.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/lib/lib_facebook.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/lib/lib_facebook.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/lib/lib_underscore.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/lib/lib_underscore.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/models/models_user.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/models/models_user.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/swap/ui_newswap.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/swap/ui_newswap.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/swap/ui_picker.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/swap/ui_picker.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/swap/ui_points.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/swap/ui_points.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_app.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_app.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_friend.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_friend.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_friendslist.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_friendslist.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_home.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_home.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_login.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_login.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_swap.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_swap.js
+[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/ui/ui_template.js => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/ui/ui_template.js
+[TRACE] Generating Java Classes
+[DEBUG] Processing Android resource drawables
+[DEBUG] app stylesheet => /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ApplicationStylesheet.java
+[DEBUG] copying app icon: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/appicon.png
+[DEBUG] generating theme.xml
+[DEBUG] found drawable-long-land-hdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-land-hdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-land-hdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-long-land-hdpi/background.png
+[DEBUG] found drawable-long-land-ldpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-land-ldpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-land-ldpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-long-land-ldpi/background.png
+[DEBUG] found drawable-long-port-hdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-port-hdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-port-hdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-long-port-hdpi/background.png
+[DEBUG] found drawable-long-port-ldpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-port-ldpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-long-port-ldpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-long-port-ldpi/background.png
+[DEBUG] found drawable-notlong-land-hdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-hdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-hdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-land-hdpi/background.png
+[DEBUG] found drawable-notlong-land-ldpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-ldpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-ldpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-land-ldpi/background.png
+[DEBUG] found drawable-notlong-land-mdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-mdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-land-mdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-land-mdpi/background.png
+[DEBUG] found drawable-notlong-port-hdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-hdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-hdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-port-hdpi/background.png
+[DEBUG] found drawable-notlong-port-ldpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-ldpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-ldpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-port-ldpi/background.png
+[DEBUG] found drawable-notlong-port-mdpi splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-mdpi/default.png
+[DEBUG] copying /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/Resources/android/images/res-notlong-port-mdpi/default.png splash screen to /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/res/drawable-notlong-port-mdpi/background.png
+[DEBUG] found splash screen at /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/assets/Resources/default.png
+[TRACE] Writing out AndroidManifest.xml
+[DEBUG] adding /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ApplicationStylesheet.java to javac build list
+[DEBUG] adding /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/R.java to javac build list
+[DEBUG] adding /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtActivity.java to javac build list
+[DEBUG] adding /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtAppInfo.java to javac build list
+[DEBUG] adding /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtApplication.java to javac build list
+[DEBUG] Building Java Sources: "/Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ApplicationStylesheet.java" "/Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/R.java" "/Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtActivity.java" "/Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtAppInfo.java" "/Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/gen/com/scwt/ScwtApplication.java"
+[INFO] Compiling Android Resources... This could take some time
+[DEBUG] Android classes.dex built
+[DEBUG] creating unsigned apk: /Users/alexanderconway/Documents/WORK/LOGICAL_LABS/Titanium/SCWT/build/android/bin/app-unsigned.apk
+[DEBUG] from resource zip => assets/Resources/cfg/cfg_app.js
+[DEBUG] from resource zip => assets/Resources/images/arrow.png
+[DEBUG] from resource zip => assets/Resources/lib/lib_data.js
+[DEBUG] from resource zip => assets/Resources/lib/lib_date.js
+[DEBUG] from resource zip => assets/Resources/lib/lib_facebook.js
+[DEBUG] from resource zip => assets/Resources/lib/lib_underscore.js
+[DEBUG] from resource zip => assets/Resources/models/models_user.js
+[DEBUG] from resource zip => assets/Resources/ui/swap/ui_newswap.js
+[DEBUG] from resource zip => assets/Resources/ui/swap/ui_picker.js
+[DEBUG] from resource zip => assets/Resources/ui/swap/ui_points.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_app.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_friend.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_friendslist.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_home.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_login.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_swap.js
+[DEBUG] from resource zip => assets/Resources/ui/ui_template.js
+[DEBUG] from resource zip => assets/Resources/KS_nav_ui.png
+[DEBUG] from resource zip => assets/Resources/KS_nav_views.png
+[DEBUG] from resource zip => assets/Resources/app.js
+[DEBUG] from resource zip => assets/Resources/appicon.png
+[DEBUG] from resource zip => assets/Resources/default.png
+[DEBUG] from resource zip => assets/Resources/ti.cloud.js
+[DEBUG] from resource zip => assets/app.json
+[DEBUG] from resource zip => assets/index.json
+[DEBUG] from resource zip => assets/tiapp.xml
+[DEBUG] from resource zip => res/drawable/appicon.png
+[DEBUG] from resource zip => res/drawable/background.png
+[DEBUG] from resource zip => res/drawable/close.png
+[DEBUG] from resource zip => res/drawable/facebook_login.png
+[DEBUG] from resource zip => res/drawable/facebook_login_down.png
+[DEBUG] from resource zip => res/drawable/facebook_login_wide.png
+[DEBUG] from resource zip => res/drawable/facebook_login_wide_down.png
+[DEBUG] from resource zip => res/drawable/facebook_logout.png
+[DEBUG] from resource zip => res/drawable/facebook_logout_down.png
+[DEBUG] from resource zip => res/layout/titanium_tabgroup.xml
+[DEBUG] from resource zip => AndroidManifest.xml
+[DEBUG] from resource zip => resources.arsc
+[DEBUG] from resource zip => res/drawable-hdpi/close.png
+[DEBUG] from resource zip => res/drawable-ldpi/close.png
+[DEBUG] from resource zip => res/drawable-long-land-hdpi/background.png
+[DEBUG] from resource zip => res/drawable-long-land-ldpi/background.png
+[DEBUG] from resource zip => res/drawable-long-port-hdpi/background.png
+[DEBUG] from resource zip => res/drawable-long-port-ldpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-land-hdpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-land-ldpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-land-mdpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-port-hdpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-port-ldpi/background.png
+[DEBUG] from resource zip => res/drawable-notlong-port-mdpi/background.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/modules/titanium-facebook.jar => ti/modules/titanium/facebook/LICENSE
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/build.properties
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/background.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_check_buttonless_on.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_check_buttonless_on_18.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_check_buttonless_on_48.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_more.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_more_18.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_more_48.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_picker_normal.9.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_picker_pressed.9.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/btn_picker_selected.9.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/default_icon.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/titanium.jar => org/appcelerator/titanium/res/drawable/photoDefault.png
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/thirdparty.jar => org/apache/Commons-NOTICE.txt
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/thirdparty.jar => org/apache/HttpComponents-NOTICE.txt
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/thirdparty.jar => org/apache/mime4j-NOTICE.txt
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/modules/titanium-ui.jar => ti/modules/titanium/ui/widget/webview/binding.js
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/modules/titanium-ui.jar => ti/modules/titanium/ui/widget/webview/binding.min.js
+[DEBUG] from JAR /Library/Application Support/Titanium/mobilesdk/osx/2.1.0.v20120430151809/android/modules/titanium-ui.jar => ti/modules/titanium/ui/widget/webview/json2.js
+[DEBUG] installing native SDK libs
+[DEBUG] Waiting for device to be ready ...
+[TRACE] adb devices returned 1 devices/emulators
+[DEBUG] Device connected... (waited 0 seconds)
+[DEBUG] waited 0.015484 seconds on emulator to get ready
+[INFO] Installing application on device
+[INFO] Application installed. Launch from drawer on Home Screen

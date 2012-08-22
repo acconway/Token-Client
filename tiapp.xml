@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <property name="acs-oauth-secret-production" type="string">tnAXSzTTMH160suV1kiM1rqlfeb8gAqM</property>
+    <property name="acs-oauth-key-production" type="string">dxlRIRnZz8rVLtjDD3lUYBNtom31Ulbj</property>
+    <property name="acs-api-key-production" type="string">QG31bJLKBNXOR0wU117fPCciGhGWTUd9</property>
+    <property name="acs-oauth-secret-development" type="string">PVlzyXLGqzSNvLaXBmjShhDgyQBeqpIw</property>
+    <property name="acs-oauth-key-development" type="string">NjZkhzsIA3cwrhiVYcPJ3TgnfnPYbTG0</property>
+    <property name="acs-api-key-development" type="string">t9hSZ3DCzbYAG8chWjXW7eqA6MNDLuwJ</property>
+    <deployment-targets>
+        <target device="mobileweb">true</target>
+        <target device="iphone">true</target>
+        <target device="ipad">true</target>
+        <target device="android">true</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <sdk-version>2.1.0.v20120430151809</sdk-version>
+    <id>com.logicallabs.test</id>
+    <name>SCWT</name>
+    <version>1.0</version>
+    <publisher>alexanderconway</publisher>
+    <url>http://</url>
+    <description>not specified</description>
+    <copyright>2012 by alexanderconway</copyright>
+    <icon>appicon.png</icon>
+    <persistent-wifi>false</persistent-wifi>
+    <prerendered-icon>false</prerendered-icon>
+    <statusbar-style>default</statusbar-style>
+    <statusbar-hidden>false</statusbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>afc8f309-450d-445d-9c48-e7d077ea34ee</guid>
+    <property name="ti.ui.defaultunit">system</property>
+    <iphone>
+        <orientations device="iphone">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+        </orientations>
+        <orientations device="ipad">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
+        </orientations>
+    </iphone>
+    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <mobileweb>
+        <precache/>
+        <splash>
+            <enabled>true</enabled>
+            <inline-css-images>true</inline-css-images>
+        </splash>
+        <theme>default</theme>
+    </mobileweb>
+    <modules>
+        <module platform="commonjs" version="2.0.1">ti.cloud</module>
+    </modules>
+</ti:app>
