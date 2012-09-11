@@ -4,7 +4,7 @@
 var App, model = {}, modelName = "scwtdata";
 
 var defaults = {
-	friends : {
+	friends : { 
 		1063230066 : {
 			name : "Charles Strauss",
 			id : 1063230066,

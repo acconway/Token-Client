@@ -13,14 +13,15 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>2.1.0.v20120430151809</sdk-version>
-    <id>com.logicallabs.test</id>
-    <name>SCWT</name>
+    <sdk-version>2.1.2.GA</sdk-version>
+    <id>com.token</id>
+    <name>Token</name>
     <version>1.0</version>
     <publisher>alexanderconway</publisher>
     <url>http://</url>
     <description>not specified</description>
     <copyright>2012 by alexanderconway</copyright>
+    <property name="ti.facebook.appid">142078199250182</property >
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -51,7 +52,5 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules>
-        <module platform="commonjs" version="2.0.1">ti.cloud</module>
-    </modules>
+    <modules/>
 </ti:app>

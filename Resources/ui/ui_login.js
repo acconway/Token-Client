@@ -20,7 +20,7 @@ var cfg = {
         title : {
             width : "auto",
             height : 50,
-            text : "Working Title",
+            text : "Token",
             font : {
                 fontSize : 35,
                 fontWeight : "bold"
@@ -31,7 +31,7 @@ var cfg = {
         help : {
             width : "auto",
             height : 30,
-            text : "What is Working Title?",
+            text : "What is Token?",
             top : 75,
             font : {
                 fontSize : 20
@@ -74,8 +74,9 @@ var addEventListeners = function() {
    Ti.Facebook.addEventListener('login', function(e) {
         if(e.success) {
             Ti.API.info("Logged in to Facebook Succesfully");
-            App.Lib.Facebook.getUserData();
-            App.UI.Home.open();
+            ti.win.close();
+            App.Lib.Facebook.afterLogin();
+            App.UI.openTabGroup();
         }
     });
     
