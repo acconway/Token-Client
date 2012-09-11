@@ -6,31 +6,30 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Send Tokens",
-		layout:"vertical",
-		modal : true
+		layout : "vertical"
 	},
 	views : {
 		row : {
 			backgroundColor : "white",
-			hasChild:true
+			hasChild : true
 		}
 	},
 	table : {
 		top : 10,
 		minRowHeight : 50,
-		width:"90%",
-		height:"80%",
+		width : "90%",
+		height : "80%",
 		borderWidth : 1,
 		borderColor : "black",
-		borderRadius:10
+		borderRadius : 10
 	},
 	labels : {
-		title:{
-			left:10,
-			top:20,
-			text:"Select a friend",
-			width:Ti.UI.SIZE,
-			height:Ti.UI.SIZE
+		title : {
+			left : 10,
+			top : 20,
+			text : "Select a friend",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE
 		},
 		friend : {
 			font : {
@@ -60,8 +59,8 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
-	labels:{
-		title:Ti.UI.createLabel(cfg.labels.title)
+	labels : {
+		title : Ti.UI.createLabel(cfg.labels.title)
 	},
 	buttons : {
 		close : Ti.UI.createButton(cfg.buttons.close)
@@ -77,7 +76,7 @@ var addEventListeners = function() {
 	});
 
 	ti.buttons.close.addEventListener("click", function() {
-		ti.win.close();
+		App.UI.Send.close();
 	});
 
 };
@@ -113,12 +112,12 @@ var updateTable = exports.updateTable = function() {
 };
 
 var buildHierarchy = function() {
-		
+
 	ti.win.add(ti.labels.title);
 
 	ti.win.add(ti.table);
 
-	ti.win.leftNavButton = ti.buttons.close;
+	ti.win.leftNavButton = ti.buttons.close; 
 
 	updateTable();
 
@@ -128,12 +127,15 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
-	
+
 	SelectAction.initialize(App);
 };
 
-exports.open = function(_friends) {
+exports.update = function(_friends) {
 	friends = _friends;
 	updateTable();
-	ti.win.open();
+};
+
+exports.getWin = function() {
+	return ti.win;
 };

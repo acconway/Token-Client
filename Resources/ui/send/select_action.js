@@ -1,5 +1,9 @@
 var App, actions = [], rowData = [];
 
+var friend; 
+
+var SelectTokens = require("ui/send/select_tokens");
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
@@ -49,11 +53,7 @@ var cfg = {
 			color : "black"
 		}
 	},
-	buttons : {
-		close : {
-			title : "close"
-		}
-	}
+	buttons : {}
 };
 
 var ti = {
@@ -63,9 +63,7 @@ var ti = {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		title : Ti.UI.createLabel(cfg.labels.title)
 	},
-	buttons : {
-		close : Ti.UI.createButton(cfg.buttons.close)
-	}
+	buttons : {}
 };
 
 actions = [{
@@ -82,14 +80,10 @@ var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
 		if (e.rowData.action) {
-
+			SelectTokens.open(friend,e.rowData.action);
 		} else if (e.rowData.addNew) {
 
 		}
-	});
-
-	ti.buttons.close.addEventListener("click", function() {
-		ti.win.close();
 	});
 
 };
@@ -154,8 +148,8 @@ var buildHierarchy = function() {
 	ti.win.add(ti.labels.title);
 
 	ti.win.add(ti.table);
-
-	ti.win.leftNavButton = ti.buttons.close;
+	
+	ti.win.backButtonTitle = "Back";
 
 	updateTable();
 
@@ -165,10 +159,13 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
+	
+	SelectTokens.initialize(App);
 };
 
-exports.open = function(friend) {
+exports.open = function(_friend) {
+	friend = _friend; 
 	ti.labels.friendName.text = friend.name;
 	updateTable();
-	ti.win.open();
+	App.UI.Send.openWindow(ti.win);
 };

@@ -21,7 +21,7 @@ var tabs = [Friends, Notifications, User];
  * Send Tokens Starting Window (Select Friend)
  */
 
-var Send = require("ui/send/select_friend")
+var Send = require("ui/send/home_send");
 
 /*
  * Declare exports of App.UI namespace
@@ -30,6 +30,7 @@ var Send = require("ui/send/select_friend")
 exports.Login = Login;
 exports.Friends = Friends;
 exports.Notifications = Notifications;
+exports.Send = Send;
 
 var cfg = {
 	buttons : {
