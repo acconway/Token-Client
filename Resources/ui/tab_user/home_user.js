@@ -41,9 +41,7 @@ var buildHierarchy = function() {
 
 var addEventListeners = function() {
 	ti.buttons.logout.addEventListener("click",function(){
-		Ti.Facebook.logout();
-		App.UI.closeTabGroup();
-		App.UI.Login.getWin().open();
+		App.logout(); 
 	});
 };
 

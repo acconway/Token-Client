@@ -1,38 +1,43 @@
-var App = this; 
+var App = this;
 var _ = require('/lib/lib_underscore')._;
 
-//Constant for Android platform 
+//Constant for Android platform
 
-var ANDROID = Ti.Platform.name == "android";
-
-var UI = require("/ui/ui_app");
-var Data = require("lib/lib_data");
+var ANDROID = Ti.Platform.name === "android";
 
 var Lib = {
 	Facebook : require("lib/lib_facebook"),
-	Functions: require("lib/lib_functions")
+	Functions : require("lib/lib_functions"),
+	Joli : require("lib/joli"),
+	Data : require("lib/lib_data")
 };
 
-var Models = {
-	User : require("models/models_user")
-};
+var UI = require("/ui/ui_app");
+var DB = Lib.Joli.connect('utilisphere');
+var Models = require('cfg/cfg_models');
 
 var CONSTANTS = {
-	TOTALPOINTS:10
+	TOTALPOINTS : 10
 };
 
-require("lib/lib_facebook");
+exports.ANDROID = ANDROID;
+exports.CONSTANTS = CONSTANTS;
+exports._ = _;
 
-exports.ANDROID = ANDROID; 
-exports.CONSTANTS = CONSTANTS; 
-exports._ = _; 
-exports.UI = UI;
 exports.Lib = Lib;
+exports.UI = UI;
+exports.DB = DB;
 exports.Models = Models;
-exports.Data = Data;
 
 exports.initialize = function() {
-	UI.initialize(this);
 	Lib.Facebook.initialize(this);
+	Models.initialize(this);
+	UI.initialize(this);
 };
 
+exports.logout = function() {
+	Models.purgeAll();
+	Ti.Facebook.logout();
+	UI.closeTabGroup();
+	UI.Login.getWin().open();
+};

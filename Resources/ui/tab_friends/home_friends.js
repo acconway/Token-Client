@@ -110,6 +110,7 @@ var buildAddNewFriendRow = function(){
 };
 
 var updateTable = function() {
+	friends = App.Models.Friends.all(); 
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
@@ -146,7 +147,7 @@ exports.getTab = function() {
 };
 
 exports.addFriend = function(friend, update){
-	friends.push(friend);
+	App.Models.Friends.addFriend(friend.name,friend.id);
 	if(update){
 		updateTable(); 
 	}
