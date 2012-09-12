@@ -47,7 +47,7 @@ var cfg = {
 			backgroundColor : "white"
 		},
 		balanceBar : {
-			top:15,
+			top : 15,
 			height : 30,
 			left : 90,
 			borderColor : "black",
@@ -80,39 +80,40 @@ var cfg = {
 		historyRow : {
 			width : "100%",
 			height : 50,
-			backgroundColor : "white"
+			backgroundColor : "white",
+			touchEnabled:false
 		}
 	},
 	labels : {
 		balanceTitle : {
-			top:10,
+			top : 10,
 			width : Ti.UI.SIZE,
 			textAlign : "center",
 			height : Ti.UI.SIZE,
 			font : {
 				fontSize : 20,
-				fontWeight:"bold"
+				fontWeight : "bold"
 			},
 			color : "black",
-			text:"Balance"
+			text : "Balance"
 		},
 		balance : {
-			top:0,
+			top : 0,
 			left : 0,
-			height :30,
+			height : 30,
 			width : Ti.UI.SIZE
 		},
-		historyTitle:{
-			top:10,
+		historyTitle : {
+			top : 10,
 			width : Ti.UI.SIZE,
 			textAlign : "center",
 			height : Ti.UI.SIZE,
 			font : {
 				fontSize : 20,
-				fontWeight:"bold"
+				fontWeight : "bold"
 			},
 			color : "black",
-			text:"History"
+			text : "History"
 		},
 		historyDate : {
 			width : 80,
@@ -172,17 +173,6 @@ var ti = {
 	images : {}
 };
 
-var currentData = {
-	myBalance : 5,
-	transactionHistory : [{
-		action:"action",
-		value:2,
-		date: (new Date()).getTime(),
-		note:'hello',
-		givenToMe:true
-	}]
-};
-
 var addHistoryRow = function(name, value, date, note) {
 
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
@@ -209,8 +199,8 @@ var buildBalanceView = function() {
 
 	ti.views.balanceBar.add(ti.views.balanceBarColor);
 	ti.views.balanceBar.add(ti.views.balanceBarDivider);
-	
-	ti.labels.friendBalance.top = 30; 
+
+	ti.labels.friendBalance.top = 30;
 
 	ti.views.balance.add(ti.labels.myBalance);
 	ti.views.balance.add(ti.labels.friendBalance);
@@ -218,15 +208,14 @@ var buildBalanceView = function() {
 
 };
 
-
 var refreshTable = function() {
 
 	var tableData = [];
 
 	ti.views.historyTable.height = 0;
 
-	_.each(currentData.transactionHistory, function(transaction) {
-		tableData.push(addHistoryRow(transaction.action, transaction.value, new Date(transaction.date), transaction.note, transaction.givenToMe));
+	_.each(currentData.transactions, function(transaction) {
+		tableData.push(addHistoryRow(transaction.actionName, transaction.tokenValue, new Date(parseInt(transaction.time)), transaction.comment));
 	});
 
 	ti.views.historyTable.setData(tableData);
@@ -247,6 +236,8 @@ var refreshBalance = function() {
 };
 
 var update = function(friend) {
+
+	currentData = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID);
 
 	ti.win.title = friend.name;
 
@@ -271,7 +262,8 @@ var buildHierarchy = function() {
 	ti.win.add(ti.views.main);
 };
 
-var addEventListeners = function() {};
+var addEventListeners = function() {
+};
 
 exports.initialize = function(app, tab) {
 	App = app;

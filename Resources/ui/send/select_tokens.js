@@ -66,7 +66,7 @@ var ti = {
 var addEventListeners = function() {
 	
 	ti.buttons.send.addEventListener("click",function(){
-		alert(friend.name+" "+action.name+" "+ti.slider.getValue());
+		App.Models.Transactions.addTransaction(friend.userID,action.name,ti.slider.getValue()); 
 		App.UI.Send.close();
 	});
 	

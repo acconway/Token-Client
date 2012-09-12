@@ -49,10 +49,10 @@ var addModelFunctions = function() {
 	});
 };
 
-exports.purgeAll = function(){
+exports.purgeAll = function() {
 	Friends.purge();
-	Transactions.purge(); 
-	
+	Transactions.purge();
+
 	User.reset();
 };
 
@@ -69,7 +69,6 @@ exports.initialize = function(app) {
 
 	models = [Friends, Transactions];
 
-	App.DB.models.initialize();	
+	App.DB.models.initialize();
 	addModelFunctions();
-	
-}; 
+};

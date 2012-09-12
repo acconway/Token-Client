@@ -25,8 +25,9 @@ var getMyProfilePic = function() {
 var afterGetUserData = function(eventData) {
 
 	if (eventData.result) {
-		var list = JSON.parse(eventData.result);
-		userData = list;
+		var userData = JSON.parse(eventData.result);
+		App.Models.User.setByName("user",userData); 
+		App.Models.User.save(); 
 		getMyProfilePic();
 	}
 
@@ -41,7 +42,8 @@ var getUserData = exports.getUserData = function() {
 var afterRequestFriendsList = function(eventData) {
 	if (eventData.result) {
 		listErrorCounter = 0;
-		friendsList = JSON.parse(eventData.result).data;
+		App.Models.User.setByName("friendsList",JSON.parse(eventData.result).data); 
+		App.Models.User.save(); 
 		App.UI.Friends.FacebookFriendList.updateTable(); 
 	} else {
 		listErrorCounter += 1;
@@ -58,7 +60,7 @@ var afterRequestFriendsList = function(eventData) {
 
 var requestFriendList = exports.requestFriendsList = function() {
 	Ti.Facebook.requestWithGraphPath("me/friends", {}, "GET", afterRequestFriendsList);
-}
+};
 
 exports.getProfilePicForID = function(id, index, callback) {
 
@@ -90,21 +92,13 @@ exports.initialize = function(app) {
 	App = app;
 };
 
-exports.afterLogin = function(){
+var afterLogin = exports.afterLogin = function(){
 	
 	getUserData();
 	requestFriendList(); 
 	
 };
 
-exports.getFriendsList = function(){
-	return friendsList; 
-}; 
-
-exports.getProfilePic = function() {
-	return profilePicture;
-};
-
-exports.getUserName = function() {
-	return userData.userName;
-};
+Ti.Facebook.addEventListener("login",function(){
+	App.login(); 
+});

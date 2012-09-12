@@ -156,3 +156,7 @@ exports.addFriend = function(friend, update){
 exports.getFriends = function(){
 	return friends; 
 };
+
+exports.refresh = function(){
+	updateTable(); 
+};

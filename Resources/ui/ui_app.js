@@ -114,7 +114,7 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 		});
 		tableView.reloading = false;
 		//label.text = "Pull down to refresh...";
-	}
+	};
 
 	tableView.addEventListener('scroll', function(e) {
 		if (tableView.reloading) {
@@ -146,6 +146,10 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 
 };
 
+var refreshUIOnLogin = function(){
+	
+};
+
 exports.initialize = function(app) {
 
 	//Set App namespace reference
@@ -170,8 +174,7 @@ exports.initialize = function(app) {
 	addEventListeners();
 	
 	if(Ti.Facebook.loggedIn){
-	    App.Lib.Facebook.afterLogin();
-		ti.tabGroup.open();
+		App.login(); 
 	}else{
 		Login.getWin().open(); 
 	}

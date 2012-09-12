@@ -111,7 +111,7 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
-	friends = App.Lib.Facebook.getFriendsList();
+	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	indexCounter = 0;

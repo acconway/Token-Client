@@ -13,12 +13,20 @@ var Lib = {
 };
 
 var UI = require("/ui/ui_app");
-var DB = Lib.Joli.connect('utilisphere');
+var DB = Lib.Joli.connect('token');
 var Models = require('cfg/cfg_models');
 
 var CONSTANTS = {
 	TOTALPOINTS : 10
 };
+
+/*
+* clear out database
+*/
+
+//DB.connection.database.close();
+//DB.connection.database.remove();
+//DB = Lib.Joli.connect('token');
 
 exports.ANDROID = ANDROID;
 exports.CONSTANTS = CONSTANTS;
@@ -37,7 +45,16 @@ exports.initialize = function() {
 
 exports.logout = function() {
 	Models.purgeAll();
+	UI.Friends.refresh();
 	Ti.Facebook.logout();
 	UI.closeTabGroup();
 	UI.Login.getWin().open();
 };
+
+exports.login = function() {
+	Models.User.read();
+	if (!Models.User.userDataSet()) {
+		Lib.Facebook.afterLogin();
+	}
+	UI.openTabGroup(); 
+}

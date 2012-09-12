@@ -138,6 +138,7 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
+	actions = App.Models.Transactions.getAllActions(); 
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
@@ -145,8 +146,7 @@ var updateTable = exports.updateTable = function() {
 };
 
 var afterCreateNewAction = function(name){
-	actions.push({name:name});
-	updateTable(); 
+	SelectTokens.open(friend,{name:name});
 };
 
 var buildHierarchy = function() {
