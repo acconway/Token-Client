@@ -1,13 +1,10 @@
 var cfg = {
 	views : {
 		main : {
+			top:20,
 			width : "80%",
 			height : 200,
-			visible : false,
 			backgroundColor : "white",
-			borderWidth : 2,
-			borderRadius : 10,
-			borderColor : "black",
 			layout : "vertical"
 		},
 		prompt : {
@@ -24,13 +21,6 @@ var cfg = {
 		}
 	},
 	labels : {
-		main : {
-			height : 30,
-			width : "auto",
-			top : 10,
-			text : "Assign Paris",
-			color : "black"
-		},
 		prompt : {
 			width : "auto",
 			height : 20,
@@ -54,24 +44,10 @@ var cfg = {
 		max : 10,
 		width : "80%",
 		value : 1
-	},
-	buttons : {
-		ok : {
-			width : 80,
-			height : 30,
-			left : 32,
-			title : "OK"
-		},
-		cancel : {
-			width : 80,
-			height : 30,
-			left : 32,
-			title : "Cancel"
-		}
 	}
 };
 
-exports.create = function(callback, background) {
+exports.create = function() {
 
 	var ti = {
 		self : Ti.UI.createView(cfg.views.main),
@@ -80,19 +56,12 @@ exports.create = function(callback, background) {
 			buttons : Ti.UI.createView(cfg.views.buttons)
 		},
 		labels : {
-			main : Ti.UI.createLabel(cfg.labels.main),
 			prompt : Ti.UI.createLabel(cfg.labels.prompt),
 			promptValue : Ti.UI.createLabel(cfg.labels.promptValue),
 			value : Ti.UI.createLabel(cfg.labels.value)
 		},
-		slider : Ti.UI.createSlider(cfg.slider),
-		buttons : {
-			ok : Ti.UI.createButton(cfg.buttons.ok),
-			cancel : Ti.UI.createButton(cfg.buttons.cancel)
-		}
+		slider : Ti.UI.createSlider(cfg.slider)
 	};
-
-	ti.self.add(ti.labels.main);
 
 	ti.views.prompt.add(ti.labels.prompt);
 	ti.views.prompt.add(ti.labels.promptValue);
@@ -103,18 +72,11 @@ exports.create = function(callback, background) {
 
 	ti.self.add(ti.slider);
 
-	ti.views.buttons.add(ti.buttons.cancel);
-	ti.views.buttons.add(ti.buttons.ok);
-
-	ti.self.add(ti.views.buttons);
-
 	ti.slider.addEventListener('change', function(e) {
 		ti.labels.value.text = String.format("%1.0f", Math.floor(e.value));
 	});
 
-	ti.self.open = function(value, max, selectedAction) {
-
-		background.visible = true;
+	ti.self.update = function(value, max, selectedAction) {
 
 		if (value) {
 			if (selectedAction) {
@@ -128,23 +90,12 @@ exports.create = function(callback, background) {
 		}
 
 		ti.slider.max = max;
-
-		ti.self.visible = true;
-	}
-
-	ti.self.close = function() {
-		ti.self.visible = false;
-		background.visible = false;
-	}
-
-	ti.buttons.cancel.addEventListener("click", function() {
-		ti.self.close();
-	});
-
-	ti.buttons.ok.addEventListener("click", function() {
-		callback(ti.labels.value.text);
-		ti.self.close();
-	});
+		
+	};
+	
+	ti.self.getValue = function(){
+		return Math.floor(ti.slider.value);
+	};
 
 	return ti.self;
 };

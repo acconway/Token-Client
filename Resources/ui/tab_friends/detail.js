@@ -9,7 +9,6 @@ Ti.include("/lib/lib_date.js");
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		tabBarHidden : true,
 		title : "Friendship"
 	},
 	views : {

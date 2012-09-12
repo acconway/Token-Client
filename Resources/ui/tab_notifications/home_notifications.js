@@ -1,5 +1,7 @@
 var App;
 
+var notifications = []; 
+
 var cfg = {
 	tab : "",
 	win : {
@@ -40,20 +42,11 @@ var ti = {
 	buttons : {}
 };
 
-var test = [{
-	user : "Test TEst",
-	description : "Gave you two tokens"
-}, {
-	user : "Test TEst",
-	description : "Gave you two tokens"
-}, {
-	user : "Test TEst",
-	description : "Gave you two tokens"
-}];
-
 var buildNotificationsTable = function() {
+	
+	ti.table.setData([]);
 
-	App._.each(test, function(notification) {
+	App._.each(notifications, function(notification) {
 		var row = Ti.UI.createTableViewRow(cfg.views.row);
 
 		var userLabel = Ti.UI.createLabel(cfg.labels.notificationsUser);
@@ -69,11 +62,13 @@ var buildNotificationsTable = function() {
 
 		ti.table.appendRow(row);
 	});
+	
 };
 
 var refresh = function() {
 	setTimeout(ti.table.afterRefresh, 1000);
-}
+};
+
 var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({

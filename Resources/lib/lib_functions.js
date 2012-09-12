@@ -23,4 +23,9 @@ var sort = exports.sort = function(string0, string1) {
 
 exports.sortFriends = function(friend0,friend1){
 	return sort(friend0.name,friend1.name);
-}
+};
+
+exports.createNotificationMessage = function(transaction){
+	//if()
+	
+};

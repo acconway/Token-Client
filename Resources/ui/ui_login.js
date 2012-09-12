@@ -1,7 +1,5 @@
 var App;
 
-var Android = Ti.Platform.name == "android";
-
 var cfg = {
     win : {
         backgroundColor : "white",
@@ -27,15 +25,6 @@ var cfg = {
             },
             color : "black",
             top : 75
-        },
-        help : {
-            width : "auto",
-            height : 30,
-            text : "What is Token?",
-            top : 75,
-            font : {
-                fontSize : 20
-            }
         }
     },
     buttons : {
@@ -52,8 +41,7 @@ var ti = {
         main : Ti.UI.createView(cfg.views.main)
     },
     labels : {
-        title : Ti.UI.createLabel(cfg.labels.title),
-        help : Ti.UI.createLabel(cfg.labels.help)
+        title : Ti.UI.createLabel(cfg.labels.title)
     },
     buttons : {
         facebook : Ti.Facebook.createLoginButton(cfg.buttons.facebook)
@@ -64,7 +52,6 @@ var buildHierarchy = function() {
 
     ti.views.main.add(ti.labels.title);
     ti.views.main.add(ti.buttons.facebook);
-    ti.views.main.add(ti.labels.help);
     
     ti.win.add(ti.views.main);
 };
@@ -80,10 +67,6 @@ var addEventListeners = function() {
         }
     });
     
-    ti.labels.help.addEventListener("click",function(){
-        alert("I Don't Know");
-    });
-
 };
 
 exports.initialize = function(app) {

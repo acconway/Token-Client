@@ -4,13 +4,21 @@ var friend;
 
 var SelectTokens = require("ui/send/select_tokens");
 
+var NewAction = require("ui/widgets/new_action");
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Send Tokens",
-		layout : "vertical"
 	},
 	views : {
+		main:{
+			layout:"vertical",
+			top:0,
+			height:"100%",
+			width:"100%",
+			backgroundColor:"transparent"
+		},
 		row : {
 			backgroundColor : "white",
 			hasChild : true
@@ -59,6 +67,9 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
+	views:{
+		main:Ti.UI.createView(cfg.views.main)
+	},
 	labels : {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		title : Ti.UI.createLabel(cfg.labels.title)
@@ -66,15 +77,7 @@ var ti = {
 	buttons : {}
 };
 
-actions = [{
-	name : "Action"
-}, {
-	name : "Action"
-}, {
-	name : "Action"
-}, {
-	name : "Action"
-}];
+actions = [];
 
 var addEventListeners = function() {
 
@@ -82,7 +85,7 @@ var addEventListeners = function() {
 		if (e.rowData.action) {
 			SelectTokens.open(friend,e.rowData.action);
 		} else if (e.rowData.addNew) {
-
+			ti.newActionWindow.open();
 		}
 	});
 
@@ -141,17 +144,27 @@ var updateTable = exports.updateTable = function() {
 	ti.table.setData(rowData);
 };
 
+var afterCreateNewAction = function(name){
+	actions.push({name:name});
+	updateTable(); 
+};
+
 var buildHierarchy = function() {
+	
+	ti.views.main.add(ti.labels.friendName);
 
-	ti.win.add(ti.labels.friendName);
+	ti.views.main.add(ti.labels.title);
 
-	ti.win.add(ti.labels.title);
-
-	ti.win.add(ti.table);
+	ti.views.main.add(ti.table);
 	
 	ti.win.backButtonTitle = "Back";
 
 	updateTable();
+	
+	ti.newActionWindow = NewAction.create(afterCreateNewAction);
+	
+	ti.win.add(ti.views.main);
+	ti.win.add(ti.newActionWindow);
 
 };
 
@@ -167,5 +180,6 @@ exports.open = function(_friend) {
 	friend = _friend; 
 	ti.labels.friendName.text = friend.name;
 	updateTable();
+	ti.newActionWindow.visible = false; 
 	App.UI.Send.openWindow(ti.win);
 };
