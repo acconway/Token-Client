@@ -3,13 +3,13 @@ var cfg = {
 		main : {
 			top:20,
 			width : "80%",
-			height : 200,
+			height : 160,
 			backgroundColor : "white",
 			layout : "vertical"
 		},
 		prompt : {
 			top : 10,
-			width : 150,
+			width : Ti.UI.SIZE,
 			height : 30,
 			layout : "horizontal"
 		},
@@ -80,7 +80,7 @@ exports.create = function() {
 
 		if (value) {
 			if (selectedAction) {
-				ti.slider.value = value;
+				ti.slider.value = Math.min(value,max);
 				ti.labels.value.text = value;
 			}
 			ti.labels.promptValue.text = value;

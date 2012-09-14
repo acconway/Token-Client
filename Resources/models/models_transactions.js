@@ -31,18 +31,30 @@ var getBalanceFromTransactions = function(transactions) {
 
 };
 
-var getAllTransactionsWithFriendAndBalance = function(friendID) {
-
+var getAllTransactionsWithFriend = function(friendID){
+	
 	var transactionsToFriend = this.findBy("recipientID", friendID);
 	var transactionsFromFriend = this.findBy("senderID", friendID);
+	
+	return transactionsToFriend.concat(transactionsFromFriend);
+};
 
-	var transactions = transactionsToFriend.concat(transactionsFromFriend);
-
+var sortTransactionsDescendingByTime = function(transactions){
+	
 	transactions = App._.sortBy(transactions, function(transaction) {
 		return parseInt(transaction.time);
 	});
 
 	transactions.reverse();
+	
+	return transactions; 
+};
+
+var getAllTransactionsWithFriendAndBalance = function(friendID) {
+
+	var transactions = this.getAllTransactionsWithFriend(friendID);
+
+	transactions = sortTransactionsDescendingByTime(transactions); 
 
 	return {
 		myBalance : getBalanceFromTransactions(transactions),
@@ -51,19 +63,15 @@ var getAllTransactionsWithFriendAndBalance = function(friendID) {
 
 };
 
-var getAllActions = function() {
+var getAllActions = function(friendID) {
 
 	var myID = App.Models.User.getMyID();
 
 	var actions = {};
 
-	var transactions = this.all();
+	var transactions = this.getAllTransactionsWithFriend(friendID);
 
-	transactions = App._.sortBy(transactions, function(transaction) {
-		return parseInt(transaction.time);
-	});
-
-	transactions.reverse();
+	transactions = sortTransactionsDescendingByTime(transactions); 
 
 	App._.each(transactions, function(transaction) {
 		if (transaction.senderID == myID) {
@@ -109,6 +117,7 @@ exports.initialize = function(app) {
 		columns : schema.columns,
 		methods : {
 			addTransaction : addTransaction,
+			getAllTransactionsWithFriend:getAllTransactionsWithFriend,
 			getAllTransactionsWithFriendAndBalance : getAllTransactionsWithFriendAndBalance,
 			getAllActions : getAllActions
 		},

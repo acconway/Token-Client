@@ -19,6 +19,13 @@ var cfg = {
 			width:"100%",
 			backgroundColor:"transparent"
 		},
+		transaction:{
+			height:50,
+			width:200,
+			top:10,
+			borderColor:"black",
+			borderWidth:1
+		},
 		row : {
 			backgroundColor : "white",
 			hasChild : true
@@ -35,7 +42,6 @@ var cfg = {
 	},
 	labels : {
 		friendName : {
-			top : 20,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			font : {
@@ -68,7 +74,8 @@ var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
 	views:{
-		main:Ti.UI.createView(cfg.views.main)
+		main:Ti.UI.createView(cfg.views.main),
+		transaction: Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
@@ -138,7 +145,7 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
-	actions = App.Models.Transactions.getAllActions(); 
+	actions = App.Models.Transactions.getAllActions(friend.userID); 
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
@@ -146,21 +153,21 @@ var updateTable = exports.updateTable = function() {
 };
 
 var afterCreateNewAction = function(name){
-	SelectTokens.open(friend,{name:name});
+	SelectTokens.open(friend,{name:name,lastValue:1});
 };
 
 var buildHierarchy = function() {
 	
-	ti.views.main.add(ti.labels.friendName);
+	ti.views.transaction.add(ti.labels.friendName);
+	
+	ti.views.main.add(ti.views.transaction);
 
 	ti.views.main.add(ti.labels.title);
 
 	ti.views.main.add(ti.table);
 	
 	ti.win.backButtonTitle = "Back";
-
-	updateTable();
-	
+		
 	ti.newActionWindow = NewAction.create(afterCreateNewAction);
 	
 	ti.win.add(ti.views.main);
