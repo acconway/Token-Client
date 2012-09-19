@@ -32,6 +32,8 @@ exports.Friends = Friends;
 exports.Notifications = Notifications;
 exports.Send = Send;
 
+var waitOpen = false;
+
 var cfg = {
 	buttons : {
 		sendTokens : {
@@ -45,6 +47,11 @@ var cfg = {
 			}
 		}
 	},
+	activityIndicator : {
+		top:20,
+		width : "auto",
+		color : "white"
+	},
 	views : {
 		scrollToRefreshView : {
 			backgroundColor : "white",
@@ -55,6 +62,24 @@ var cfg = {
 			backgroundColor : "black",
 			height : 2,
 			bottom : 0
+		},
+		waitWindow : {
+			width : "100%",
+			height : "100%",
+			backgroundColor : "transparent"
+		},
+		waitBackground : {
+			width : "100%",
+			height : "100%",
+			backgroundColor : "transparent"
+		},
+		waitView : {
+			width : 150,
+			height : 120,
+			borderRadius : 10,
+			backgroundColor : "black",
+			layout:"vertical",
+			opacity : 0.6
 		}
 	},
 	labels : {
@@ -63,29 +88,96 @@ var cfg = {
 			height : 30,
 			bottom : 10,
 			text : ""
+		},
+		activityIndicatorLabel : {
+			color : "white",
+			width : "auto",
+			height : 30,
+			top:10
 		}
 	}
 };
 
 var ti = {
-	tabGroup : Ti.UI.createTabGroup()
+	tabGroup : Ti.UI.createTabGroup(),
+	activityIndicator : Ti.UI.createActivityIndicator(cfg.activityIndicator),
+	waitWindow : Ti.UI.createWindow(cfg.views.waitWindow),
+	views : {
+		waitView : Ti.UI.createView(cfg.views.waitView),
+		waitBackground : Ti.UI.createView(cfg.views.waitBackground)
+	},
+	labels : {
+		activityIndicatorLabel : Ti.UI.createLabel(cfg.labels.activityIndicatorLabel)
+	}
 };
 
 var buildHierarchy = function() {
 	App._.each(tabs, function(tab) {
 		ti.tabGroup.addTab(tab.getTab());
 	});
+	setupActivityIndicator();
 };
 
 var addEventListeners = function() {
 
 };
 
+var setupActivityIndicator = function() {
+
+	if (!App.ANDROID) {
+
+		ti.activityIndicator.style = Titanium.UI.iPhone.ActivityIndicatorStyle.BIG;
+
+		ti.waitWindow.addEventListener("click", function() {
+		});
+
+		ti.views.waitBackground.addEventListener("click", function() {
+		});
+
+		ti.views.waitView.add(ti.activityIndicator);
+
+		ti.views.waitView.add(ti.labels.activityIndicatorLabel);
+
+		ti.waitWindow.add(ti.views.waitBackground);
+
+		ti.waitWindow.add(ti.views.waitView);
+
+	}
+
+};
+
+exports.showWait = function(message) {
+	if (App.ANDROID) {
+		ti.activityIndicator.message = message || "Loading...";
+	} else {
+		ti.labels.activityIndicatorLabel.text = message || "Loading...";
+	}
+	if (!waitOpen) {
+		if (!App.ANDROID) {
+			ti.waitWindow.open();
+			ti.activityIndicator.visible = true;
+		} else {
+			ti.activityIndicator.show();
+		}
+		waitOpen = true;
+	}
+};
+
+exports.hideWait = function() {
+	if (!App.ANDROID) {
+		ti.waitWindow.close();
+		ti.activityIndicator.visible = false;
+	} else {
+		ti.activityIndicator.hide();
+	}
+	waitOpen = false;
+};
+
 exports.createSendTokensButton = function() {
 	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	button.addEventListener("click", function() {
-		Send.open(App.UI.Friends.getFriends()); 
+		Send.open(App.UI.Friends.getFriends());
 	});
 
 	return button;
@@ -146,8 +238,8 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 
 };
 
-var refreshUIOnLogin = function(){
-	
+var refreshUIOnLogin = function() {
+
 };
 
 exports.initialize = function(app) {
@@ -165,26 +257,26 @@ exports.initialize = function(app) {
 	App._.each(tabs, function(tab) {
 		tab.initialize(app);
 	});
-	
+
 	//Initialize Send
-	
+
 	Send.initialize(app);
 
 	buildHierarchy();
 	addEventListeners();
-	
-	if(Ti.Facebook.loggedIn){
-		App.login(); 
-	}else{
-		Login.getWin().open(); 
+
+	if (Ti.Facebook.loggedIn) {
+		App.login();
+	} else {
+		Login.getWin().open();
 	}
 
 };
 
-exports.openTabGroup = function(){
-	ti.tabGroup.open(); 
-}
+exports.openTabGroup = function() {
+	ti.tabGroup.open();
+};
 
-exports.closeTabGroup = function(){
+exports.closeTabGroup = function() {
 	ti.tabGroup.close();
 }
