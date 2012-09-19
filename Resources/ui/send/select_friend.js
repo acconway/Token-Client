@@ -1,6 +1,6 @@
 var App, friends = [], rowData = [];
 
-var SelectAction = require("ui/send/select_action");
+var FacebookFriendList = require("ui/send/facebook_friend_list");
 
 var cfg = {
 	win : {
@@ -40,6 +40,17 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
 			color : "black"
+		},
+		addNewFriend : {
+			font : {
+				fontSize : 16,
+				fontWeight : 'bold'
+			},
+			left : 10,
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			color : "black",
+			text : "Add New Friend"
 		}
 	},
 	images : {
@@ -70,8 +81,10 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		if (e.rowData.friend) {
-			SelectAction.open(e.rowData.friend);
+		if (e.rowData.addNewFriend) {
+			FacebookFriendList.open();
+		} else if (e.rowData.friend) {
+			App.UI.Send.SelectAction.open(e.rowData.friend);
 		}
 	});
 
@@ -96,11 +109,26 @@ var addRow = function(friend) {
 
 };
 
+var buildAddNewFriendRow = function() {
+
+	var row = Ti.UI.createTableViewRow(cfg.row);
+	row.label = Ti.UI.createLabel(cfg.labels.addNewFriend);
+
+	row.addNewFriend = true;
+
+	row.add(row.label);
+
+	rowData.push(row);
+
+};
+
 var buildRows = function() {
 
 	App._.each(friends, function(friend) {
 		rowData.push(addRow(friend));
 	});
+
+	buildAddNewFriendRow();
 
 };
 
@@ -117,7 +145,7 @@ var buildHierarchy = function() {
 
 	ti.win.add(ti.table);
 
-	ti.win.leftNavButton = ti.buttons.close; 
+	ti.win.leftNavButton = ti.buttons.close;
 
 	updateTable();
 
@@ -128,7 +156,8 @@ exports.initialize = function(app) {
 	buildHierarchy();
 	addEventListeners();
 
-	SelectAction.initialize(App);
+	FacebookFriendList.initialize(app);
+
 };
 
 exports.update = function(_friends) {

@@ -1,6 +1,11 @@
 var App;
 
 var SelectFriend = require("ui/send/select_friend");
+exports.SelectFriend = SelectFriend; 
+
+var SelectAction = require("ui/send/select_action");
+exports.SelectAction = SelectAction; 
+
 
 var cfg = {
 	win : {
@@ -37,7 +42,8 @@ var addEventListeners = function() {
 exports.initialize = function(app) {
 
 	SelectFriend.initialize(app);
-
+	SelectAction.initialize(app);
+	
 	App = app;
 	buildHierarchy();
 	addEventListeners();

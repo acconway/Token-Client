@@ -6,8 +6,8 @@ var indexHeader = "0", tableIndex = [], indexCounter = 0
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Friends List",
-		modal : true
+		title : "Friends List"//,
+		//modal : true
 	},
 	views : {
 		row : {
@@ -38,11 +38,7 @@ var cfg = {
 			height : 50
 		}
 	},
-	buttons : {
-		close : {
-			title : "close"
-		}
-	},
+	buttons : {},
 	search : {
 		barColor : '#385292',
 		showCancel : false,
@@ -53,9 +49,6 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
-	buttons : {
-		close : Ti.UI.createButton(cfg.buttons.close)
-	},
 	search : Ti.UI.createSearchBar(cfg.search)
 };
 
@@ -63,13 +56,8 @@ var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
 		if (e.rowData.friend) {
-			App.UI.Friends.addFriend(e.rowData.friend,true);
-			ti.win.close();
+			App.UI.Send.SelectAction.open(e.rowData.friend);
 		}
-	});
-
-	ti.buttons.close.addEventListener("click", function() {
-		ti.win.close();
 	});
 
 };
@@ -131,8 +119,8 @@ var buildHierarchy = function() {
 
 	ti.win.add(ti.table);
 
-	ti.win.leftNavButton = ti.buttons.close;
-
+	ti.win.backButtonTitle = "Back";
+	
 	updateTable();
 
 };
@@ -149,5 +137,5 @@ exports.getWin = function() {
 
 exports.open = function() {
 	updateTable();
-	ti.win.open();
+	App.UI.Send.openWindow(ti.win);
 };
