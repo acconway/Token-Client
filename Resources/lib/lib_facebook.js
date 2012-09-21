@@ -1,7 +1,7 @@
 Ti.Facebook.appid = "142078199250182";
 Ti.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
 
-var App, userData, profilePicture, friendsList = [];
+var App, userData, profilePicture, friendsList = [], listErrorCounter=0;
 
 var getMyProfilePic = function() {
 
@@ -29,6 +29,7 @@ var afterGetUserData = function(eventData) {
 		App.Models.User.setByName("user",userData); 
 		App.Models.User.save(); 
 		getMyProfilePic();
+		App.API.User.login(); 
 	}
 
 };
@@ -42,9 +43,19 @@ var getUserData = exports.getUserData = function() {
 var afterRequestFriendsList = function(eventData) {
 	if (eventData.result) {
 		listErrorCounter = 0;
-		App.Models.User.setByName("friendsList",JSON.parse(eventData.result).data); 
+		
+		var friendsList = JSON.parse(eventData.result).data;
+		
+		var friendsListNameLookup = {};
+		
+		App._.each(friendsList,function(friend){
+			friendsListNameLookup[friend.id] = friend.name;
+		});
+		
+		App.Models.User.setByName("friendsList",friendsList); 
+		App.Models.User.setByName("friendsListLookup",friendsListNameLookup);
 		App.Models.User.save(); 
-		App.UI.Friends.FacebookFriendList.updateTable(); 
+		
 	} else {
 		listErrorCounter += 1;
 		if (listErrorCounter < 5) {
@@ -92,7 +103,7 @@ exports.initialize = function(app) {
 	App = app;
 };
 
-var afterLogin = exports.afterLogin = function(){
+exports.afterLogin = function(){
 	
 	getUserData();
 	requestFriendList(); 
@@ -100,5 +111,6 @@ var afterLogin = exports.afterLogin = function(){
 };
 
 Ti.Facebook.addEventListener("login",function(){
+	Ti.API.info("Login");
 	App.login(); 
 });

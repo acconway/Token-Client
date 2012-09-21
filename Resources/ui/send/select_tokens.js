@@ -17,7 +17,7 @@ var cfg = {
 			top : 10,
 			borderColor : "black",
 			borderWidth : 1,
-			layout:"vertical"
+			layout : "vertical"
 		}
 	},
 	labels : {
@@ -61,8 +61,8 @@ var cfg = {
 
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
-	views:{
-		transaction:Ti.UI.createView(cfg.views.transaction)
+	views : {
+		transaction : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
@@ -77,7 +77,14 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.buttons.send.addEventListener("click", function() {
-		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue());
+		var now = new Date();
+		if (friend.newFriend) {
+			App.UI.Friends.addFriend(friend, true);
+		}
+		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(),  now.getTime().toString());
+		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime());
+		App.Models.User.setByName("lastTransactionTime", (now.getTime()).toString());
+		App.Models.User.save();
 		App.UI.Send.close();
 	});
 
@@ -88,7 +95,7 @@ var buildHierarchy = function() {
 	ti.views.transaction.add(ti.labels.friendName);
 
 	ti.views.transaction.add(ti.labels.actionName);
-	
+
 	ti.win.add(ti.views.transaction);
 
 	ti.win.add(ti.labels.title);

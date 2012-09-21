@@ -56,18 +56,7 @@ var buildHierarchy = function() {
     ti.win.add(ti.views.main);
 };
 
-var addEventListeners = function() {
-
-   Ti.Facebook.addEventListener('login', function(e) {
-        if(e.success) {
-            Ti.API.info("Logged in to Facebook Succesfully");
-            ti.win.close();
-            App.Lib.Facebook.afterLogin();
-            App.UI.openTabGroup();
-        }
-    });
-    
-};
+var addEventListeners = function() {};
 
 exports.initialize = function(app) {
 

@@ -1,6 +1,8 @@
 var App;
 
-var notifications = []; 
+var transactions; 
+
+Ti.include("/lib/lib_date.js");
 
 var cfg = {
 	tab : "",
@@ -10,25 +12,79 @@ var cfg = {
 	},
 	table : {
 		top : 0,
-		minRowHeight : 50
+		minRowHeight : 50,
+		separatorColor:"black"
 	},
 	views : {
 		row : {
-			height : 50,
+			height : 80
+		},
+		topRow : {
+			top : 0,
+			left: 10,
+			width : Ti.UI.SIZE,
+			height : 40,
+			layout : "horizontal"
+		},
+		bottomRow : {
+			top : 40,
+			left: 10,
+			width : Ti.UI.SIZE,
+			height : 40,
 			layout : "horizontal"
 		}
 	},
 	labels : {
-		notificationsUser : {
-			left : 10,
-			width : 80,
-			height : 50
+		date : {
+			width : Ti.UI.SIZE,
+			height : 40,
+			left : 0,
+			font : {
+				fontSize : 16
+			}
 		},
-		notificationsDesc : {
+		tokens : {
+			left:30,
+			width : Ti.UI.SIZE,
+			height : 40,
+			font : {
+				fontSize : 16
+			}
+		},
+		direction : {
+			width : Ti.UI.SIZE,
+			height : 40,
+			left : 0,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
+		},
+		name : {
+			left : 5,
+			width : Ti.UI.SIZE,
+			height : 40,
+			font : {
+				fontSize : 16
+			}
+		},
+		forLabel : {
 			left : 10,
-			width : "auto",
-			textAlign : "left",
-			height : 50
+			width : Ti.UI.SIZE,
+			height : 40,
+			text : "For:",
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
+		},
+		action : {
+			left : 5,
+			width : Ti.UI.SIZE,
+			height : 40,
+			font : {
+				fontSize : 16
+			}
 		}
 	},
 	buttons : {}
@@ -42,31 +98,56 @@ var ti = {
 	buttons : {}
 };
 
-var buildNotificationsTable = function() {
+var buildNotificationRow = function(transaction, friendLookupTable) {
+
+	var sent = (transaction.senderID == App.Models.User.getMyID());
+
+	var row = Ti.UI.createTableViewRow(cfg.views.row);
+
+	var topRow = Ti.UI.createView(cfg.views.topRow);
+	var bottomRow = Ti.UI.createView(cfg.views.bottomRow);
+
+	var dateLabel = Ti.UI.createLabel(cfg.labels.date);
+	var tokensLabel = Ti.UI.createLabel(cfg.labels.tokens);
+	var directionLabel = Ti.UI.createLabel(cfg.labels.direction);
+	var nameLabel = Ti.UI.createLabel(cfg.labels.name);
+	var forLabel = Ti.UI.createLabel(cfg.labels.forLabel);
+	var actionLabel = Ti.UI.createLabel(cfg.labels.action);
+
+	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
+	tokensLabel.text = ( sent ? "Sent" : "Recieved") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
+	directionLabel.text = sent ? "To:" : "From:";
+	nameLabel.text = sent ? friendLookupTable[transaction.recipientID] : friendLookupTable[transaction.senderID];
+	actionLabel.text = transaction.actionName;
+
+	topRow.add(dateLabel);
+	topRow.add(tokensLabel);
 	
+	bottomRow.add(directionLabel);
+	bottomRow.add(nameLabel);
+	bottomRow.add(forLabel);
+	bottomRow.add(actionLabel);
+	
+	row.add(topRow);
+	row.add(bottomRow);
+
+	return row;
+};
+
+var buildNotificationsTable = function() {
+
+	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
+
 	ti.table.setData([]);
 
-	App._.each(notifications, function(notification) {
-		var row = Ti.UI.createTableViewRow(cfg.views.row);
-
-		var userLabel = Ti.UI.createLabel(cfg.labels.notificationsUser);
-
-		userLabel.text = notification.user;
-
-		var descLabel = Ti.UI.createLabel(cfg.labels.notificationsDesc);
-
-		descLabel.text = notification.description;
-
-		row.add(userLabel);
-		row.add(descLabel);
-
-		ti.table.appendRow(row);
+	App._.each(transactions, function(transaction) {
+		ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
 	});
-	
+
 };
 
 var refresh = function() {
-	setTimeout(ti.table.afterRefresh, 1000);
+	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime(),ti.table.afterRefresh);
 };
 
 var buildHierarchy = function() {
@@ -75,8 +156,6 @@ var buildHierarchy = function() {
 		window : ti.win,
 		title : "Notifications"
 	});
-
-	buildNotificationsTable();
 
 	if (!App.ANDROID) {
 
@@ -98,6 +177,24 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
+};
+
+var updateTable = exports.updateTable = function() {
+
+	transactions = App.Models.Transactions.all();
+
+	transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
+
+	buildNotificationsTable();
+
+};
+
+exports.addRow = function(transaction){
+	
+	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
+	
+	ti.table.insertRowBefore(0,buildNotificationRow(transaction, friendLookupTable));
+	
 };
 
 exports.getTab = function() {

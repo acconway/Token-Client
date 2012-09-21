@@ -55,8 +55,13 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		if (e.rowData.friend) {
-			App.UI.Send.SelectAction.open(e.rowData.friend);
+		var friend = e.rowData.friend;
+		if (friend) {
+			App.UI.Send.SelectAction.open({
+				name : friend.name,
+				userID : friend.id,
+				newFriend:true
+			});
 		}
 	});
 
@@ -120,7 +125,7 @@ var buildHierarchy = function() {
 	ti.win.add(ti.table);
 
 	ti.win.backButtonTitle = "Back";
-	
+
 	updateTable();
 
 };

@@ -13,6 +13,10 @@ exports.getMyID = function(){
 	return model.user?model.user.id:"";
 };
 
+exports.getLastTransactionTime = function(){
+	return model.lastTransactionTime; 
+};
+
 exports.getFriendsList = function(){
 	return model.friendsList?model.friendsList:[]; 
 };

@@ -13,6 +13,36 @@ var schema = {
 	}
 };
 
+var loadNewTransactions = function(transactions){
+	
+	
+	var idsInTransactions = []; 
+
+	this.beginTransaction();
+
+	App._.each(transactions, function(transaction, index) {
+		var record = model.newRecord(transaction);
+		record.save();
+		idsInTransactions.push(transaction.recipientID);
+		idsInTransactions.push(transaction.senderID);
+	});
+
+	this.endTransaction();
+	
+	idsInTransactions = App._.unique(idsInTransactions);
+	
+	var myID = App.Models.User.getMyID();
+	
+	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
+	
+	App._.each(idsInTransactions,function(id){
+		if(id!=myID && !App.Models.Friends.hasFriend(id)){
+			App.Models.Friends.addFriend(friendLookupTable[id],id);
+		}
+	});
+	
+};
+
 var getBalanceFromTransactions = function(transactions) {
 
 	var myBalance = 5;
@@ -88,23 +118,21 @@ var getAllActions = function(friendID) {
 
 };
 
-var addTransaction = function(recipientID, actionName, tokenValue) {
+var addTransaction = function(recipientID, actionName, tokenValue,time) {
 
 	if (recipientID && tokenValue && actionName) {
-
-		var now = new Date();
-
-		Ti.API.info(now.getTime());
-
+		
 		var record = model.newRecord({
 			senderID : App.Models.User.getMyID(),
 			recipientID : recipientID,
 			tokenValue : tokenValue,
 			actionName : actionName,
-			time : now.getTime().toString()
+			time : time
 		});
 
 		record.save();
+		
+		App.UI.Notifications.addRow(record);
 	}
 
 };
@@ -119,7 +147,9 @@ exports.initialize = function(app) {
 			addTransaction : addTransaction,
 			getAllTransactionsWithFriend:getAllTransactionsWithFriend,
 			getAllTransactionsWithFriendAndBalance : getAllTransactionsWithFriendAndBalance,
-			getAllActions : getAllActions
+			getAllActions : getAllActions,
+			loadNewTransactions: loadNewTransactions,
+			sortTransactionsDescendingByTime:sortTransactionsDescendingByTime
 		},
 		objectMethods : {}
 	});

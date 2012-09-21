@@ -116,7 +116,7 @@ exports.getTab = function() {
 };
 
 exports.addFriend = function(friend, update) {
-	App.Models.Friends.addFriend(friend.name, friend.id);
+	App.Models.Friends.addFriend(friend.name, friend.userID);
 	if (update) {
 		updateTable();
 	}
@@ -125,6 +125,8 @@ exports.addFriend = function(friend, update) {
 exports.getFriends = function() {
 	return friends;
 };
+
+exports.updateTable = updateTable; 
 
 exports.refresh = function() {
 	updateTable();

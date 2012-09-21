@@ -2,8 +2,6 @@ var App;
 
 var currentData;
 
-var _ = require('/lib/lib_underscore')._;
-
 Ti.include("/lib/lib_date.js");
 
 var cfg = {
@@ -214,7 +212,7 @@ var refreshTable = function() {
 
 	ti.views.historyTable.height = 0;
 
-	_.each(currentData.transactions, function(transaction) {
+	App._.each(currentData.transactions, function(transaction) {
 		tableData.push(addHistoryRow(transaction.actionName, transaction.tokenValue, new Date(parseInt(transaction.time)), transaction.comment));
 	});
 
@@ -253,13 +251,17 @@ exports.open = function(friend) {
 };
 
 var buildHierarchy = function() {
+	
 	ti.win.backButtonTitle = "Back";
+	ti.win.rightNavButton = App.UI.createSendTokensButton();
+	
 	buildBalanceView();
 	ti.views.main.add(ti.labels.balanceTitle);
 	ti.views.main.add(ti.views.balance);
 	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
 	ti.win.add(ti.views.main);
+	
 };
 
 var addEventListeners = function() {

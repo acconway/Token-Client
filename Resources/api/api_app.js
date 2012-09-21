@@ -1,13 +1,19 @@
 var App;
 
+var User = require("api/api_user");
+var Transactions = require("api/api_transactions");
+
+exports.User = User; 
+exports.Transactions = Transactions; 
+
 var handleOnError = function(error, params) {
 	App.LOG("Handle on error "+JSON.stringify(error));
 };
 
-var handleOnLoad = function(response) {
+var handleOnLoad = function(response,params) {
 	var responseType = "application/json";
 
-	if (response.source.getResponseHeader("Content-Type") && response.source.getResponseHeader("Content-Type").startsWith(responseType)) {
+	if (response.source.getResponseHeader("Content-Type") && response.source.getResponseHeader("Content-Type") == responseType) {
 		App.LOG("App.API xhr.onload Response [" + response.source.getResponseHeader("Content-Type") + "]");
 		params.callback(response, params);
 	} else {
@@ -19,7 +25,6 @@ var handleOnLoad = function(response) {
 		}).show();
 		App.UI.hideWait();
 	}
-
 };
 
 var createHTTPClient = function(params) {
@@ -36,7 +41,7 @@ var createHTTPClient = function(params) {
 	};
 
 	xhr.onload = function(response) {
-		handleOnLoad(response);
+		handleOnLoad(response,params);
 		xhr = null;
 	};
 
@@ -67,6 +72,34 @@ exports.send = function(params) {
 
 };
 
+exports.handleResponse = function(name, response, params, errorCallback,successCallback){
+	
+	App.LOG("App.API."+name+" handle response "+response.source.responseText);
+	
+	 if (response) {
+
+        var responseObj;
+
+        if (App._.isString(response.source.responseText) && App.Lib.Functions.isJSON(response.source.responseText)) {
+            responseObj = JSON.parse(response.source.responseText);
+        }
+
+        if (responseObj && responseObj.Error) {
+          //Error
+			errorCallback(responseObj.Error, params);
+        } else {
+          //Success 
+            successCallback(responseObj, params); 
+        }
+    }else{
+    	App.LOG("App.API."+name+" no response");
+    }
+	
+};
+
 exports.initialize = function(app) {
 	App = app;
-}
+	
+	User.initialize(app);
+	Transactions.initialize(app);
+};

@@ -19,7 +19,7 @@ var API = require('api/api_app');
 
 var CONSTANTS = {
 	TOTALPOINTS : 10,
-	URL:"http://tokenservice.herokuapp.com/"
+	URL:"http://tokenservice.herokuapp.com"
 };
 
 var logLevel = 1; 
@@ -58,11 +58,16 @@ exports.logout = function() {
 };
 
 exports.login = function() {
+	UI.Login.getWin().close(); 
+	UI.openTabGroup(); 
+	UI.showWait("Logging In...");
 	Models.User.read();
 	if (!Models.User.userDataSet()) {
 		Lib.Facebook.afterLogin();
+	}else{
+		UI.Notifications.updateTable();
+		UI.hideWait(); 
 	}
-	UI.openTabGroup(); 
 };
 
 var LOG = exports.LOG = function(str, level) {

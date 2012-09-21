@@ -1,7 +1,16 @@
 var App; 
 
-var afterLogin = function(response){
-	Ti.API.info(JSON.stringify(response));
+var loginHandleError = function(error,params){
+	//Handle Error
+};
+
+var loginHandleSuccess = function(response,params){
+	App.LOG("App.API.User login success!");
+	App.API.Transactions.syncTransactions(0); 
+}; 
+
+var afterLogin = function(response, params){
+	App.API.handleResponse("login",response,params,loginHandleError,loginHandleSuccess); 
 }; 
 
 exports.login = function(){
@@ -14,7 +23,7 @@ exports.login = function(){
         method : "POST",
         path : "/login",
         data : payload,
-        callback : afterReLogon
+        callback : afterLogin
     });
 }; 
 

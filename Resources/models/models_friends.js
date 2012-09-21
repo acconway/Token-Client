@@ -10,6 +10,7 @@ var schema = {
 };
 
 var addFriend = function(name, id) {
+	App.LOG("App.Models.Friends adding friend with name: "+name+" id: "+id);
 	if (name && id) {
 		var record = model.newRecord({
 			userID : id,
@@ -19,6 +20,14 @@ var addFriend = function(name, id) {
 	}
 };
 
+var hasFriend = function(id){
+	
+	friend = this.findOneBy("userID", id);
+	
+	return friend; 
+
+};
+
 exports.initialize = function(app) {
 	App = app;
 
@@ -26,7 +35,8 @@ exports.initialize = function(app) {
 		table : schema.table,
 		columns : schema.columns,
 		methods : {
-			addFriend:addFriend
+			addFriend:addFriend,
+			hasFriend:hasFriend
 		},
 		objectMethods : {}
 	});
