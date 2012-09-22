@@ -81,7 +81,6 @@ var cfg = {
 		historyRow : {
 			width : "100%",
 			height : 60,
-			backgroundColor : "white",
 			touchEnabled : false
 		},
 		historyLabelView : {

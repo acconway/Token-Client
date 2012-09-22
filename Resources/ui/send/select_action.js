@@ -27,15 +27,23 @@ var cfg = {
 			borderWidth : 1
 		},
 		row : {
-			backgroundColor : "white",
 			hasChild : true
+		},
+		addNew : {
+			top : 20,
+			height : 50,
+			width : "90%",
+			borderWidth : 1,
+			borderColor : "black",
+			borderRadius : 10,
+			backgroundColor : "white"
 		}
 	},
 	table : {
 		top : 10,
 		minRowHeight : 50,
 		width : "90%",
-		height : "70%",
+		height : 225,
 		borderWidth : 1,
 		borderColor : "black",
 		borderRadius : 10
@@ -52,7 +60,7 @@ var cfg = {
 		},
 		title : {
 			left : 10,
-			top : 20,
+			top : 10,
 			text : "Select an action",
 			color : "black",
 			width : Ti.UI.SIZE,
@@ -67,6 +75,17 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
 			color : "black"
+		},
+		addNewFriend : {
+			font : {
+				fontSize : 16,
+				fontWeight : 'bold'
+			},
+			left : 10,
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			color : "black",
+			text : "Add New Action"
 		}
 	},
 	buttons : {},
@@ -89,7 +108,8 @@ var ti = {
 	},
 	labels : {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
-		title : Ti.UI.createLabel(cfg.labels.title)
+		title : Ti.UI.createLabel(cfg.labels.title),
+		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend)
 	},
 	buttons : {},
 	images : {
@@ -106,9 +126,12 @@ var addEventListeners = function() {
 		var data = App.ANDROID ? e.source : e.rowData;
 		if (data.action) {
 			SelectTokens.open(friend, data.action);
-		} else if (data.addNew) {
-			ti.newActionWindow.open();
 		}
+	});
+
+	ti.views.addNew.addEventListener("click", function(e) {
+		ti.newActionWindow.open();
+
 	});
 
 };
@@ -130,24 +153,10 @@ var addRow = function(action) {
 
 var buildAddNewRow = function() {
 
-	var row = Ti.UI.createTableViewRow(cfg.row);
-	row.label = Ti.UI.createLabel(cfg.labels.action);
+	ti.views.addNew = App.ANDROID ? Ti.UI.createView(cfg.views.addNew) : Ti.UI.createButton(cfg.views.addNew);
 
-	row.label.text = "Add New";
-	row.label.font = {
-		fontSize : 16,
-		fontWeight : 'bold'
-	};
-
-	row.addNew = true;
-
-	row.hasChild = false;
-
-	row.add(row.label);
-
-	row.add(ti.images.addNew);
-
-	rowData.push(row);
+	ti.views.addNew.add(ti.labels.addNew);
+	ti.views.addNew.add(ti.images.addNew);
 
 };
 
@@ -156,8 +165,6 @@ var buildRows = function() {
 	App._.each(actions, function(action) {
 		rowData.push(addRow(action));
 	});
-
-	rowData.push(buildAddNewRow());
 
 };
 
@@ -207,6 +214,10 @@ var buildHierarchy = function() {
 	ti.views.main.add(ti.labels.title);
 
 	ti.views.main.add(ti.table);
+	
+	buildAddNewRow();
+	
+	ti.views.main.add(ti.views.addNew);
 
 	ti.win.backButtonTitle = "Back";
 

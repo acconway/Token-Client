@@ -12,9 +12,8 @@ var cfg = {
 	},
 	views : {
 		row : {
-			//width : "100%",
+			width : "100%",
 			height : 50,
-			backgroundColor : "white",
 			hasChild : true
 		},
 		addNew : {
@@ -40,7 +39,7 @@ var cfg = {
 	labels : {
 		title : {
 			left : 10,
-			top : 20,
+			top : 10,
 			text : "Select a friend",
 			color : "black",
 			width : Ti.UI.SIZE,
@@ -173,8 +172,6 @@ var buildHierarchy = function() {
 
 		ti.win.add(ti.titleBar);
 		
-		ti.table.borderRadius = 0;
-
 	}
 
 	ti.win.add(ti.labels.title);
