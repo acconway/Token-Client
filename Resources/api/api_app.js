@@ -37,9 +37,6 @@ var createHTTPClient = function(params) {
 		handleOnError(e, params);
 	};
 
-	xhr.onreadystatechange = function(e) {
-	};
-
 	xhr.onload = function(response) {
 		handleOnLoad(response,params);
 		xhr = null;
@@ -61,7 +58,7 @@ exports.send = function(params) {
 
 		xhr.open(params.method, url);
 		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.send(params.method == "POST" ? params.data : null); 
+		xhr.send(params.method == "POST" ? JSON.stringify(params.data) : null); 
 
 	} catch(e) {
 		Ti.UI.createAlertDialog({

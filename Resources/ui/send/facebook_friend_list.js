@@ -28,6 +28,7 @@ var cfg = {
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
+			touchEnabled:false,
 			color : "black"
 		}
 	},
@@ -55,7 +56,7 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		var friend = e.rowData.friend;
+		var friend = App.ANDROID ? e.source.friend : e.rowData.friend;
 		if (friend) {
 			App.UI.Send.SelectAction.open({
 				name : friend.name,
@@ -106,6 +107,9 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
+	ti.win.remove(ti.table);
+	ti.table = Ti.UI.createTableView(cfg.table);
+	addEventListeners();
 	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
@@ -118,9 +122,22 @@ var updateTable = exports.updateTable = function() {
 	buildRows();
 	ti.table.setData(rowData);
 	ti.table.index = tableIndex;
+	ti.win.add(ti.table);
 };
 
 var buildHierarchy = function() {
+
+	if (App.ANDROID) {
+
+		ti.win.navBarHidden = true;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Friends List");
+
+		ti.win.add(ti.titleBar);
+
+		cfg.table.top = 50;
+
+	}
 
 	ti.table.search = ti.search;
 
@@ -143,6 +160,6 @@ exports.getWin = function() {
 };
 
 exports.open = function() {
-	updateTable();
 	App.UI.Send.openWindow(ti.win);
+	updateTable();
 };

@@ -9,7 +9,7 @@ var cfg = {
 		},
 		prompt : {
 			top : 10,
-			width : Ti.UI.SIZE,
+			width : 120,
 			height : 30,
 			layout : "horizontal"
 		},
@@ -22,17 +22,20 @@ var cfg = {
 	},
 	labels : {
 		prompt : {
-			width : "auto",
+			width : 80,
 			height : 20,
+			color:"black",
 			text : "Last time: "
 		},
 		promptValue : {
 			left : 10,
-			width : "auto",
+			color:"black",
+			width : 30,
 			height : 20
 		},
 		value : {
 			top : 10,
+			color:"black",
 			width : "auto",
 			height : 20,
 			text : "1"
@@ -73,7 +76,7 @@ exports.create = function() {
 	ti.self.add(ti.slider);
 
 	ti.slider.addEventListener('change', function(e) {
-		ti.labels.value.text = String.format("%1.0f", Math.floor(e.value));
+		ti.labels.value.text = Math.floor(e.value);
 	});
 
 	ti.self.update = function(value, max, selectedAction) {

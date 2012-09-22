@@ -35,20 +35,8 @@ exports.Send = Send;
 var waitOpen = false;
 
 var cfg = {
-	buttons : {
-		sendTokens : {
-			width : 25,
-			height : 25,
-			right : 10,
-			title : "Send",
-			font : {
-				fontWeight : "bold",
-				fontSize : 20
-			}
-		}
-	},
 	activityIndicator : {
-		top:20,
+		top : 20,
 		width : "auto",
 		color : "white"
 	},
@@ -78,8 +66,16 @@ var cfg = {
 			height : 120,
 			borderRadius : 10,
 			backgroundColor : "black",
-			layout:"vertical",
+			layout : "vertical",
 			opacity : 0.6
+		},
+		titleBar : {
+			top : 0,
+			height : 50,
+			width : "100%",
+			backgroundColor : "gray",
+			borderColor : "black",
+			borderWidth : 1
 		}
 	},
 	labels : {
@@ -93,7 +89,33 @@ var cfg = {
 			color : "white",
 			width : "auto",
 			height : 30,
-			top:10
+			top : 10
+		},
+		titleBar : {
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			},
+			color : "black"
+		}
+	},
+	buttons : {
+		titleBar : {
+			height : 40,
+			width : 80,
+			visible : false
+		},
+		sendTokens : {
+			width : 25,
+			height : 25,
+			right : 10,
+			title : "Send",
+			font : {
+				fontWeight : "bold",
+				fontSize : 20
+			}
 		}
 	}
 };
@@ -171,6 +193,30 @@ exports.hideWait = function() {
 		ti.activityIndicator.hide();
 	}
 	waitOpen = false;
+};
+
+exports.createAndroidTitleBar = function(title) {
+
+	var titleBar = Ti.UI.createView(cfg.views.titleBar);
+
+	var titleBarLabel = Ti.UI.createLabel(cfg.labels.titleBar);
+	titleBarLabel.text = title;
+	titleBar.label = titleBarLabel;
+
+	var rightNavButton = Ti.UI.createButton(cfg.buttons.titleBar);
+	rightNavButton.right = 10;
+	titleBar.rightNavButton = rightNavButton;
+
+	var leftNavButton = Ti.UI.createButton(cfg.buttons.titleBar);
+	leftNavButton.left = 10;
+	titleBar.leftNavButton = leftNavButton;
+
+	titleBar.add(leftNavButton);
+	titleBar.add(titleBarLabel);
+	titleBar.add(rightNavButton);
+
+	return titleBar;
+
 };
 
 exports.createSendTokensButton = function() {

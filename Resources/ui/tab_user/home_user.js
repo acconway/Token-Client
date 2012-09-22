@@ -4,7 +4,8 @@ var cfg = {
 	tab : "",
 	win : {
 		backgroundColor : "white",
-		title : "Token"
+		title : "Token",
+		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {},
 	labels : {},
@@ -22,7 +23,7 @@ var ti = {
 	views : {},
 	labels : {},
 	buttons : {
-		logout:Ti.UI.createButton(cfg.buttons.logout)
+		logout : Ti.UI.createButton(cfg.buttons.logout)
 	}
 };
 
@@ -31,18 +32,34 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "User",
-		icon:"images/icons/tabs/user.png"
+		icon : "images/icons/tabs/user.png"
 	});
 
-	ti.win.rightNavButton = ti.buttons.logout; 
+	if (App.ANDROID) {
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Token");
+
+		ti.titleBar.rightNavButton.title = "logout";
+
+		ti.titleBar.rightNavButton.addEventListener("click", function() {
+			App.logout();
+		});
 	
-	
+		ti.titleBar.rightNavButton.visible = true; 
+
+		ti.win.add(ti.titleBar);
+
+	} else {
+
+		ti.win.rightNavButton = ti.buttons.logout;
+
+	}
 
 };
 
 var addEventListeners = function() {
-	ti.buttons.logout.addEventListener("click",function(){
-		App.logout(); 
+	ti.buttons.logout.addEventListener("click", function() {
+		App.logout();
 	});
 };
 

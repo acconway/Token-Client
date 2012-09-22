@@ -2,6 +2,8 @@ var App, friends = [], rowData = [];
 
 var FacebookFriendList = require("ui/send/facebook_friend_list");
 
+exports.FacebookFriendList = FacebookFriendList; 
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
@@ -10,17 +12,19 @@ var cfg = {
 	},
 	views : {
 		row : {
+			//width : "100%",
+			height : 50,
 			backgroundColor : "white",
 			hasChild : true
 		},
 		addNew : {
-			top:20,
+			top : 20,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
 			borderColor : "black",
 			borderRadius : 10,
-			backgroundColor:"white"
+			backgroundColor : "white"
 		}
 	},
 	table : {
@@ -30,6 +34,7 @@ var cfg = {
 		height : 280,
 		borderWidth : 1,
 		borderColor : "black",
+		backgroundColor : "white",
 		borderRadius : 10
 	},
 	labels : {
@@ -37,6 +42,7 @@ var cfg = {
 			left : 10,
 			top : 20,
 			text : "Select a friend",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE
 		},
@@ -48,7 +54,8 @@ var cfg = {
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "black"
+			color : "black",
+			touchEnabled : false
 		},
 		addNewFriend : {
 			font : {
@@ -68,11 +75,11 @@ var cfg = {
 			width : 50,
 			height : 50
 		},
-		addNew:{
-			right:10,
-			width:22,
-			height:22,
-			image:"images/icons/plus.png"
+		addNew : {
+			right : 10,
+			width : 22,
+			height : 22,
+			image : "/images/icons/plus.png"
 		}
 	},
 	buttons : {
@@ -85,15 +92,13 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
-	views : {
-		addNew : Ti.UI.createButton(cfg.views.addNew)
-	},
+	views : {},
 	labels : {
 		title : Ti.UI.createLabel(cfg.labels.title),
 		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend)
 	},
-	images:{
-		addNew:Ti.UI.createImageView(cfg.images.addNew)
+	images : {
+		addNew : Ti.UI.createImageView(cfg.images.addNew)
 	},
 	buttons : {
 		close : Ti.UI.createButton(cfg.buttons.close)
@@ -103,8 +108,9 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		if (e.rowData.friend) {
-			App.UI.Send.SelectAction.open(e.rowData.friend);
+		var rowFriend = App.ANDROID ? e.source.friend : e.rowData.friend;
+		if (rowFriend) {
+			App.UI.Send.SelectAction.open(rowFriend);
 		}
 	});
 
@@ -134,6 +140,8 @@ var addRow = function(friend) {
 };
 
 var buildAddNew = function() {
+	
+	ti.views.addNew = App.ANDROID?Ti.UI.createView(cfg.views.addNew):Ti.UI.createButton(cfg.views.addNew);
 
 	ti.views.addNew.add(ti.labels.addNew);
 	ti.views.addNew.add(ti.images.addNew);
@@ -156,6 +164,18 @@ var updateTable = exports.updateTable = function() {
 };
 
 var buildHierarchy = function() {
+
+	if (App.ANDROID) {
+
+		ti.win.navBarHidden = true;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Select Friend");
+
+		ti.win.add(ti.titleBar);
+		
+		ti.table.borderRadius = 0;
+
+	}
 
 	ti.win.add(ti.labels.title);
 

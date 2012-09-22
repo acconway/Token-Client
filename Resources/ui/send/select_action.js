@@ -44,6 +44,7 @@ var cfg = {
 		friendName : {
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
+			color : "black",
 			font : {
 				fontSize : 18,
 				fontWeight : "bold"
@@ -53,6 +54,7 @@ var cfg = {
 			left : 10,
 			top : 20,
 			text : "Select an action",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE
 		},
@@ -73,7 +75,7 @@ var cfg = {
 			right : 10,
 			width : 22,
 			height : 22,
-			image : "images/icons/plus.png"
+			image : "/images/icons/plus.png"
 		}
 	}
 };
@@ -90,8 +92,8 @@ var ti = {
 		title : Ti.UI.createLabel(cfg.labels.title)
 	},
 	buttons : {},
-	images:{
-		addNew: Ti.UI.createImageView(cfg.images.addNew)
+	images : {
+		addNew : Ti.UI.createImageView(cfg.images.addNew)
 	}
 };
 
@@ -100,9 +102,11 @@ actions = [];
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		if (e.rowData.action) {
-			SelectTokens.open(friend, e.rowData.action);
-		} else if (e.rowData.addNew) {
+
+		var data = App.ANDROID ? e.source : e.rowData;
+		if (data.action) {
+			SelectTokens.open(friend, data.action);
+		} else if (data.addNew) {
 			ti.newActionWindow.open();
 		}
 	});
@@ -140,7 +144,7 @@ var buildAddNewRow = function() {
 	row.hasChild = false;
 
 	row.add(row.label);
-	
+
 	row.add(ti.images.addNew);
 
 	rowData.push(row);
@@ -184,6 +188,18 @@ var afterCreateNewAction = function(name) {
 
 var buildHierarchy = function() {
 
+	if (App.ANDROID) {
+
+		ti.win.navBarHidden = true;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Send Tokens");
+
+		ti.win.add(ti.titleBar);
+
+		ti.views.main.top = 50;
+
+	}
+
 	ti.views.transaction.add(ti.labels.friendName);
 
 	ti.views.main.add(ti.views.transaction);
@@ -215,4 +231,8 @@ exports.open = function(_friend) {
 	updateTable();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);
+};
+
+exports.getWin = function() {
+	return ti.win;
 };

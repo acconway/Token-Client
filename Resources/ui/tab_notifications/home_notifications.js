@@ -1,6 +1,6 @@
 var App;
 
-var transactions; 
+var transactions;
 
 Ti.include("/lib/lib_date.js");
 
@@ -8,28 +8,27 @@ var cfg = {
 	tab : "",
 	win : {
 		backgroundColor : "white",
-		title : "Token"
+		title : "Token",
+		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	table : {
-		top : 0,
 		minRowHeight : 50,
-		separatorColor:"black"
+		separatorColor : "black"
 	},
 	views : {
 		row : {
-			height : 80,
-			selectedBackgroundColor:'white'
+			height : 80
 		},
 		topRow : {
 			top : 0,
-			left: 10,
+			left : 10,
 			width : Ti.UI.SIZE,
 			height : 40,
 			layout : "horizontal"
 		},
 		bottomRow : {
 			top : 40,
-			left: 10,
+			left : 10,
 			width : Ti.UI.SIZE,
 			height : 40,
 			layout : "horizontal"
@@ -40,14 +39,16 @@ var cfg = {
 			width : Ti.UI.SIZE,
 			height : 40,
 			left : 0,
+			color : "black",
 			font : {
 				fontSize : 16
 			}
 		},
 		tokens : {
-			left:30,
+			left : 30,
 			width : Ti.UI.SIZE,
 			height : 40,
+			color : "black",
 			font : {
 				fontSize : 16
 			}
@@ -56,6 +57,7 @@ var cfg = {
 			width : Ti.UI.SIZE,
 			height : 40,
 			left : 0,
+			color : "black",
 			font : {
 				fontSize : 16,
 				fontWeight : "bold"
@@ -65,6 +67,7 @@ var cfg = {
 			left : 5,
 			width : Ti.UI.SIZE,
 			height : 40,
+			color : "black",
 			font : {
 				fontSize : 16
 			}
@@ -73,6 +76,7 @@ var cfg = {
 			left : 10,
 			width : Ti.UI.SIZE,
 			height : 40,
+			color : "black",
 			text : "For:",
 			font : {
 				fontSize : 16,
@@ -83,12 +87,20 @@ var cfg = {
 			left : 5,
 			width : Ti.UI.SIZE,
 			height : 40,
+			color : "black",
 			font : {
 				fontSize : 16
 			}
 		}
 	},
-	buttons : {}
+	buttons : {
+		refresh : {
+			backgroundImage : "/images/icons/refresh@2x.png",
+			width : 30,
+			height : 30,
+			right : 105
+		}
+	}
 };
 
 var ti = {
@@ -116,19 +128,19 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.action);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
-	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
+	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
 	directionLabel.text = sent ? "To:" : "From:";
 	nameLabel.text = sent ? friendLookupTable[transaction.recipientID] : friendLookupTable[transaction.senderID];
 	actionLabel.text = transaction.actionName;
 
 	topRow.add(dateLabel);
 	topRow.add(tokensLabel);
-	
+
 	bottomRow.add(directionLabel);
 	bottomRow.add(nameLabel);
 	bottomRow.add(forLabel);
 	bottomRow.add(actionLabel);
-	
+
 	row.add(topRow);
 	row.add(bottomRow);
 
@@ -148,7 +160,7 @@ var buildNotificationsTable = function() {
 };
 
 var refresh = function() {
-	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime(),ti.table.afterRefresh);
+	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime(), ti.table.afterRefresh);
 };
 
 var buildHierarchy = function() {
@@ -156,18 +168,48 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "Notifications",
-		icon:"images/icons/tabs/notifications.png"
+		icon : "images/icons/tabs/notifications.png"
 	});
 
-	if (!App.ANDROID) {
+	if (App.ANDROID) {
+
+		cfg.views.row.backgroundSelectedColor = 'white';
+
+		ti.table.top = 50;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Token");
+
+		ti.titleBar.rightNavButton.title = "Send";
+
+		ti.titleBar.rightNavButton.addEventListener("click", function() {
+			App.UI.Send.open(App.UI.Friends.getFriends());
+		});
+
+		ti.titleBar.rightNavButton.visible = true;
+
+		var refreshButton = Ti.UI.createButton(cfg.buttons.refresh);
+
+		refreshButton.addEventListener("click", function() {
+			refresh();
+		});
+
+		ti.titleBar.add(refreshButton);
+
+		ti.win.add(ti.titleBar);
+
+	} else {
+
+		cfg.views.row.selectedBackgroundColor = 'white';
+
+		ti.table.top = 0;
 
 		App.UI.addScrollToRefreshViewToTable(ti.table, refresh);
+
+		ti.win.rightNavButton = App.UI.createSendTokensButton();
 
 	}
 
 	ti.win.add(ti.table);
-
-	ti.win.rightNavButton = App.UI.createSendTokensButton();
 
 };
 
@@ -191,12 +233,12 @@ var updateTable = exports.updateTable = function() {
 
 };
 
-exports.addRow = function(transaction){
-	
+exports.addRow = function(transaction) {
+
 	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
-	
-	ti.table.insertRowBefore(0,buildNotificationRow(transaction, friendLookupTable));
-	
+
+	ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+
 };
 
 exports.getTab = function() {

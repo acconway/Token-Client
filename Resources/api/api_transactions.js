@@ -76,7 +76,7 @@ exports.syncTransactions = function(lastTransaction, afterRefresh) {
 	var userID = App.Models.User.getMyID();
 
 	var payload = {
-		lastTransaction : lastTransaction
+		lastTransaction : lastTransaction.toString()
 	};
 
 	App.API.send({

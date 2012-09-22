@@ -1,3 +1,5 @@
+var ANDROID = Ti.Platform.osname == "android";
+
 var cfg = {
 	window : {
 		height : "100%",
@@ -41,8 +43,11 @@ var cfg = {
 		main : {
 			width : "90%",
 			top : 20,
-			height : 30,
-			borderWidth:1,
+			height : ANDROID?40:30,
+			borderWidth:ANDROID?0:1,
+			font:{
+				fontSize:ANDROID?12:14
+			},
 			borderColor:"black"
 		}
 	},

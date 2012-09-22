@@ -25,6 +25,7 @@ var cfg = {
 			top : 5,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
+			color : "black",
 			font : {
 				fontSize : 18,
 				fontWeight : "bold"
@@ -34,6 +35,7 @@ var cfg = {
 			top : 5,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
+			color : "black",
 			font : {
 				fontSize : 16,
 				fontWeight : "light"
@@ -42,6 +44,7 @@ var cfg = {
 		title : {
 			top : 40,
 			text : "Select amount of tokens",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE
 		},
@@ -74,30 +77,51 @@ var ti = {
 	}
 };
 
+var closeWindows = function() {
+	App.UI.Send.SelectFriend.getWin().close(); 
+	App.UI.Send.SelectFriend.FacebookFriendList.getWin().close(); 
+	App.UI.Send.SelectAction.getWin().close();
+	ti.win.close(); 
+};
+
 var addEventListeners = function() {
 
 	ti.buttons.send.addEventListener("click", function() {
-		
-		if(ti.slider.getValue()==0){
+
+		if (ti.slider.getValue() == 0) {
 			alert("Please select a number of tokens");
-			return; 
+			return;
 		}
-		
+
 		var now = new Date();
 		if (friend.newFriend) {
 			App.UI.Friends.addFriend(friend, true);
 		}
-		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(),  now.getTime().toString());
+		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime().toString());
 		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime());
 		App.Models.User.setByName("lastTransactionTime", (now.getTime()).toString());
-		App.UI.Friends.Detail.update(); 
+		App.UI.Friends.Detail.update();
 		App.Models.User.save();
-		App.UI.Send.close();
+		if (App.ANDROID) {
+			closeWindows(); 
+		} else {
+			App.UI.Send.close();
+		}
 	});
 
 };
 
 var buildHierarchy = function() {
+
+	if (App.ANDROID) {
+
+		ti.win.navBarHidden = true;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Send Tokens");
+
+		ti.win.add(ti.titleBar);
+
+	}
 
 	ti.views.transaction.add(ti.labels.friendName);
 
@@ -129,6 +153,6 @@ exports.open = function(_friend, _action) {
 	balance = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID).myBalance;
 	ti.labels.friendName.text = friend.name;
 	ti.labels.actionName.text = action.name;
-	ti.slider.update(action.lastValue==0?1:action.lastValue, balance, action.lastValue==0?false:true);
+	ti.slider.update(action.lastValue == 0 ? 1 : action.lastValue, balance, action.lastValue == 0 ? false : true);
 	App.UI.Send.openWindow(ti.win);
 };

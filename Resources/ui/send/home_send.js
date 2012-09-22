@@ -1,11 +1,10 @@
 var App;
 
 var SelectFriend = require("ui/send/select_friend");
-exports.SelectFriend = SelectFriend; 
+exports.SelectFriend = SelectFriend;
 
 var SelectAction = require("ui/send/select_action");
-exports.SelectAction = SelectAction; 
-
+exports.SelectAction = SelectAction;
 
 var cfg = {
 	win : {
@@ -28,11 +27,15 @@ var ti = {
 
 var buildHierarchy = function() {
 
-	ti.nav = Titanium.UI.iPhone.createNavigationGroup({
-		window : SelectFriend.getWin()
-	});
+	if (!App.ANDROID) {
 
-	ti.win.add(ti.nav);
+		ti.nav = Titanium.UI.iPhone.createNavigationGroup({
+			window : SelectFriend.getWin()
+		});
+
+		ti.win.add(ti.nav);
+
+	}
 
 };
 
@@ -43,7 +46,7 @@ exports.initialize = function(app) {
 
 	SelectFriend.initialize(app);
 	SelectAction.initialize(app);
-	
+
 	App = app;
 	buildHierarchy();
 	addEventListeners();
@@ -52,13 +55,21 @@ exports.initialize = function(app) {
 
 exports.open = function(friends) {
 	SelectFriend.update(friends);
-	ti.win.open();
+	if (App.ANDROID) {
+		SelectFriend.getWin().open();
+	} else {
+		ti.win.open();
+	}
 };
 
-exports.close = function(){
-	ti.win.close(); 
-}
+exports.close = function() {
+	ti.win.close();
+};
 
 exports.openWindow = function(window) {
-	ti.nav.open(window);
+	if (App.ANDROID) {
+		window.open();
+	} else {
+		ti.nav.open(window);
+	}
 }

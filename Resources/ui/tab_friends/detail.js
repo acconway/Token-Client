@@ -2,7 +2,7 @@ var App;
 
 var currentData;
 
-var friend = friend; 
+var friend = friend;
 
 Ti.include("/lib/lib_date.js");
 
@@ -17,7 +17,7 @@ var cfg = {
 			height : "100%",
 			layout : "vertical",
 			backgroundColor : "transparent",
-			contentHeight : "auto",
+			contentHeight : Ti.UI.SIZE,
 			showVerticalScrollIndicator : true
 		},
 		user : {
@@ -71,30 +71,30 @@ var cfg = {
 		historyTable : {
 			top : 10,
 			height : 0,
-			width : "90%",
+			width : 288,
 			scrollable : false,
 			borderRadius : 10,
 			borderColor : "black",
+			borderWidth : 1,
 			backgroundColor : "white"
 		},
 		historyRow : {
 			width : "100%",
 			height : 60,
-			selectedBackgroundColor:'white',
 			backgroundColor : "white",
-			touchEnabled:false
+			touchEnabled : false
 		},
-		historyLabelView:{
-			width:Ti.UI.SIZE,
-			height:60,
-			right:10
+		historyLabelView : {
+			width : 140,
+			height : 60,
+			right : 0
 		},
-		forView:{
-			width:Ti.UI.SIZE,
-			height:30,
-			top:30,
-			right:0,
-			layout:"horizontal"
+		forView : {
+			width : 120,
+			height : 30,
+			top : 30,
+			left : 0,
+			layout : "horizontal"
 		}
 	},
 	labels : {
@@ -114,6 +114,7 @@ var cfg = {
 			top : 0,
 			left : 0,
 			height : 30,
+			color : "black",
 			width : Ti.UI.SIZE
 		},
 		historyTitle : {
@@ -132,6 +133,7 @@ var cfg = {
 			width : 80,
 			height : 70,
 			left : 10,
+			color : "black",
 			font : {
 				fontSize : 14
 			}
@@ -139,8 +141,9 @@ var cfg = {
 		historyTokens : {
 			width : Ti.UI.SIZE,
 			height : 30,
-			left:0,
-			top:0,
+			left : 0,
+			top : 0,
+			color : "black",
 			font : {
 				fontSize : 14
 			}
@@ -150,6 +153,7 @@ var cfg = {
 			width : Ti.UI.SIZE,
 			height : 30,
 			text : "For:",
+			color : "black",
 			font : {
 				fontSize : 14
 			}
@@ -158,6 +162,7 @@ var cfg = {
 			left : 5,
 			width : Ti.UI.SIZE,
 			height : 30,
+			color : "black",
 			font : {
 				fontSize : 14
 			}
@@ -197,33 +202,31 @@ var ti = {
 };
 
 var addHistoryRow = function(transaction) {
-	
+
 	var sent = (transaction.senderID == App.Models.User.getMyID());
 
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
-	
+
 	var view = Ti.UI.createView(cfg.views.historyLabelView);
 	var forView = Ti.UI.createView(cfg.views.forView);
-	
+
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
 	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
 	var forLabel = Ti.UI.createLabel(cfg.labels.historyFor);
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
-	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
+	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
 	actionLabel.text = transaction.actionName;
-	
+
 	forView.add(forLabel);
 	forView.add(actionLabel);
-	
+
 	view.add(tokensLabel);
 	view.add(forView);
 
 	row.add(dateLabel);
 	row.add(view);
-
-	ti.views.historyTable.height += row.height;
 
 	return row;
 
@@ -243,13 +246,14 @@ var buildBalanceView = function() {
 };
 
 var refreshTable = function() {
+	
+	ti.views.historyTable.height = 0; 
 
 	var tableData = [];
 
-	ti.views.historyTable.height = 0;
-
 	App._.each(currentData.transactions, function(transaction) {
 		tableData.push(addHistoryRow(transaction));
+		ti.views.historyTable.height += cfg.views.historyRow.height;
 	});
 
 	ti.views.historyTable.setData(tableData);
@@ -273,7 +277,11 @@ var update = function(friend) {
 
 	currentData = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID);
 
-	ti.win.title = friend.name;
+	if (App.ANDROID) {
+		ti.titleBar.label.text = friend.name;
+	} else {
+		ti.win.title = friend.name;
+	}
 
 	refreshBalance();
 
@@ -282,31 +290,49 @@ var update = function(friend) {
 };
 
 exports.open = function(_friend) {
-	friend = _friend; 
+	friend = _friend;
 	update(friend);
 	ti.tab.open(ti.win);
 };
 
 var buildHierarchy = function() {
-	
-	ti.win.backButtonTitle = "Back";
-	ti.win.rightNavButton = App.UI.createSendTokensButton();
-	
+
+	if (App.ANDROID) {
+		
+		ti.win.navBarHidden = true;
+		ti.views.main.top = 50;
+		cfg.views.historyRow.backgroundSelectedColor = 'white';
+		
+		ti.titleBar = App.UI.createAndroidTitleBar();
+
+		ti.titleBar.rightNavButton.title = "Send";
+		ti.titleBar.rightNavButton.addEventListener("click", function() {
+			App.UI.Send.open(App.UI.Friends.getFriends());
+		});
+		ti.titleBar.rightNavButton.visible = true;
+		
+		ti.win.add(ti.titleBar);
+	} else {
+		cfg.views.historyRow.selectedBackgroundColor = 'white';
+		ti.win.backButtonTitle = "Back";
+		ti.win.rightNavButton = App.UI.createSendTokensButton();
+	}
+
 	buildBalanceView();
 	ti.views.main.add(ti.labels.balanceTitle);
 	ti.views.main.add(ti.views.balance);
 	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
 	ti.win.add(ti.views.main);
-	
+
 };
 
 var addEventListeners = function() {
 };
 
-exports.update = function(){
-	if(friend){
-		update(friend); 
+exports.update = function() {
+	if (friend) {
+		update(friend);
 	}
 };
 

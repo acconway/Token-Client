@@ -7,7 +7,8 @@ exports.Detail = Detail;
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Token"
+		title : "Token",
+		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {
 		row : {
@@ -16,7 +17,6 @@ var cfg = {
 		}
 	},
 	table : {
-		top : 0,
 		minRowHeight : 50
 	},
 	labels : {
@@ -28,7 +28,8 @@ var cfg = {
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "black"
+			color : "black",
+			touchEnabled:false
 		}
 	},
 	images : {
@@ -50,9 +51,13 @@ var friends = [];
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		if (e.rowData.friend) {
-			Detail.open(e.rowData.friend);
+		
+		var rowFriend = App.ANDROID?e.source.friend:e.rowData.friend;
+		
+		if (rowFriend) {
+			Detail.open(rowFriend);
 		}
+		
 	});
 
 };
@@ -92,10 +97,32 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "Friends",
-		icon:"images/icons/tabs/friends.png"
+		icon : "images/icons/tabs/friends.png"
 	});
 
-	ti.win.rightNavButton = App.UI.createSendTokensButton();
+	if (App.ANDROID) {
+
+		ti.table.top = 50;
+
+		ti.titleBar = App.UI.createAndroidTitleBar("Token");
+
+		ti.titleBar.rightNavButton.title = "Send";
+
+		ti.titleBar.rightNavButton.addEventListener("click", function() {
+			App.UI.Send.open(App.UI.Friends.getFriends());
+		});
+
+		ti.titleBar.rightNavButton.visible = true;
+
+		ti.win.add(ti.titleBar);
+
+	} else {
+
+		ti.table.top = 0;
+
+		ti.win.rightNavButton = App.UI.createSendTokensButton();
+
+	}
 
 	ti.win.add(ti.table);
 
@@ -127,7 +154,7 @@ exports.getFriends = function() {
 	return friends;
 };
 
-exports.updateTable = updateTable; 
+exports.updateTable = updateTable;
 
 exports.refresh = function() {
 	updateTable();
