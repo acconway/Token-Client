@@ -17,7 +17,8 @@ var cfg = {
 	},
 	views : {
 		row : {
-			height : 80
+			height : 80,
+			className:"row"
 		},
 		topRow : {
 			top : 0,

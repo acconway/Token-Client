@@ -11,7 +11,8 @@ var cfg = {
 	},
 	views : {
 		row : {
-			backgroundColor : "white"
+			backgroundColor : "white",
+			className:"row"
 		}
 	},
 	table : {
@@ -109,6 +110,8 @@ var buildRows = function() {
 var updateTable = exports.updateTable = function() {
 	ti.win.remove(ti.table);
 	ti.table = Ti.UI.createTableView(cfg.table);
+	ti.search = Ti.UI.createSearchBar(cfg.search);
+	ti.table.search = ti.search;
 	addEventListeners();
 	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);
@@ -138,8 +141,6 @@ var buildHierarchy = function() {
 		cfg.table.top = 50;
 
 	}
-
-	ti.table.search = ti.search;
 
 	ti.win.add(ti.table);
 
