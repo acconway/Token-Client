@@ -97,21 +97,19 @@ var addEventListeners = function() {
 		if (friend.newFriend) {
 			App.UI.Friends.addFriend(friend, true);
 		}
-		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime().toString());
-		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime());
-		App.Models.User.setByName("lastTransactionTime", (now.getTime()).toString());
-		App.UI.Friends.Detail.update();
-		App.Models.User.save();
+		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime(),friend.name);
 		if (App.ANDROID) {
 			closeWindows(); 
 		} else {
 			App.UI.Send.close();
 		}
+		App.UI.showWait("Sending Tokens...");
 	});
 
 };
 
 var buildHierarchy = function() {
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 

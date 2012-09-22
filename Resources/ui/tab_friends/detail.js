@@ -295,6 +295,8 @@ exports.open = function(_friend) {
 };
 
 var buildHierarchy = function() {
+	
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 		

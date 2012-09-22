@@ -28,6 +28,7 @@ var ti = {
 };
 
 var buildHierarchy = function() {
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,

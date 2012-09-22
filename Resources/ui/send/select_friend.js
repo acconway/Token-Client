@@ -163,6 +163,7 @@ var updateTable = exports.updateTable = function() {
 };
 
 var buildHierarchy = function() {
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 

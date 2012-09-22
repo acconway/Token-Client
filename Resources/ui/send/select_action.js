@@ -194,6 +194,7 @@ var afterCreateNewAction = function(name) {
 };
 
 var buildHierarchy = function() {
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 

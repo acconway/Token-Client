@@ -12,7 +12,7 @@ var cfg = {
 	views : {
 		row : {
 			backgroundColor : "white",
-			className:"row"
+			className : "row"
 		}
 	},
 	table : {
@@ -29,7 +29,7 @@ var cfg = {
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			touchEnabled:false,
+			touchEnabled : false,
 			color : "black"
 		}
 	},
@@ -129,6 +129,8 @@ var updateTable = exports.updateTable = function() {
 };
 
 var buildHierarchy = function() {
+
+	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 
