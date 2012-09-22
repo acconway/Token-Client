@@ -1,6 +1,6 @@
 var App, actions = [], rowData = [];
 
-var friend; 
+var friend;
 
 var SelectTokens = require("ui/send/select_tokens");
 
@@ -12,19 +12,19 @@ var cfg = {
 		title : "Send Tokens",
 	},
 	views : {
-		main:{
-			layout:"vertical",
-			top:0,
-			height:"100%",
-			width:"100%",
-			backgroundColor:"transparent"
+		main : {
+			layout : "vertical",
+			top : 0,
+			height : "100%",
+			width : "100%",
+			backgroundColor : "transparent"
 		},
-		transaction:{
-			height:50,
-			width:200,
-			top:10,
-			borderColor:"black",
-			borderWidth:1
+		transaction : {
+			height : 50,
+			width : 200,
+			top : 10,
+			borderColor : "black",
+			borderWidth : 1
 		},
 		row : {
 			backgroundColor : "white",
@@ -67,21 +67,32 @@ var cfg = {
 			color : "black"
 		}
 	},
-	buttons : {}
+	buttons : {},
+	images : {
+		addNew : {
+			right : 10,
+			width : 22,
+			height : 22,
+			image : "images/icons/plus.png"
+		}
+	}
 };
 
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
-	views:{
-		main:Ti.UI.createView(cfg.views.main),
-		transaction: Ti.UI.createView(cfg.views.transaction)
+	views : {
+		main : Ti.UI.createView(cfg.views.main),
+		transaction : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		title : Ti.UI.createLabel(cfg.labels.title)
 	},
-	buttons : {}
+	buttons : {},
+	images:{
+		addNew: Ti.UI.createImageView(cfg.images.addNew)
+	}
 };
 
 actions = [];
@@ -90,7 +101,7 @@ var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
 		if (e.rowData.action) {
-			SelectTokens.open(friend,e.rowData.action);
+			SelectTokens.open(friend, e.rowData.action);
 		} else if (e.rowData.addNew) {
 			ti.newActionWindow.open();
 		}
@@ -129,6 +140,8 @@ var buildAddNewRow = function() {
 	row.hasChild = false;
 
 	row.add(row.label);
+	
+	row.add(ti.images.addNew);
 
 	rowData.push(row);
 
@@ -145,31 +158,44 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
-	actions = App.Models.Transactions.getAllActions(friend.userID); 
+	actions = App.Models.Transactions.getAllActions(friend.userID);
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
 	ti.table.setData(rowData);
 };
 
-var afterCreateNewAction = function(name){
-	SelectTokens.open(friend,{name:name,lastValue:1});
+var hasAction = function(name) {
+	return App._.find(actions, function(action) {
+		return action.name == name;
+	})
+};
+
+var afterCreateNewAction = function(name) {
+	if (hasAction(name)) {
+		alert("You already have an action named " + name);
+	} else {
+		SelectTokens.open(friend, {
+			name : name,
+			lastValue : 0
+		});
+	}
 };
 
 var buildHierarchy = function() {
-	
+
 	ti.views.transaction.add(ti.labels.friendName);
-	
+
 	ti.views.main.add(ti.views.transaction);
 
 	ti.views.main.add(ti.labels.title);
 
 	ti.views.main.add(ti.table);
-	
+
 	ti.win.backButtonTitle = "Back";
-		
+
 	ti.newActionWindow = NewAction.create(afterCreateNewAction);
-	
+
 	ti.win.add(ti.views.main);
 	ti.win.add(ti.newActionWindow);
 
@@ -179,14 +205,14 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
-	
+
 	SelectTokens.initialize(App);
 };
 
 exports.open = function(_friend) {
-	friend = _friend; 
+	friend = _friend;
 	ti.labels.friendName.text = friend.name;
 	updateTable();
-	ti.newActionWindow.visible = false; 
+	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);
 };

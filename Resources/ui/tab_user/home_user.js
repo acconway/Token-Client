@@ -30,7 +30,8 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "User"
+		title : "User",
+		icon:"images/icons/tabs/user.png"
 	});
 
 	ti.win.rightNavButton = ti.buttons.logout; 

@@ -91,7 +91,8 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "Friends"
+		title : "Friends",
+		icon:"images/icons/tabs/friends.png"
 	});
 
 	ti.win.rightNavButton = App.UI.createSendTokensButton();

@@ -77,6 +77,12 @@ var ti = {
 var addEventListeners = function() {
 
 	ti.buttons.send.addEventListener("click", function() {
+		
+		if(ti.slider.getValue()==0){
+			alert("Please select a number of tokens");
+			return; 
+		}
+		
 		var now = new Date();
 		if (friend.newFriend) {
 			App.UI.Friends.addFriend(friend, true);
@@ -84,6 +90,7 @@ var addEventListeners = function() {
 		App.Models.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(),  now.getTime().toString());
 		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime());
 		App.Models.User.setByName("lastTransactionTime", (now.getTime()).toString());
+		App.UI.Friends.Detail.update(); 
 		App.Models.User.save();
 		App.UI.Send.close();
 	});
@@ -122,6 +129,6 @@ exports.open = function(_friend, _action) {
 	balance = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID).myBalance;
 	ti.labels.friendName.text = friend.name;
 	ti.labels.actionName.text = action.name;
-	ti.slider.update(action.lastValue, balance, true);
+	ti.slider.update(action.lastValue==0?1:action.lastValue, balance, action.lastValue==0?false:true);
 	App.UI.Send.openWindow(ti.win);
 };

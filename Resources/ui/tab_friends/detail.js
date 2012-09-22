@@ -2,6 +2,8 @@ var App;
 
 var currentData;
 
+var friend = friend; 
+
 Ti.include("/lib/lib_date.js");
 
 var cfg = {
@@ -77,9 +79,22 @@ var cfg = {
 		},
 		historyRow : {
 			width : "100%",
-			height : 50,
+			height : 60,
+			selectedBackgroundColor:'white',
 			backgroundColor : "white",
 			touchEnabled:false
+		},
+		historyLabelView:{
+			width:Ti.UI.SIZE,
+			height:60,
+			right:10
+		},
+		forView:{
+			width:Ti.UI.SIZE,
+			height:30,
+			top:30,
+			right:0,
+			layout:"horizontal"
 		}
 	},
 	labels : {
@@ -115,24 +130,34 @@ var cfg = {
 		},
 		historyDate : {
 			width : 80,
-			height : 50,
+			height : 70,
 			left : 10,
 			font : {
 				fontSize : 14
 			}
 		},
-		historyName : {
-			width : "auto",
-			height : 50,
-			left : 100,
+		historyTokens : {
+			width : Ti.UI.SIZE,
+			height : 30,
+			left:0,
+			top:0,
 			font : {
 				fontSize : 14
 			}
 		},
-		historyValue : {
-			width : "auto",
-			height : 50,
-			right : 15,
+		historyFor : {
+			left : 0,
+			width : Ti.UI.SIZE,
+			height : 30,
+			text : "For:",
+			font : {
+				fontSize : 14
+			}
+		},
+		historyAction : {
+			left : 5,
+			width : Ti.UI.SIZE,
+			height : 30,
 			font : {
 				fontSize : 14
 			}
@@ -171,21 +196,32 @@ var ti = {
 	images : {}
 };
 
-var addHistoryRow = function(name, value, date, note) {
+var addHistoryRow = function(transaction) {
+	
+	var sent = (transaction.senderID == App.Models.User.getMyID());
 
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
-
+	
+	var view = Ti.UI.createView(cfg.views.historyLabelView);
+	var forView = Ti.UI.createView(cfg.views.forView);
+	
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
-	var nameLabel = Ti.UI.createLabel(cfg.labels.historyName);
-	var valueLabel = Ti.UI.createLabel(cfg.labels.historyValue);
+	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
+	var forLabel = Ti.UI.createLabel(cfg.labels.historyFor);
+	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
-	dateLabel.text = date.customFormat("#MM#/#DD#/#YYYY#");
-	nameLabel.text = name;
-	valueLabel.text = value;
+	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
+	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
+	actionLabel.text = transaction.actionName;
+	
+	forView.add(forLabel);
+	forView.add(actionLabel);
+	
+	view.add(tokensLabel);
+	view.add(forView);
 
 	row.add(dateLabel);
-	row.add(nameLabel);
-	row.add(valueLabel);
+	row.add(view);
 
 	ti.views.historyTable.height += row.height;
 
@@ -213,7 +249,7 @@ var refreshTable = function() {
 	ti.views.historyTable.height = 0;
 
 	App._.each(currentData.transactions, function(transaction) {
-		tableData.push(addHistoryRow(transaction.actionName, transaction.tokenValue, new Date(parseInt(transaction.time)), transaction.comment));
+		tableData.push(addHistoryRow(transaction));
 	});
 
 	ti.views.historyTable.setData(tableData);
@@ -245,7 +281,8 @@ var update = function(friend) {
 
 };
 
-exports.open = function(friend) {
+exports.open = function(_friend) {
+	friend = _friend; 
 	update(friend);
 	ti.tab.open(ti.win);
 };
@@ -265,6 +302,12 @@ var buildHierarchy = function() {
 };
 
 var addEventListeners = function() {
+};
+
+exports.update = function(){
+	if(friend){
+		update(friend); 
+	}
 };
 
 exports.initialize = function(app, tab) {

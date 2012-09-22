@@ -1,7 +1,7 @@
 var cfg = {
 	views : {
 		main : {
-			top:20,
+			top : 20,
 			width : "80%",
 			height : 160,
 			backgroundColor : "white",
@@ -40,7 +40,7 @@ var cfg = {
 	},
 	slider : {
 		top : 10,
-		min : 1,
+		min : 0,
 		max : 10,
 		width : "80%",
 		value : 1
@@ -78,11 +78,14 @@ exports.create = function() {
 
 	ti.self.update = function(value, max, selectedAction) {
 
-		if (value) {
-			if (selectedAction) {
-				ti.slider.value = Math.min(value,max);
-				ti.labels.value.text = value;
-			}
+		if (!value) {
+			value = 1;
+		}
+
+		ti.slider.value = Math.min(value, max);
+		ti.labels.value.text = value;
+
+		if (selectedAction) {
 			ti.labels.promptValue.text = value;
 			ti.views.prompt.visible = true;
 		} else {
@@ -90,10 +93,10 @@ exports.create = function() {
 		}
 
 		ti.slider.max = max;
-		
+
 	};
-	
-	ti.self.getValue = function(){
+
+	ti.self.getValue = function() {
 		return Math.floor(ti.slider.value);
 	};
 

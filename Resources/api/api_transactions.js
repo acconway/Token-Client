@@ -54,6 +54,8 @@ var syncTransactionsHandleSuccess = function(response, params) {
 		App.UI.Friends.updateTable();
 
 		App.UI.Notifications.updateTable();
+		
+		App.UI.Friends.Detail.update(); 
 
 	}
 

@@ -17,7 +17,8 @@ var cfg = {
 	},
 	views : {
 		row : {
-			height : 80
+			height : 80,
+			selectedBackgroundColor:'white'
 		},
 		topRow : {
 			top : 0,
@@ -115,7 +116,7 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.action);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
-	tokensLabel.text = ( sent ? "Sent" : "Recieved") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
+	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token"+(transaction.tokenValue>1?"s":"");
 	directionLabel.text = sent ? "To:" : "From:";
 	nameLabel.text = sent ? friendLookupTable[transaction.recipientID] : friendLookupTable[transaction.senderID];
 	actionLabel.text = transaction.actionName;
@@ -154,7 +155,8 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "Notifications"
+		title : "Notifications",
+		icon:"images/icons/tabs/notifications.png"
 	});
 
 	if (!App.ANDROID) {

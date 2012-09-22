@@ -60,7 +60,7 @@ var addEventListeners = function() {
 			App.UI.Send.SelectAction.open({
 				name : friend.name,
 				userID : friend.id,
-				newFriend:true
+				newFriend : true
 			});
 		}
 	});
@@ -98,7 +98,9 @@ var addRow = function(friend) {
 var buildRows = function() {
 
 	App._.each(friends, function(friend) {
-		rowData.push(addRow(friend));
+		if (!App.Models.Friends.hasFriend(friend.id)) {
+			rowData.push(addRow(friend));
+		}
 	});
 
 };
