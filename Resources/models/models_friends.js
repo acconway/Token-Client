@@ -10,21 +10,23 @@ var schema = {
 };
 
 var addFriend = function(name, id) {
-	App.LOG("App.Models.Friends adding friend with name: "+name+" id: "+id);
+	App.LOG("App.Models.Friends adding friend with name: " + name + " id: " + id);
 	if (name && id) {
-		var record = model.newRecord({
-			userID : id,
-			name : name
-		});
-		record.save();
+		if (!this.hasFriend(id)) {
+			var record = model.newRecord({
+				userID : id,
+				name : name
+			});
+			record.save();
+		}
 	}
 };
 
-var hasFriend = function(id){
-	
+var hasFriend = function(id) {
+
 	friend = this.findOneBy("userID", id);
-	
-	return friend; 
+
+	return friend;
 
 };
 
@@ -35,8 +37,8 @@ exports.initialize = function(app) {
 		table : schema.table,
 		columns : schema.columns,
 		methods : {
-			addFriend:addFriend,
-			hasFriend:hasFriend
+			addFriend : addFriend,
+			hasFriend : hasFriend
 		},
 		objectMethods : {}
 	});

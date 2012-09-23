@@ -91,7 +91,18 @@ var addRow = function(friend) {
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
 	row.label.text = friend.name;
 
+	var image = Ti.UI.createImageView(cfg.images.friend);
+
+	row.image = image;
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
+
+	if (file.exists()) {
+		image.image = file;
+	}
+
 	row.add(row.label);
+	row.add(image);
 
 	return row;
 
@@ -100,9 +111,7 @@ var addRow = function(friend) {
 var buildRows = function() {
 
 	App._.each(friends, function(friend) {
-		if (!App.Models.Friends.hasFriend(friend.id)) {
-			rowData.push(addRow(friend));
-		}
+		rowData.push(addRow(friend));
 	});
 
 };
@@ -162,7 +171,23 @@ exports.getWin = function() {
 	return ti.win;
 };
 
+exports.addPicture = function(index) {
+
+	if (rowData && rowData[index]) {
+
+		var row = rowData[index];
+
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.id + ".png");
+
+		if (file.exists()) {
+			row.image.image = file;
+		}
+
+	}
+};
+
 exports.open = function() {
 	App.UI.Send.openWindow(ti.win);
+	App.Lib.Facebook.getPics(0, App.Models.User.getByName("friendsList"));
 	updateTable();
 };

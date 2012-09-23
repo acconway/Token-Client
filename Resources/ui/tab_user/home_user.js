@@ -11,7 +11,7 @@ var cfg = {
 	labels : {},
 	buttons : {
 		logout : {
-			title : "logout",
+			title : "Logout",
 			height : 30,
 			width : 200
 		}

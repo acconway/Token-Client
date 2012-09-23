@@ -29,7 +29,7 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
 			color : "black",
-			touchEnabled:false
+			touchEnabled : false
 		}
 	},
 	images : {
@@ -51,13 +51,13 @@ var friends = [];
 var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
-		
-		var rowFriend = App.ANDROID?e.source.friend:e.rowData.friend;
-		
+
+		var rowFriend = App.ANDROID ? e.source.friend : e.rowData.friend;
+
 		if (rowFriend) {
 			Detail.open(rowFriend);
 		}
-		
+
 	});
 
 };
@@ -72,6 +72,18 @@ var addRow = function(friend) {
 	row.label.text = friend.name;
 
 	row.add(row.label);
+
+	var image = Ti.UI.createImageView(cfg.images.friend);
+
+	row.image = image;
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+
+	if (file.exists()) {
+		image.image = file;
+	}
+
+	row.add(image);
 
 	return row;
 };
@@ -149,6 +161,18 @@ exports.addFriend = function(friend, update) {
 	if (update) {
 		updateTable();
 	}
+};
+
+exports.refreshPictures = function(index) {
+
+	App._.each(rowData, function(row) {
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
+
+		if (file.exists() && !row.image.image) {
+			row.image.image = file;
+		}
+	});
+
 };
 
 exports.getFriends = function() {

@@ -95,7 +95,7 @@ exports.create = function() {
 			ti.views.prompt.visible = false;
 		}
 
-		ti.slider.max = max;
+		ti.slider.max = Math.min(3,max);
 
 	};
 

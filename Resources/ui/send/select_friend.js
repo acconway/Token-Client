@@ -2,7 +2,7 @@ var App, friends = [], rowData = [];
 
 var FacebookFriendList = require("ui/send/facebook_friend_list");
 
-exports.FacebookFriendList = FacebookFriendList; 
+exports.FacebookFriendList = FacebookFriendList;
 
 var cfg = {
 	win : {
@@ -134,13 +134,25 @@ var addRow = function(friend) {
 
 	row.add(row.label);
 
+	var image = Ti.UI.createImageView(cfg.images.friend);
+
+	row.image = image;
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+
+	if (file.exists()) {
+		image.image = file;
+	}
+
+	row.add(image);
+
 	return row;
 
 };
 
 var buildAddNew = function() {
-	
-	ti.views.addNew = App.ANDROID?Ti.UI.createView(cfg.views.addNew):Ti.UI.createButton(cfg.views.addNew);
+
+	ti.views.addNew = App.ANDROID ? Ti.UI.createView(cfg.views.addNew) : Ti.UI.createButton(cfg.views.addNew);
 
 	ti.views.addNew.add(ti.labels.addNew);
 	ti.views.addNew.add(ti.images.addNew);
@@ -172,7 +184,7 @@ var buildHierarchy = function() {
 		ti.titleBar = App.UI.createAndroidTitleBar("Select Friend");
 
 		ti.win.add(ti.titleBar);
-		
+
 	}
 
 	ti.win.add(ti.labels.title);
@@ -195,6 +207,21 @@ exports.initialize = function(app) {
 	addEventListeners();
 
 	FacebookFriendList.initialize(app);
+
+};
+
+exports.refreshPictures = function(index) {
+
+	App._.each(rowData, function(row) {
+
+		if (!row.image.image) {
+			var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
+
+			if (file.exists()) {
+				row.image.image = file;
+			}
+		}
+	});
 
 };
 

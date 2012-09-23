@@ -51,6 +51,8 @@ exports.initialize = function() {
 
 exports.logout = function() {
 	Models.purgeAll();
+	var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "profilepics");
+	dir.deleteDirectory(true);
 	UI.Friends.refresh();
 	Ti.Facebook.logout();
 	UI.closeTabGroup();
@@ -58,6 +60,11 @@ exports.logout = function() {
 };
 
 exports.login = function() {
+	//create profile pic directory
+	var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "profilepics");
+	if (!dir.exists()) {
+		dir.createDirectory();
+	}
 	UI.Login.getWin().close(); 
 	UI.openTabGroup(); 
 	UI.showWait("Logging In...");
