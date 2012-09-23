@@ -36,8 +36,8 @@ var cfg = {
 	images : {
 		friend : {
 			left : 10,
-			width : 50,
-			height : 50
+			width : 48,
+			height : 48
 		}
 	},
 	buttons : {},
@@ -91,18 +91,23 @@ var addRow = function(friend) {
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
 	row.label.text = friend.name;
 
-	var image = Ti.UI.createImageView(cfg.images.friend);
+	if (!App.ANDROID) {
 
-	row.image = image;
+		var image = Ti.UI.createImageView(cfg.images.friend);
 
-	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
+		row.image = image;
 
-	if (file.exists()) {
-		image.image = file;
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
+
+		if (file.exists()) {
+			image.image = file.nativePath;
+		}
+
+		row.add(image);
+
 	}
 
 	row.add(row.label);
-	row.add(image);
 
 	return row;
 
@@ -120,7 +125,9 @@ var updateTable = exports.updateTable = function() {
 	ti.win.remove(ti.table);
 	ti.table = Ti.UI.createTableView(cfg.table);
 	ti.search = Ti.UI.createSearchBar(cfg.search);
-	ti.table.search = ti.search;
+	if (!App.ANDROID) {
+		ti.table.search = ti.search;
+	}
 	addEventListeners();
 	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);

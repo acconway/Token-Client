@@ -73,6 +73,7 @@ exports.login = function() {
 		Lib.Facebook.afterLogin();
 	}else{
 		UI.Notifications.updateTable();
+		UI.User.updateTable(); 
 		UI.hideWait(); 
 	}
 };

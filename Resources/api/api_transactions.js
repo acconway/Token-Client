@@ -54,8 +54,13 @@ var syncTransactionsHandleSuccess = function(response, params) {
 	var transactions = response.data.newTransactions;
 
 	if (transactions.length > 0) {
-
-		App.Models.User.setByName("lastTransactionTime", response.data.lastTransactionTime);
+		
+		transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
+		
+		App.Models.User.setByName("lastTransactionTime",transactions[0].time);
+		
+		App.Models.User.save(); 
+		
 		App.Models.User.save();
 
 		App.Models.Transactions.loadNewTransactions(transactions);
@@ -63,6 +68,8 @@ var syncTransactionsHandleSuccess = function(response, params) {
 		App.UI.Friends.updateTable();
 
 		App.UI.Notifications.updateTable();
+		
+		App.UI.User.updateTable();
 
 		App.UI.Friends.Detail.update();
 
@@ -90,7 +97,8 @@ exports.syncTransactions = function(lastTransaction, afterRefresh) {
 
 	App.API.send({
 		method : "POST",
-		path : "/user/" + userID + "/syncTransactions",
+		//path : "/user/" + userID + "/syncTransactions",
+		path:"/syncAllTransactions",
 		data : payload,
 		callback : afterSyncTransactions,
 		afterRefresh : afterRefresh

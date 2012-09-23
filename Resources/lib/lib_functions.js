@@ -11,13 +11,17 @@ exports.getShortName = function(name) {
 };
 
 var sort = exports.sort = function(string0, string1) {
-	var name0 = string0.toLowerCase(), name1 = string1.toLowerCase();
-	if (name0 < name1) {
-		return -1;
-	} else if (name0 > name1) {
-		return 1;
-	} else {
-		return 0;
+	if (string0 && string1) {
+		var name0 = string0.toLowerCase(), name1 = string1.toLowerCase();
+		if (name0 < name1) {
+			return -1;
+		} else if (name0 > name1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}else{
+		return 0; 
 	}
 };
 

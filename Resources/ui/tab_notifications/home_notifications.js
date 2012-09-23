@@ -4,6 +4,8 @@ var transactions;
 
 Ti.include("/lib/lib_date.js");
 
+var rowData = [];
+
 var cfg = {
 	tab : "",
 	win : {
@@ -38,11 +40,12 @@ var cfg = {
 	labels : {
 		date : {
 			width : Ti.UI.SIZE,
-			height : 40,
-			left : 0,
+			top:5,
+			height : 30,
+			left : 10,
 			color : "black",
 			font : {
-				fontSize : 16
+				fontSize : 13
 			}
 		},
 		tokens : {
@@ -118,32 +121,23 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 
 	var row = Ti.UI.createTableViewRow(cfg.views.row);
 
-	var topRow = Ti.UI.createView(cfg.views.topRow);
-	var bottomRow = Ti.UI.createView(cfg.views.bottomRow);
-
 	var dateLabel = Ti.UI.createLabel(cfg.labels.date);
-	var tokensLabel = Ti.UI.createLabel(cfg.labels.tokens);
-	var directionLabel = Ti.UI.createLabel(cfg.labels.direction);
-	var nameLabel = Ti.UI.createLabel(cfg.labels.name);
-	var forLabel = Ti.UI.createLabel(cfg.labels.forLabel);
-	var actionLabel = Ti.UI.createLabel(cfg.labels.action);
+	var tokensLabel = Ti.UI.createLabel({
+		top:35,
+		width:"100%",
+		color:"black",
+		textAlign:"center",
+		font:{
+			fontSize:16
+		},
+		height:Ti.UI.SIZE
+	});
+	
+	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");	
+	tokensLabel.text= transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "") + " exchanged for "+transaction.actionName; 
 
-	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
-	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
-	directionLabel.text = sent ? "To:" : "From:";
-	nameLabel.text = sent ? friendLookupTable[transaction.recipientID] : friendLookupTable[transaction.senderID];
-	actionLabel.text = transaction.actionName;
-
-	topRow.add(dateLabel);
-	topRow.add(tokensLabel);
-
-	bottomRow.add(directionLabel);
-	bottomRow.add(nameLabel);
-	bottomRow.add(forLabel);
-	bottomRow.add(actionLabel);
-
-	row.add(topRow);
-	row.add(bottomRow);
+	row.add(dateLabel);
+	row.add(tokensLabel);
 
 	return row;
 };
@@ -152,11 +146,13 @@ var buildNotificationsTable = function() {
 
 	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
 
-	ti.table.setData([]);
+	rowData = []; 
 
 	App._.each(transactions, function(transaction) {
-		ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
+		rowData.push(buildNotificationRow(transaction, friendLookupTable));
 	});
+	
+	ti.table.setData(rowData);
 
 };
 
@@ -169,7 +165,7 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "Notifications",
+		title : "Exchanges",
 		icon : "images/icons/tabs/notifications.png"
 	});
 
@@ -238,8 +234,13 @@ var updateTable = exports.updateTable = function() {
 exports.addRow = function(transaction) {
 
 	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
-
-	ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+	
+	if(App.ANDROID){
+		rowData.splice(0,0,buildNotificationRow(transaction, friendLookupTable));
+		ti.table.setData(rowData);
+	}else{
+		ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+	}
 
 };
 

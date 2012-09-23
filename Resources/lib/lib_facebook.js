@@ -1,4 +1,4 @@
-Ti.Facebook.appid = "142078199250182";
+Ti.Facebook.appid = "224818800979354";
 Ti.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
 
 var App, userData, profilePicture, friendsList = [], listErrorCounter = 0;
@@ -125,10 +125,11 @@ var getPics = exports.getPics = function(index, friendsList) {
 					if (!App.ANDROID) {
 						App.UI.Send.SelectFriend.FacebookFriendList.addPicture(index);
 					}
+
 					App.UI.Send.SelectFriend.refreshPictures();
 					App.UI.Friends.refreshPictures();
-				
-					file = null; 
+
+					file = null;
 
 					if (index < friendsList.length - 1 && Ti.Facebook.loggedIn) {
 						getPics(++index, friendsList);

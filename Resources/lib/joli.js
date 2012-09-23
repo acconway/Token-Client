@@ -591,7 +591,7 @@ var joliCreator = function() {
 			var fieldCount;
 
 			if (Titanium.Platform.name !== 'android') {
-				fieldCount = rows.fieldCount;
+				fieldCount = rows.fieldCount();
 			} else {
 				fieldCount = rows.fieldCount;
 			}

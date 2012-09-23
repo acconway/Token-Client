@@ -245,8 +245,8 @@ var buildBalanceView = function() {
 };
 
 var refreshTable = function() {
-	
-	ti.views.historyTable.height = 0; 
+
+	ti.views.historyTable.height = 0;
 
 	var tableData = [];
 
@@ -295,28 +295,39 @@ exports.open = function(_friend) {
 };
 
 var buildHierarchy = function() {
-	
+
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
-		
+
 		ti.win.navBarHidden = true;
 		ti.views.main.top = 50;
 		cfg.views.historyRow.backgroundSelectedColor = 'white';
-		
+
 		ti.titleBar = App.UI.createAndroidTitleBar();
 
 		ti.titleBar.rightNavButton.title = "Send";
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
-			App.UI.Send.open(App.UI.Friends.getFriends());
+			App.UI.Send.SelectAction.open(friend);
 		});
 		ti.titleBar.rightNavButton.visible = true;
-		
+
 		ti.win.add(ti.titleBar);
+		
 	} else {
+		
 		cfg.views.historyRow.selectedBackgroundColor = 'white';
 		ti.win.backButtonTitle = "Back";
-		ti.win.rightNavButton = App.UI.createSendTokensButton();
+		
+		var button = App.UI.createSendTokensActionsButton();
+		
+		button.addEventListener("click", function() {
+			App.UI.Send.open(App.UI.Friends.getFriends());
+			App.UI.Send.SelectAction.open(friend);
+		});
+		
+		ti.win.rightNavButton = button; 
+		
 	}
 
 	buildBalanceView();

@@ -31,6 +31,7 @@ exports.Login = Login;
 exports.Friends = Friends;
 exports.Notifications = Notifications;
 exports.Send = Send;
+exports.User = User; 
 
 var waitOpen = false;
 
@@ -179,6 +180,7 @@ exports.showWait = function(message) {
 			ti.waitWindow.open();
 			ti.activityIndicator.visible = true;
 		} else {
+			ti.activityIndicator.visible = true;
 			ti.activityIndicator.show();
 		}
 		waitOpen = true;
@@ -225,6 +227,13 @@ exports.createSendTokensButton = function() {
 	button.addEventListener("click", function() {
 		Send.open(App.UI.Friends.getFriends());
 	});
+
+	return button;
+};
+
+exports.createSendTokensActionsButton = function(){
+	
+	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	return button;
 };

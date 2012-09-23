@@ -13,7 +13,7 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>2.2.0.v20120829161712</sdk-version>
+    <sdk-version>2.1.2.GA</sdk-version>
     <id>com.sccs.token</id>
     <name>Token</name>
     <version>1.0</version>
@@ -42,22 +42,6 @@
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest>
-            <activity android:configChanges="keyboardHidden"
-                android:label="Token" android:name=".TokenActivity"
-                android:screenOrientation="portrait" android:theme="@style/Theme.Titanium"/>
-            <activity
-                android:name="ti.modules.titanium.facebook.FBActivity"
-                android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-            <activity android:configChanges="keyboardHidden"
-                android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
-            <activity android:configChanges="keyboardHidden"
-                android:name="org.appcelerator.titanium.TiTranslucentActivity"
-                android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
-            <activity android:configChanges="keyboardHidden"
-                android:name="org.appcelerator.titanium.TiModalActivity"
-                android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
-            <activity android:configChanges="keyboardHidden"
-                android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
             <supports-screens android:anyDensity="false"/>
         </manifest>
     </android>

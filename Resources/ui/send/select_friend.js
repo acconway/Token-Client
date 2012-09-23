@@ -71,8 +71,8 @@ var cfg = {
 	images : {
 		friend : {
 			left : 10,
-			width : 50,
-			height : 50
+			width : 48,
+			height : 48
 		},
 		addNew : {
 			right : 10,
