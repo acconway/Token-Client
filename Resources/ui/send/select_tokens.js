@@ -77,33 +77,22 @@ var ti = {
 	}
 };
 
-var closeWindows = function() {
-	App.UI.Send.SelectFriend.getWin().close(); 
-	App.UI.Send.SelectFriend.FacebookFriendList.getWin().close(); 
-	App.UI.Send.SelectAction.getWin().close();
-	ti.win.close(); 
-};
-
 var addEventListeners = function() {
 
 	ti.buttons.send.addEventListener("click", function() {
-
+		if(App.API.Transactions.getTransactionInProcess()){
+			return;
+		}
 		if (ti.slider.getValue() == 0) {
 			alert("Please select a number of tokens");
 			return;
 		}
-
 		var now = new Date();
+		App.UI.showWait("Sending Tokens...");
 		if (friend.newFriend) {
 			App.UI.Friends.addFriend(friend, true);
 		}
 		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime(),friend.name);
-		if (App.ANDROID) {
-			closeWindows(); 
-		} else {
-			App.UI.Send.close();
-		}
-		App.UI.showWait("Sending Tokens...");
 	});
 
 };
@@ -143,6 +132,10 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
+};
+
+exports.getWin = function(){
+	return ti.win; 
 };
 
 exports.open = function(_friend, _action) {

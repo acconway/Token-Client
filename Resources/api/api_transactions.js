@@ -1,9 +1,21 @@
 var App;
 
+var transactionInProcess = false;
+
+exports.getTransactionInProcess = function() {
+	return transactionInProcess;
+};
+
 var addTransactionHandleError = function(error, params) {
 	//Handle Error
 	App.LOG(JSON.stringify(error));
 	App.UI.hideWait();
+	if (App.ANDROID) {
+		App.UI.Send.closeWindows();
+	} else {
+		App.UI.Send.close();
+	}
+	transactionInProcess = false;
 	alert("Failed to send tokens! Please try again!");
 };
 
@@ -13,7 +25,13 @@ var addTransactionHandleSuccess = function(response, params) {
 	App.Models.User.setByName("lastTransactionTime", (params.data.time).toString());
 	App.UI.Friends.Detail.update();
 	App.Models.User.save();
+	transactionInProcess = false;
 	App.UI.hideWait();
+	if (App.ANDROID) {
+		App.UI.Send.closeWindows();
+	} else {
+		App.UI.Send.close();
+	}
 	alert("Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name);
 };
 
@@ -22,6 +40,8 @@ var afterAddTransaction = function(response, params) {
 };
 
 exports.addTransaction = function(recipientID, actionName, tokenValue, time, name) {
+
+	transactionInProcess = true;
 
 	var userID = App.Models.User.getMyID();
 
@@ -89,7 +109,7 @@ var afterSyncTransactions = function(response, params) {
 
 exports.syncTransactions = function(lastTransaction, afterRefresh) {
 
-	var userID = App.Models.User.getMyID();	
+	var userID = App.Models.User.getMyID();
 
 	if (lastTransaction >= 0) {
 
@@ -106,9 +126,9 @@ exports.syncTransactions = function(lastTransaction, afterRefresh) {
 			afterRefresh : afterRefresh
 		});
 
-	}else{
+	} else {
 		afterRefresh();
-		App.UI.hideWait(); 
+		App.UI.hideWait();
 	}
 };
 

@@ -201,7 +201,5 @@ exports.addPicture = function(index) {
 exports.open = function() {
 	App.UI.Send.openWindow(ti.win);
 	App.Lib.Facebook.getPics(0, App.Models.User.getByName("friendsList"));
-	App.UI.showWait("Loading Friends list...")
 	updateTable();
-	App.UI.hideWait();
 };

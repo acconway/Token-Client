@@ -192,7 +192,7 @@ var buildHierarchy = function() {
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
-		ti.titleBar.rightNavButton.title = "logout";
+		ti.titleBar.rightNavButton.title = "Logout";
 
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
 			App.logout();

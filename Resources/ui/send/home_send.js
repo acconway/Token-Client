@@ -6,6 +6,9 @@ exports.SelectFriend = SelectFriend;
 var SelectAction = require("ui/send/select_action");
 exports.SelectAction = SelectAction;
 
+var SelectTokens = require("ui/send/select_tokens");
+exports.SelectTokens = SelectTokens; 
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
@@ -46,6 +49,7 @@ exports.initialize = function(app) {
 
 	SelectFriend.initialize(app);
 	SelectAction.initialize(app);
+	SelectTokens.initialize(app);
 
 	App = app;
 	buildHierarchy();
@@ -64,6 +68,14 @@ exports.open = function(friends) {
 
 exports.close = function() {
 	ti.win.close();
+};
+
+
+exports.closeWindows = function() {
+	SelectFriend.getWin().close(); 
+	SelectFriend.FacebookFriendList.getWin().close(); 
+	SelectAction.getWin().close();
+	SelectTokens.getWin().close(); 
 };
 
 exports.openWindow = function(window) {

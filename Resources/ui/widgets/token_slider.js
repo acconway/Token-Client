@@ -24,18 +24,18 @@ var cfg = {
 		prompt : {
 			width : 80,
 			height : 20,
-			color:"black",
+			color : "black",
 			text : "Last time: "
 		},
 		promptValue : {
 			left : 10,
-			color:"black",
+			color : "black",
 			width : 30,
 			height : 20
 		},
 		value : {
 			top : 10,
-			color:"black",
+			color : "black",
 			width : "auto",
 			height : 20,
 			text : "1"
@@ -85,7 +85,22 @@ exports.create = function() {
 			value = 1;
 		}
 
-		ti.slider.value = Math.min(value, max);
+		ti.self.remove(ti.slider);
+
+		ti.slider = Ti.UI.createSlider({
+			top : 10,
+			min : 0,
+			max : Math.min(3, max),
+			width : "80%",
+			value : Math.min(value, max)
+		});
+
+		ti.slider.addEventListener('change', function(e) {
+			ti.labels.value.text = Math.floor(e.value);
+		});
+
+		ti.self.add(ti.slider);
+
 		ti.labels.value.text = value;
 
 		if (selectedAction) {
@@ -94,8 +109,6 @@ exports.create = function() {
 		} else {
 			ti.views.prompt.visible = false;
 		}
-
-		ti.slider.max = Math.min(3,max);
 
 	};
 

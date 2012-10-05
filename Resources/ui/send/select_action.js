@@ -2,8 +2,6 @@ var App, actions = [], rowData = [];
 
 var friend;
 
-var SelectTokens = require("ui/send/select_tokens");
-
 var NewAction = require("ui/widgets/new_action");
 
 var cfg = {
@@ -125,7 +123,7 @@ var addEventListeners = function() {
 
 		var data = App.ANDROID ? e.source : e.rowData;
 		if (data.action) {
-			SelectTokens.open(friend, data.action);
+			App.UI.Send.SelectTokens.open(friend, data.action);
 		}
 	});
 
@@ -186,7 +184,7 @@ var afterCreateNewAction = function(name) {
 	if (hasAction(name)) {
 		alert("You already have an action named " + name);
 	} else {
-		SelectTokens.open(friend, {
+		App.UI.Send.SelectTokens.open(friend, {
 			name : name,
 			lastValue : 0
 		});
@@ -233,8 +231,6 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
-
-	SelectTokens.initialize(App);
 };
 
 exports.open = function(_friend) {
