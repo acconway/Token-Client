@@ -3,8 +3,8 @@ var App;
 var addTransactionHandleError = function(error, params) {
 	//Handle Error
 	App.LOG(JSON.stringify(error));
-	App.UI.hideWait(); 
-	alert("Failed to send tokens! Please try again!"); 
+	App.UI.hideWait();
+	alert("Failed to send tokens! Please try again!");
 };
 
 var addTransactionHandleSuccess = function(response, params) {
@@ -13,15 +13,15 @@ var addTransactionHandleSuccess = function(response, params) {
 	App.Models.User.setByName("lastTransactionTime", (params.data.time).toString());
 	App.UI.Friends.Detail.update();
 	App.Models.User.save();
-	App.UI.hideWait(); 
-	alert("Sent "+params.data.tokenValue+" Token" + (params.data.tokenValue > 1 ? "s" : "") + " To "+params.name); 
+	App.UI.hideWait();
+	alert("Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name);
 };
 
 var afterAddTransaction = function(response, params) {
 	App.API.handleResponse("addTransaction", response, params, addTransactionHandleError, addTransactionHandleSuccess);
 };
 
-exports.addTransaction = function(recipientID, actionName, tokenValue, time,name) {
+exports.addTransaction = function(recipientID, actionName, tokenValue, time, name) {
 
 	var userID = App.Models.User.getMyID();
 
@@ -36,7 +36,7 @@ exports.addTransaction = function(recipientID, actionName, tokenValue, time,name
 		method : "POST",
 		path : "/user/" + userID + "/addTransaction",
 		data : payload,
-		name:name,
+		name : name,
 		callback : afterAddTransaction
 	});
 };
@@ -54,13 +54,13 @@ var syncTransactionsHandleSuccess = function(response, params) {
 	var transactions = response.data.newTransactions;
 
 	if (transactions.length > 0) {
-		
+
 		transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
-		
-		App.Models.User.setByName("lastTransactionTime",transactions[0].time);
-		
-		App.Models.User.save(); 
-		
+
+		App.Models.User.setByName("lastTransactionTime", transactions[0].time);
+
+		App.Models.User.save();
+
 		App.Models.User.save();
 
 		App.Models.Transactions.loadNewTransactions(transactions);
@@ -68,7 +68,7 @@ var syncTransactionsHandleSuccess = function(response, params) {
 		App.UI.Friends.updateTable();
 
 		App.UI.Notifications.updateTable();
-		
+
 		App.UI.User.updateTable();
 
 		App.UI.Friends.Detail.update();
@@ -89,20 +89,27 @@ var afterSyncTransactions = function(response, params) {
 
 exports.syncTransactions = function(lastTransaction, afterRefresh) {
 
-	var userID = App.Models.User.getMyID();
+	var userID = App.Models.User.getMyID();	
 
-	var payload = {
-		lastTransaction : lastTransaction.toString()
-	};
+	if (lastTransaction >= 0) {
 
-	App.API.send({
-		method : "POST",
-		//path : "/user/" + userID + "/syncTransactions",
-		path:"/syncAllTransactions",
-		data : payload,
-		callback : afterSyncTransactions,
-		afterRefresh : afterRefresh
-	});
+		var payload = {
+			lastTransaction : lastTransaction.toString()
+		};
+
+		App.API.send({
+			method : "POST",
+			//path : "/user/" + userID + "/syncTransactions",
+			path : "/syncAllTransactions",
+			data : payload,
+			callback : afterSyncTransactions,
+			afterRefresh : afterRefresh
+		});
+
+	}else{
+		afterRefresh();
+		App.UI.hideWait(); 
+	}
 };
 
 exports.initialize = function(app) {

@@ -239,7 +239,11 @@ exports.addRow = function(transaction) {
 		rowData.splice(0,0,buildNotificationRow(transaction, friendLookupTable));
 		ti.table.setData(rowData);
 	}else{
-		ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+		if(rowData.length>0){
+			ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+		}else{
+			ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
+		}
 	}
 
 };

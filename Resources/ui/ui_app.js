@@ -180,7 +180,6 @@ exports.showWait = function(message) {
 			ti.waitWindow.open();
 			ti.activityIndicator.visible = true;
 		} else {
-			ti.activityIndicator.visible = true;
 			ti.activityIndicator.show();
 		}
 		waitOpen = true;

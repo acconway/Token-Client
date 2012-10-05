@@ -17,9 +17,13 @@ var DB = Lib.Joli.connect('token');
 var Models = require('cfg/cfg_models');
 var API = require('api/api_app');
 
+
 var CONSTANTS = {
 	TOTALPOINTS : 10,
+	//Production
 	URL:"http://tokenservice.herokuapp.com"
+	//Testing
+	//URL:"http://localhost:5000"
 };
 
 var logLevel = 1; 

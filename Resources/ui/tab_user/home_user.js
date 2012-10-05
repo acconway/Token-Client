@@ -197,9 +197,8 @@ var buildHierarchy = function() {
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
 			App.logout();
 		});
-	
-		ti.titleBar.rightNavButton.visible = true; 
 
+		ti.titleBar.rightNavButton.visible = true;
 
 		ti.win.add(ti.titleBar);
 
@@ -208,8 +207,8 @@ var buildHierarchy = function() {
 		cfg.views.row.selectedBackgroundColor = 'white';
 
 		ti.table.top = 0;
-		
-		ti.win.rightNavButton = ti.buttons.logout; 
+
+		ti.win.rightNavButton = ti.buttons.logout;
 
 	}
 
@@ -230,13 +229,13 @@ exports.initialize = function(app) {
 };
 
 var updateTable = exports.updateTable = function() {
-	
+
 	var myID = App.Models.User.getMyID();
 
 	transactions = App.Models.Transactions.all();
-	
-	transactions = App._.filter(transactions,function(transaction){
-		return (transaction.senderID == myID || transaction.recipientID == myID); 
+
+	transactions = App._.filter(transactions, function(transaction) {
+		return (transaction.senderID == myID || transaction.recipientID == myID);
 	});
 
 	transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
@@ -253,7 +252,11 @@ exports.addRow = function(transaction) {
 		rowData.splice(0, 0, buildNotificationRow(transaction, friendLookupTable));
 		ti.table.setData(rowData);
 	} else {
-		ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+		if (rowData.length > 0) {
+			ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
+		} else {
+			ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
+		}
 	}
 
 };

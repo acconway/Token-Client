@@ -18,7 +18,7 @@ var cfg = {
 	table : {
 		top : 0,
 		minRowHeight : 50,
-		filterAttribute : 'sortName'
+		filterAttribute : 'title'
 	},
 	labels : {
 		friend : {
@@ -71,11 +71,15 @@ var addEventListeners = function() {
 
 var addRow = function(friend) {
 
-	var row = Ti.UI.createTableViewRow(cfg.views.row);
+	var row = Ti.UI.createTableViewRow({
+		backgroundColor : "white",
+		className : "row",
+		title:friend.name
+	});
 
 	row.friend = friend;
 
-	row.sortName = friend.name;
+	//row.sortName = friend.name;
 
 	indexCounter++;
 
@@ -88,26 +92,29 @@ var addRow = function(friend) {
 		row.header = indexHeader;
 	}
 
-	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = friend.name;
+	//row.label = Ti.UI.createLabel(cfg.labels.friend);
+	//row.label.text = friend.name;
 
-	if (!App.ANDROID) {
+	//if (!App.ANDROID) {
 
-		var image = Ti.UI.createImageView(cfg.images.friend);
+		//var image = Ti.UI.createImageView(cfg.images.friend);
 
-		row.image = image;
+		//row.image = image;
 
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
 
 		if (file.exists()) {
-			image.image = file.nativePath;
+		//	image.image = file.nativePath;
+		row.leftImage = file.nativePath; 
 		}
+		
+		row.leftImage = file.nativePath; 
 
-		row.add(image);
+		//row.add(image);
 
-	}
+	//}
 
-	row.add(row.label);
+	//row.add(row.label);
 
 	return row;
 
@@ -125,9 +132,7 @@ var updateTable = exports.updateTable = function() {
 	ti.win.remove(ti.table);
 	ti.table = Ti.UI.createTableView(cfg.table);
 	ti.search = Ti.UI.createSearchBar(cfg.search);
-	if (!App.ANDROID) {
-		ti.table.search = ti.search;
-	}
+	ti.table.search = ti.search;
 	addEventListeners();
 	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);
@@ -187,7 +192,7 @@ exports.addPicture = function(index) {
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.id + ".png");
 
 		if (file.exists()) {
-			row.image.image = file;
+			row.leftImage = file.nativePath;
 		}
 
 	}
@@ -196,5 +201,7 @@ exports.addPicture = function(index) {
 exports.open = function() {
 	App.UI.Send.openWindow(ti.win);
 	App.Lib.Facebook.getPics(0, App.Models.User.getByName("friendsList"));
+	App.UI.showWait("Loading Friends list...")
 	updateTable();
+	App.UI.hideWait();
 };

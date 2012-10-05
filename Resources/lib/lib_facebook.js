@@ -1,5 +1,7 @@
 Ti.Facebook.appid = "224818800979354";
-Ti.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
+Ti.Facebook.permissions = ['offline_access'];
+
+Titanium.Facebook.forceDialogAuth = false;
 
 var App, userData, profilePicture, friendsList = [], listErrorCounter = 0;
 
@@ -172,7 +174,8 @@ exports.afterLogin = function() {
 
 };
 
-Ti.Facebook.addEventListener("login", function() {
-	Ti.API.info("Login");
-	App.login();
+Ti.Facebook.addEventListener("login", function(e) {
+	if (e.success) {
+		App.login();
+	}
 });
