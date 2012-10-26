@@ -34,6 +34,10 @@ exports.createNotificationMessage = function(transaction) {
 
 };
 
+exports.removeWhitespace = function(string){
+	return string.replace(/\s+/g, '');
+};
+
 exports.isJSON = function(string) {
 	try {
 		JSON.parse(string);

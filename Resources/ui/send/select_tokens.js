@@ -12,51 +12,90 @@ var cfg = {
 	},
 	views : {
 		transaction : {
-			height : 60,
-			width : 200,
-			top : 10,
+			height : 50,
+			width : "90%",
+			top : 15,
 			borderColor : "black",
 			borderWidth : 1,
-			layout : "vertical"
+			borderRadius : 10
 		}
 	},
 	labels : {
 		friendName : {
-			top : 5,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			color : "black",
+			left : 60,
 			font : {
 				fontSize : 18,
+				fontWeight : "light"
+			}
+		},
+		to : {
+			left : 10,
+			top : 15,
+			text : "To:",
+			color : "black",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
+		},
+		forLabel : {
+			left : 10,
+			top : 15,
+			text : "For:",
+			color : "black",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
 				fontWeight : "bold"
 			}
 		},
 		actionName : {
-			top : 5,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			color : "black",
+			left : 10,
 			font : {
-				fontSize : 16,
+				fontSize : 18,
 				fontWeight : "light"
 			}
 		},
-		title : {
-			top : 40,
-			text : "Select amount of tokens",
+		tokens : {
+			top : 15,
+			left : 10,
+			text : "Tokens:",
 			color : "black",
 			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
 		},
 	},
 	buttons : {
 		send : {
-			top : 0,
+			top : 20,
 			title : "Send",
 			font : {
 				fontSize : 20
 			},
-			width : 200,
+			borderRadius:10,
+			borderColor:"black",
+			width : "90%",
+			height : 40,
+			color:"black"
+		}
+	},
+	images : {
+		profilePic : {
+			left : 10,
+			width : 40,
 			height : 40
 		}
 	}
@@ -65,22 +104,28 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
-		transaction : Ti.UI.createView(cfg.views.transaction)
+		toView : Ti.UI.createView(cfg.views.transaction),
+		forView : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
+		to : Ti.UI.createLabel(cfg.labels.to),
+		forLabel : Ti.UI.createLabel(cfg.labels.forLabel),
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		actionName : Ti.UI.createLabel(cfg.labels.actionName),
-		title : Ti.UI.createLabel(cfg.labels.title)
+		tokens : Ti.UI.createLabel(cfg.labels.tokens)
 	},
 	buttons : {
 		send : Ti.UI.createButton(cfg.buttons.send)
+	},
+	images : {
+		profilePic : Ti.UI.createImageView(cfg.images.profilePic)
 	}
 };
 
 var addEventListeners = function() {
 
 	ti.buttons.send.addEventListener("click", function() {
-		if(App.API.Transactions.getTransactionInProcess()){
+		if (App.API.Transactions.getTransactionInProcess()) {
 			return;
 		}
 		if (ti.slider.getValue() == 0) {
@@ -92,12 +137,35 @@ var addEventListeners = function() {
 		if (friend.newFriend) {
 			App.UI.Friends.addFriend(friend, true);
 		}
-		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime(),friend.name);
+		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime(), friend.name);
 	});
 
 };
 
+var buildToView = function() {
+	
+	ti.win.add(ti.labels.to);
+
+	ti.views.toView.add(ti.labels.friendName);
+
+	ti.views.toView.add(ti.images.profilePic);
+
+	ti.win.add(ti.views.toView);
+
+};
+
+var buildForView = function() {
+	
+	ti.win.add(ti.labels.forLabel);
+
+	ti.views.forView.add(ti.labels.actionName);
+
+	ti.win.add(ti.views.forView);
+
+};
+
 var buildHierarchy = function() {
+
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
@@ -110,13 +178,11 @@ var buildHierarchy = function() {
 
 	}
 
-	ti.views.transaction.add(ti.labels.friendName);
+	buildToView();
 
-	ti.views.transaction.add(ti.labels.actionName);
+	buildForView();
 
-	ti.win.add(ti.views.transaction);
-
-	ti.win.add(ti.labels.title);
+	ti.win.add(ti.labels.tokens);
 
 	ti.slider = TokenSlider.create()
 
@@ -134,8 +200,8 @@ exports.initialize = function(app) {
 	addEventListeners();
 };
 
-exports.getWin = function(){
-	return ti.win; 
+exports.getWin = function() {
+	return ti.win;
 };
 
 exports.open = function(_friend, _action) {
@@ -145,5 +211,11 @@ exports.open = function(_friend, _action) {
 	ti.labels.friendName.text = friend.name;
 	ti.labels.actionName.text = action.name;
 	ti.slider.update(action.lastValue == 0 ? 1 : action.lastValue, balance, action.lastValue == 0 ? false : true);
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+	if (file.exists()) {
+		ti.images.profilePic.image = file;
+	}
+
 	App.UI.Send.openWindow(ti.win);
 };

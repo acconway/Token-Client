@@ -19,16 +19,17 @@ var cfg = {
 		},
 		transaction : {
 			height : 50,
-			width : 200,
-			top : 10,
+			width : "90%",
+			top : 15,
 			borderColor : "black",
-			borderWidth : 1
+			borderWidth : 1,
+			borderRadius : 10
 		},
 		row : {
 			hasChild : true
 		},
 		addNew : {
-			top : 20,
+			top : 15,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
@@ -38,10 +39,10 @@ var cfg = {
 		}
 	},
 	table : {
-		top : 10,
+		top : 15,
 		minRowHeight : 50,
 		width : "90%",
-		height : 225,
+		height : 175,
 		borderWidth : 1,
 		borderColor : "black",
 		borderRadius : 10
@@ -51,22 +52,39 @@ var cfg = {
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			color : "black",
+			left : 60,
 			font : {
 				fontSize : 18,
+				fontWeight : "light"
+			}
+		},
+		to : {
+			left : 10,
+			top : 15,
+			text : "To:",
+			color : "black",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
 				fontWeight : "bold"
 			}
 		},
 		title : {
 			left : 10,
-			top : 10,
-			text : "Select an action",
+			top : 15,
+			text : "For:",
 			color : "black",
 			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
 		},
 		action : {
 			font : {
-				fontSize : 16,
+				fontSize : 18,
 				fontWeight : 'light'
 			},
 			left : 10,
@@ -76,8 +94,8 @@ var cfg = {
 		},
 		addNewFriend : {
 			font : {
-				fontSize : 16,
-				fontWeight : 'bold'
+				fontSize : 18,
+				fontWeight : 'light'
 			},
 			left : 10,
 			height : Ti.UI.SIZE,
@@ -93,6 +111,11 @@ var cfg = {
 			width : 22,
 			height : 22,
 			image : "/images/icons/plus.png"
+		},
+		profilePic : {
+			left : 10,
+			width : 40,
+			height : 40
 		}
 	}
 };
@@ -105,13 +128,15 @@ var ti = {
 		transaction : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
+		to : Ti.UI.createLabel(cfg.labels.to),
 		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		title : Ti.UI.createLabel(cfg.labels.title),
 		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend)
 	},
 	buttons : {},
 	images : {
-		addNew : Ti.UI.createImageView(cfg.images.addNew)
+		addNew : Ti.UI.createImageView(cfg.images.addNew),
+		profilePic : Ti.UI.createImageView(cfg.images.profilePic)
 	}
 };
 
@@ -167,11 +192,18 @@ var buildRows = function() {
 };
 
 var updateTable = exports.updateTable = function() {
+
 	actions = App.Models.Transactions.getAllActions(friend.userID);
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
 	ti.table.setData(rowData);
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+
+	if (file.exists()) {
+		ti.images.profilePic.image = file;
+	}
 };
 
 var hasAction = function(name) {
@@ -191,6 +223,16 @@ var afterCreateNewAction = function(name) {
 	}
 };
 
+var buildToView = function() {
+
+	ti.views.transaction.add(ti.labels.friendName);
+
+	ti.views.transaction.add(ti.images.profilePic);
+
+	ti.views.main.add(ti.views.transaction);
+
+};
+
 var buildHierarchy = function() {
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
@@ -206,16 +248,16 @@ var buildHierarchy = function() {
 
 	}
 
-	ti.views.transaction.add(ti.labels.friendName);
+	ti.views.main.add(ti.labels.to);
 
-	ti.views.main.add(ti.views.transaction);
+	buildToView();
 
 	ti.views.main.add(ti.labels.title);
 
 	ti.views.main.add(ti.table);
-	
+
 	buildAddNewRow();
-	
+
 	ti.views.main.add(ti.views.addNew);
 
 	ti.win.backButtonTitle = "Back";
@@ -229,6 +271,8 @@ var buildHierarchy = function() {
 
 exports.initialize = function(app) {
 	App = app;
+	NewAction.initialize(app);
+
 	buildHierarchy();
 	addEventListeners();
 };

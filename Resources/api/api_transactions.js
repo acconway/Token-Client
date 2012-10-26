@@ -81,8 +81,6 @@ var syncTransactionsHandleSuccess = function(response, params) {
 
 		App.Models.User.save();
 
-		App.Models.User.save();
-
 		App.Models.Transactions.loadNewTransactions(transactions);
 
 		App.UI.Friends.updateTable();

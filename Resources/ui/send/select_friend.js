@@ -17,7 +17,7 @@ var cfg = {
 			hasChild : true
 		},
 		addNew : {
-			top : 20,
+			top : 15,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
@@ -27,7 +27,7 @@ var cfg = {
 		}
 	},
 	table : {
-		top : 10,
+		top : 15,
 		minRowHeight : 50,
 		width : "90%",
 		height : 280,
@@ -39,16 +39,20 @@ var cfg = {
 	labels : {
 		title : {
 			left : 10,
-			top : 10,
-			text : "Select a friend",
+			top : 15,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			},
+			text : "To:",
 			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE
 		},
 		friend : {
 			font : {
-				fontSize : 16,
-				fontWeight : 'light'
+				fontSize : 18,
+				fontWeight : "light"
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
@@ -58,8 +62,8 @@ var cfg = {
 		},
 		addNewFriend : {
 			font : {
-				fontSize : 16,
-				fontWeight : 'bold'
+				fontSize : 18,
+				fontWeight : "light"
 			},
 			left : 10,
 			height : Ti.UI.SIZE,

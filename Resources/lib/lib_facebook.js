@@ -7,13 +7,20 @@ var App, userData, profilePicture, friendsList = [], listErrorCounter = 0;
 
 var gettingPics = false;
 
+var loginAfterAPICall = function() {
+	if (App.Models.User.userDataSet()) {
+		App.API.User.login();
+	}
+}
 var getMyProfilePic = function() {
 
 	var httpClient = Ti.Network.createHTTPClient();
 
 	httpClient.onload = function(e) {
 		var file = Ti.Filesystem.createTempFile(Ti.Filesystem.resourcesDirectory);
-		file.write(this.responseData);
+		if (file) {
+			file.write(this.responseData);
+		}
 		profilePicture = file;
 	};
 	httpClient.onerror = function(e) {
@@ -33,7 +40,7 @@ var afterGetUserData = function(eventData) {
 		App.Models.User.setByName("user", userData);
 		App.Models.User.save();
 		getMyProfilePic();
-		App.API.User.login();
+		loginAfterAPICall();
 	}
 
 };
@@ -60,6 +67,8 @@ var afterRequestFriendsList = function(eventData) {
 		App.Models.User.save();
 
 		getPics(0, friendsList.sort(App.Lib.Functions.sortFriends));
+
+		loginAfterAPICall();
 
 	} else {
 		listErrorCounter += 1;
@@ -142,7 +151,7 @@ var getPics = exports.getPics = function(index, friendsList) {
 
 				httpClient.onerror = function(e) {
 					Ti.API.info("Problem Connecting to Facebook");
-					getPics(index);
+					getPics(index, friendsList);
 				};
 
 				Ti.API.info("Sending request to  " + "https://graph.facebook.com/" + friendsList[index].id + "/picture");

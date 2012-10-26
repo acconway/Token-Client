@@ -2,9 +2,12 @@ var cfg = {
 	views : {
 		main : {
 			top : 20,
-			width : "80%",
-			height : 160,
+			width : "90%",
+			height : 80,
 			backgroundColor : "white",
+			borderColor:"black",
+			borderWidth:1, 
+			borderRadius:10,
 			layout : "vertical"
 		},
 		prompt : {
@@ -34,15 +37,19 @@ var cfg = {
 			height : 20
 		},
 		value : {
-			top : 10,
+			top : 15,
 			color : "black",
 			width : "auto",
 			height : 20,
-			text : "1"
+			text : "1",
+			font : {
+				fontSize : 18,
+				fontWeight : "light"
+			}
 		}
 	},
 	slider : {
-		top : 10,
+		top : 15,
 		min : 0,
 		max : 10,
 		width : "80%",
@@ -69,7 +76,7 @@ exports.create = function() {
 	ti.views.prompt.add(ti.labels.prompt);
 	ti.views.prompt.add(ti.labels.promptValue);
 
-	ti.self.add(ti.views.prompt);
+	//ti.self.add(ti.views.prompt);
 
 	ti.self.add(ti.labels.value);
 

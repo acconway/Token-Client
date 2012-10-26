@@ -5,11 +5,12 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.014219 seconds on emulator to get ready
+[DEBUG] waited 0.013981 seconds on emulator to get ready
 [DEBUG] com.sccs.token installed? False
 [INFO] Copying CommonJS modules...
 [INFO] Copying project resources..
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/widgets/token_slider.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/widgets/token_slider.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/select_action.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/select_action.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/widgets/new_action.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/widgets/new_action.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
 [DEBUG] found special platform files dir = /Users/alexanderconway/Documents/Token/Token-Client/platform/android
@@ -144,6 +145,6 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.014610 seconds on emulator to get ready
+[DEBUG] waited 0.014339 seconds on emulator to get ready
 [INFO] Installing application on device
 [INFO] Application installed. Launch from drawer on Home Screen
