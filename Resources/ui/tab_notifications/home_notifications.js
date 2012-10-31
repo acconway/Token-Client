@@ -102,7 +102,7 @@ var cfg = {
 			backgroundImage : "/images/icons/refresh@2x.png",
 			width : 30,
 			height : 30,
-			right : 105
+			left:30
 		}
 	}
 };
@@ -186,6 +186,11 @@ var buildHierarchy = function() {
 		ti.titleBar.rightNavButton.visible = true;
 
 		var refreshButton = Ti.UI.createButton(cfg.buttons.refresh);
+		
+		refreshButton.backgroundColor = "gray";
+		refreshButton.borderColor = "black";
+		refreshButton.borderWidth = 1; 
+		refreshButton.borderRadius = 5; 
 
 		refreshButton.addEventListener("click", function() {
 			refresh();

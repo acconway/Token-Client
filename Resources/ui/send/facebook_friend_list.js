@@ -6,7 +6,9 @@ var indexHeader = "0", tableIndex = [], indexCounter = 0
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Friends List"//,
+		title : "Friends List",
+		barColor:"6b8a8c",
+		backgroundColor:"#DBDBDB"//,
 		//modal : true
 	},
 	views : {
@@ -36,13 +38,13 @@ var cfg = {
 	images : {
 		friend : {
 			left : 10,
-			width : 48,
-			height : 48
+			width : 40,
+			height : 40
 		}
 	},
 	buttons : {},
 	search : {
-		barColor : '#385292',
+		barColor : "6b8a8c",
 		showCancel : false,
 		hintText : 'search'
 	}
@@ -74,7 +76,7 @@ var addRow = function(friend) {
 	var row = Ti.UI.createTableViewRow({
 		backgroundColor : "white",
 		className : "row",
-		title:friend.name
+		title : friend.name
 	});
 
 	row.friend = friend;
@@ -97,20 +99,20 @@ var addRow = function(friend) {
 
 	//if (!App.ANDROID) {
 
-		//var image = Ti.UI.createImageView(cfg.images.friend);
+	//var image = Ti.UI.createImageView(cfg.images.friend);
 
-		//row.image = image;
+	//row.image = image;
 
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.id + ".png");
 
-		if (file.exists()) {
+	if (file.exists()) {
 		//	image.image = file.nativePath;
-		row.leftImage = file.nativePath; 
-		}
-		
-		row.leftImage = file.nativePath; 
+		row.leftImage = file.nativePath;
+	}
 
-		//row.add(image);
+	row.leftImage = file.nativePath;
+
+	//row.add(image);
 
 	//}
 
@@ -132,7 +134,9 @@ var updateTable = exports.updateTable = function() {
 	ti.win.remove(ti.table);
 	ti.table = Ti.UI.createTableView(cfg.table);
 	ti.search = Ti.UI.createSearchBar(cfg.search);
-	ti.table.search = ti.search;
+	if (!App.ANDROID) {
+		ti.table.search = ti.search;
+	}
 	addEventListeners();
 	friends = App.Models.User.getFriendsList();
 	friends.sort(App.Lib.Functions.sortFriends);

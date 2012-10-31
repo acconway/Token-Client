@@ -8,16 +8,26 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Token",
+		barColor:"6b8a8c",
+		backgroundColor:"#DBDBDB",
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {
 		row : {
 			backgroundColor : "white",
-			hasChild : true
+			hasChild : true,
+			selectedBackgroundColor : "#a4b5ac"
 		}
 	},
 	table : {
-		minRowHeight : 50
+		top:15,
+		minRowHeight : 50,
+		width : "90%",
+		height : Ti.UI.SIZE,
+		borderWidth : 1,
+		borderColor : "white",
+		backgroundColor : "white",
+		borderRadius : 2
 	},
 	labels : {
 		friend : {
@@ -34,9 +44,9 @@ var cfg = {
 	},
 	images : {
 		friend : {
-			left : 10,
-			width : 50,
-			height : 50
+			left : 5,
+			width : 40,
+			height : 40
 		}
 	}
 };
@@ -69,7 +79,7 @@ var addRow = function(friend) {
 	row.friend = friend;
 
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = friend.name;
+	row.label.text = App.Lib.Functions.getShortName(friend.name);
 
 	row.add(row.label);
 
@@ -115,7 +125,7 @@ var buildHierarchy = function() {
 
 	if (App.ANDROID) {
 
-		ti.table.top = 50;
+		ti.table.top = 65;
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
@@ -131,7 +141,7 @@ var buildHierarchy = function() {
 
 	} else {
 
-		ti.table.top = 0;
+		ti.table.top = 15;
 
 		ti.win.rightNavButton = App.UI.createSendTokensButton();
 

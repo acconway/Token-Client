@@ -7,7 +7,9 @@ var NewAction = require("ui/widgets/new_action");
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Send Tokens",
+		barColor : "6b8a8c",
+		backgroundColor : "#DBDBDB",
+		title : "Send Tokens"
 	},
 	views : {
 		main : {
@@ -17,59 +19,29 @@ var cfg = {
 			width : "100%",
 			backgroundColor : "transparent"
 		},
-		transaction : {
-			height : 50,
-			width : "90%",
-			top : 15,
-			borderColor : "black",
-			borderWidth : 1,
-			borderRadius : 10
-		},
 		row : {
-			hasChild : true
+			hasChild : true,
+			selectedBackgroundColor : "#a4b5ac"
 		},
 		addNew : {
 			top : 15,
 			height : 50,
-			width : "90%",
-			borderWidth : 1,
-			borderColor : "black",
-			borderRadius : 10,
-			backgroundColor : "white"
+			backgroundImage : 'none',
+			backgroundColor : "white",
+			width : "90%"
 		}
 	},
 	table : {
 		top : 15,
 		minRowHeight : 50,
 		width : "90%",
-		height : 175,
+		height : Ti.UI.SIZE,
 		borderWidth : 1,
-		borderColor : "black",
-		borderRadius : 10
+		borderColor : "white",
+		backgroundColor : "white",
+		borderRadius : 2
 	},
 	labels : {
-		friendName : {
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			color : "black",
-			left : 60,
-			font : {
-				fontSize : 18,
-				fontWeight : "light"
-			}
-		},
-		to : {
-			left : 10,
-			top : 15,
-			text : "To:",
-			color : "black",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			font : {
-				fontSize : 16,
-				fontWeight : "bold"
-			}
-		},
 		title : {
 			left : 10,
 			top : 15,
@@ -111,11 +83,6 @@ var cfg = {
 			width : 22,
 			height : 22,
 			image : "/images/icons/plus.png"
-		},
-		profilePic : {
-			left : 10,
-			width : 40,
-			height : 40
 		}
 	}
 };
@@ -125,18 +92,14 @@ var ti = {
 	table : Ti.UI.createTableView(cfg.table),
 	views : {
 		main : Ti.UI.createView(cfg.views.main),
-		transaction : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
-		to : Ti.UI.createLabel(cfg.labels.to),
-		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		title : Ti.UI.createLabel(cfg.labels.title),
 		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend)
 	},
 	buttons : {},
 	images : {
-		addNew : Ti.UI.createImageView(cfg.images.addNew),
-		profilePic : Ti.UI.createImageView(cfg.images.profilePic)
+		addNew : Ti.UI.createImageView(cfg.images.addNew)
 	}
 };
 
@@ -176,10 +139,19 @@ var addRow = function(action) {
 
 var buildAddNewRow = function() {
 
-	ti.views.addNew = App.ANDROID ? Ti.UI.createView(cfg.views.addNew) : Ti.UI.createButton(cfg.views.addNew);
+	ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
 
+	ti.views.addNew.backgroundColor = "white";
 	ti.views.addNew.add(ti.labels.addNew);
 	ti.views.addNew.add(ti.images.addNew);
+
+	ti.views.addNew.addEventListener("touchstart", function() {
+		ti.views.addNew.backgroundColor = "#a4b5ac";
+	});
+	
+	ti.views.addNew.addEventListener("touchend", function() {
+		ti.views.addNew.backgroundColor = "white";
+	});
 
 };
 
@@ -199,10 +171,22 @@ var updateTable = exports.updateTable = function() {
 	buildRows();
 	ti.table.setData(rowData);
 
+	if (rowData.length > 3) {
+		ti.table.height = 175;
+	} else {
+		ti.table.height = Ti.UI.SIZE;
+	}
+
+	if (rowData.length == 0) {
+		ti.views.addNew.top = 0;
+	} else {
+		ti.views.addNew.top = 15;
+	}
+
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
 
 	if (file.exists()) {
-		ti.images.profilePic.image = file;
+		ti.views.toView.profilePic.image = file;
 	}
 };
 
@@ -223,16 +207,6 @@ var afterCreateNewAction = function(name) {
 	}
 };
 
-var buildToView = function() {
-
-	ti.views.transaction.add(ti.labels.friendName);
-
-	ti.views.transaction.add(ti.images.profilePic);
-
-	ti.views.main.add(ti.views.transaction);
-
-};
-
 var buildHierarchy = function() {
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
@@ -248,9 +222,9 @@ var buildHierarchy = function() {
 
 	}
 
-	ti.views.main.add(ti.labels.to);
-
-	buildToView();
+	ti.views.toView = App.UI.createFriendRow("To");
+	
+	ti.views.main.add(ti.views.toView);
 
 	ti.views.main.add(ti.labels.title);
 
@@ -279,7 +253,7 @@ exports.initialize = function(app) {
 
 exports.open = function(_friend) {
 	friend = _friend;
-	ti.labels.friendName.text = friend.name;
+	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name);
 	updateTable();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);

@@ -8,41 +8,22 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Send Tokens",
+		barColor : "6b8a8c",
+		backgroundColor : "#DBDBDB",
 		layout : "vertical"
 	},
 	views : {
 		transaction : {
+			top:15, 
 			height : 50,
 			width : "90%",
-			top : 15,
-			borderColor : "black",
 			borderWidth : 1,
-			borderRadius : 10
+			borderColor : "white",
+			backgroundColor : "white",
+			borderRadius : 2
 		}
 	},
 	labels : {
-		friendName : {
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			color : "black",
-			left : 60,
-			font : {
-				fontSize : 18,
-				fontWeight : "light"
-			}
-		},
-		to : {
-			left : 10,
-			top : 15,
-			text : "To:",
-			color : "black",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			font : {
-				fontSize : 16,
-				fontWeight : "bold"
-			}
-		},
 		forLabel : {
 			left : 10,
 			top : 15,
@@ -85,41 +66,33 @@ var cfg = {
 			font : {
 				fontSize : 20
 			},
-			borderRadius:10,
-			borderColor:"black",
+			backgroundImage : "none",
+			borderWidth : 1,
+			borderColor : "white",
+			backgroundColor : "white",
+			borderRadius : 2,
 			width : "90%",
 			height : 40,
-			color:"black"
+			color : "black"
 		}
 	},
-	images : {
-		profilePic : {
-			left : 10,
-			width : 40,
-			height : 40
-		}
-	}
+	images : {}
 };
 
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
-		toView : Ti.UI.createView(cfg.views.transaction),
 		forView : Ti.UI.createView(cfg.views.transaction)
 	},
 	labels : {
-		to : Ti.UI.createLabel(cfg.labels.to),
 		forLabel : Ti.UI.createLabel(cfg.labels.forLabel),
-		friendName : Ti.UI.createLabel(cfg.labels.friendName),
 		actionName : Ti.UI.createLabel(cfg.labels.actionName),
 		tokens : Ti.UI.createLabel(cfg.labels.tokens)
 	},
 	buttons : {
 		send : Ti.UI.createButton(cfg.buttons.send)
 	},
-	images : {
-		profilePic : Ti.UI.createImageView(cfg.images.profilePic)
-	}
+	images : {}
 };
 
 var addEventListeners = function() {
@@ -140,22 +113,17 @@ var addEventListeners = function() {
 		App.API.Transactions.addTransaction(friend.userID, action.name, ti.slider.getValue(), now.getTime(), friend.name);
 	});
 
-};
-
-var buildToView = function() {
-	
-	ti.win.add(ti.labels.to);
-
-	ti.views.toView.add(ti.labels.friendName);
-
-	ti.views.toView.add(ti.images.profilePic);
-
-	ti.win.add(ti.views.toView);
+	ti.buttons.send.addEventListener("touchstart", function() {
+		ti.buttons.send.backgroundColor = "#a4b5ac";
+	});
+	ti.buttons.send.addEventListener("touchend", function() {
+		ti.buttons.send.backgroundColor = "white";
+	});
 
 };
 
 var buildForView = function() {
-	
+
 	ti.win.add(ti.labels.forLabel);
 
 	ti.views.forView.add(ti.labels.actionName);
@@ -178,7 +146,9 @@ var buildHierarchy = function() {
 
 	}
 
-	buildToView();
+	ti.views.toView = App.UI.createFriendRow("To");
+
+	ti.win.add(ti.views.toView);
 
 	buildForView();
 
@@ -208,14 +178,20 @@ exports.open = function(_friend, _action) {
 	friend = _friend;
 	action = _action;
 	balance = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID).myBalance;
-	ti.labels.friendName.text = friend.name;
+	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name);
 	ti.labels.actionName.text = action.name;
 	ti.slider.update(action.lastValue == 0 ? 1 : action.lastValue, balance, action.lastValue == 0 ? false : true);
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+
 	if (file.exists()) {
-		ti.images.profilePic.image = file;
+		ti.views.toView.profilePic.image = file;
 	}
 
 	App.UI.Send.openWindow(ti.win);
+
+	if (App.ANDROID) {
+		Ti.UI.Android.hideSoftKeyboard();
+	}
+
 };

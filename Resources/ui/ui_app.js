@@ -31,7 +31,7 @@ exports.Login = Login;
 exports.Friends = Friends;
 exports.Notifications = Notifications;
 exports.Send = Send;
-exports.User = User; 
+exports.User = User;
 
 var waitOpen = false;
 
@@ -74,10 +74,25 @@ var cfg = {
 			top : 0,
 			height : 50,
 			width : "100%",
-			backgroundColor : "gray",
+			backgroundColor : "#6B8A8C",
 			borderColor : "black",
 			borderWidth : 1
-		}
+		},
+		friendRowBackground:{
+			height:Ti.UI.SIZE,
+			width:"100%",
+			layout:"vertical",
+			backgroundColor:"transparent"
+		},
+		friendRow : {
+			top:15, 
+			height : 50,
+			width : "90%",
+			borderWidth : 1,
+			borderColor : "white",
+			backgroundColor : "white",
+			borderRadius : 2
+		},
 	},
 	labels : {
 		scrollToRefreshViewLabel : {
@@ -99,11 +114,34 @@ var cfg = {
 				fontSize : 16,
 				fontWeight : "bold"
 			},
-			color : "black"
+			color : "white"
+		},
+		friendName : {
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			color : "black",
+			left : 60,
+			font : {
+				fontSize : 18,
+				fontWeight : "light"
+			}
+		},
+		headerTitle : {
+			left : 10,
+			top : 15,
+			text : "To:",
+			color : "black",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			font : {
+				fontSize : 16,
+				fontWeight : "bold"
+			}
 		}
 	},
 	buttons : {
 		titleBar : {
+			top : 8,
 			height : 40,
 			width : 80,
 			visible : false
@@ -117,6 +155,13 @@ var cfg = {
 				fontWeight : "bold",
 				fontSize : 20
 			}
+		}
+	},
+	images : {
+		profilePic : {
+			left : 5,
+			width : 40,
+			height : 40
 		}
 	}
 };
@@ -166,6 +211,38 @@ var setupActivityIndicator = function() {
 		ti.waitWindow.add(ti.views.waitView);
 
 	}
+
+};
+
+exports.createFriendRow = function(title) {
+	
+	var background = Ti.UI.createView(cfg.views.friendRowBackground);
+	
+	var row = Ti.UI.createView(cfg.views.friendRow);
+
+	if(title){
+		var header = Ti.UI.createLabel(cfg.labels.headerTitle);
+		background.add(header);
+	}
+	
+	var profilePic = Ti.UI.createImageView(cfg.images.profilePic);
+	
+	row.add(profilePic);
+	
+	background.profilePic = profilePic; 
+	
+	var friend = Ti.UI.createLabel(cfg.labels.friendName);
+	
+	row.add(friend);
+	
+	background.label = friend; 
+	
+	background.add(row);
+	
+	return background; 
+};
+
+exports.createAddNewRow = function() {
 
 };
 
@@ -230,8 +307,8 @@ exports.createSendTokensButton = function() {
 	return button;
 };
 
-exports.createSendTokensActionsButton = function(){
-	
+exports.createSendTokensActionsButton = function() {
+
 	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	return button;

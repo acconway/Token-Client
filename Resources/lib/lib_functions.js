@@ -10,6 +10,11 @@ exports.getShortName = function(name) {
 	return shortName;
 };
 
+exports.getFirstName = function(name){
+	var array = name.split(" ");
+	return array[0];
+};
+
 var sort = exports.sort = function(string0, string1) {
 	if (string0 && string1) {
 		var name0 = string0.toLowerCase(), name1 = string1.toLowerCase();

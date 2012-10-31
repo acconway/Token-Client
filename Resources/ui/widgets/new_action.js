@@ -29,7 +29,7 @@ var cfg = {
 		},
 		buttons : {
 			top : 20,
-			height : 30,
+			height : ANDROID?50:30,
 			width : "90%"
 		}
 	},
@@ -39,6 +39,7 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			text : "Add new action",
 			top : 20,
+			color:"black",
 			font : {
 				fontSize : 16,
 				fontWeight : "bold"
@@ -56,26 +57,32 @@ var cfg = {
 				fontWeight : "light"
 			},
 			borderColor : "black",
-			softKeyboardOnFocus : Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS
+			softKeyboardOnFocus : ANDROID?Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS:""
 		}
 	},
 	buttons : {
 		close : {
-			width : 80,
-			height : 30,
+			width : ANDROID?100:80,
+			height : ANDROID?40:30,
 			left : 20,
 			borderRadius : 10,
 			borderColor : 'black',
+			font:{
+				fontWeight:'light'
+			},
 			color : "black",
 			title : "Close"
 		},
 		ok : {
-			width : 80,
-			height : 30,
+			width : ANDROID?100:80,
+			height : ANDROID?40:30,
 			right : 20,
 			borderRadius : 10,
 			borderColor : 'black',
 			color : "black",
+			font:{
+				fontWeight:'light'
+			},
 			title : "OK"
 		}
 	}
@@ -130,6 +137,10 @@ exports.create = function(callback) {
 
 	ti.window.add(ti.views.cover);
 	ti.window.add(ti.views.main);
+	
+	if(App.ANDROID){
+		ti.views.main.height = 200; 
+	}
 
 	ti.window.open = function() {
 

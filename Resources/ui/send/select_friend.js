@@ -8,33 +8,34 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Send Tokens",
+		barColor : "#6b8a8c",
 		layout : "vertical"
 	},
 	views : {
 		row : {
 			width : "100%",
 			height : 50,
+			selectedBackgroundColor : "#a4b5ac",
+			backgroundColor : "transparent",
 			hasChild : true
 		},
 		addNew : {
 			top : 15,
+			backgroundImage : 'none',
+			backgroundColor : "white",
 			height : 50,
-			width : "90%",
-			borderWidth : 1,
-			borderColor : "black",
-			borderRadius : 10,
-			backgroundColor : "white"
+			width : "90%"
 		}
 	},
 	table : {
 		top : 15,
 		minRowHeight : 50,
 		width : "90%",
-		height : 280,
+		height : Ti.UI.SIZE,
 		borderWidth : 1,
-		borderColor : "black",
+		borderColor : "white",
 		backgroundColor : "white",
-		borderRadius : 10
+		borderRadius : 2
 	},
 	labels : {
 		title : {
@@ -66,7 +67,8 @@ var cfg = {
 				fontWeight : "light"
 			},
 			left : 10,
-			height : Ti.UI.SIZE,
+			height : 30,
+			backgroundColor : "transparent",
 			width : Ti.UI.SIZE,
 			color : "black",
 			text : "Add New Friend"
@@ -74,13 +76,14 @@ var cfg = {
 	},
 	images : {
 		friend : {
-			left : 10,
-			width : 48,
-			height : 48
+			left : 5,
+			width : 40,
+			height : 40
 		},
 		addNew : {
 			right : 10,
 			width : 22,
+			backgroundImage : "none",
 			height : 22,
 			image : "/images/icons/plus.png"
 		}
@@ -119,6 +122,7 @@ var addEventListeners = function() {
 
 	ti.views.addNew.addEventListener("click", function(e) {
 		FacebookFriendList.open();
+		ti.views.addNew.backgroundColor = "white";
 	});
 
 	ti.buttons.close.addEventListener("click", function() {
@@ -134,7 +138,7 @@ var addRow = function(friend) {
 	row.friend = friend;
 
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = friend.name;
+	row.label.text = App.Lib.Functions.getShortName(friend.name);
 
 	row.add(row.label);
 
@@ -156,10 +160,18 @@ var addRow = function(friend) {
 
 var buildAddNew = function() {
 
-	ti.views.addNew = App.ANDROID ? Ti.UI.createView(cfg.views.addNew) : Ti.UI.createButton(cfg.views.addNew);
+	ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
 
 	ti.views.addNew.add(ti.labels.addNew);
 	ti.views.addNew.add(ti.images.addNew);
+
+	ti.views.addNew.addEventListener("touchstart", function() {
+		ti.views.addNew.backgroundColor = "#a4b5ac";
+	});
+	
+	ti.views.addNew.addEventListener("touchend", function() {
+		ti.views.addNew.backgroundColor = "white";
+	});
 
 };
 
@@ -175,17 +187,25 @@ var updateTable = exports.updateTable = function() {
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
+	if (rowData.length > 5) {
+		ti.table.height = 280;
+	}else{
+		ti.table.height = Ti.UI.SIZE;
+	}
 	ti.table.setData(rowData);
 };
 
 var buildHierarchy = function() {
+
+	ti.win.backgroundColor = "#DBDBDB";
+
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 
 		ti.win.navBarHidden = true;
 
-		ti.titleBar = App.UI.createAndroidTitleBar("Select Friend");
+		ti.titleBar = App.UI.createAndroidTitleBar("Send Tokens");
 
 		ti.win.add(ti.titleBar);
 

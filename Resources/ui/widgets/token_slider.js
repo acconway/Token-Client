@@ -5,9 +5,9 @@ var cfg = {
 			width : "90%",
 			height : 80,
 			backgroundColor : "white",
-			borderColor:"black",
-			borderWidth:1, 
-			borderRadius:10,
+			borderWidth : 1,
+			borderColor : "white",
+			borderRadius : 2,
 			layout : "vertical"
 		},
 		prompt : {
