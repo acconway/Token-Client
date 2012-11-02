@@ -54,11 +54,11 @@ var cfg = {
 			height : 19,
 			width : 0,
 			top : 11,
-			borderRadius:2,
+			borderRadius : 2,
 			left : 90,
 			backgroundColor : "lightgray",
-			borderColor:"black",
-			borderWidth:1
+			borderColor : "black",
+			borderWidth : 1
 		},
 		balanceLine : {
 			width : 1,
@@ -68,11 +68,11 @@ var cfg = {
 		balanceBar2 : {
 			height : 19,
 			width : 0,
-			borderRadius:2,
+			borderRadius : 2,
 			top : 46,
 			left : 90,
-			borderColor:"black",
-			borderWidth:1,
+			borderColor : "black",
+			borderWidth : 1,
 			backgroundColor : "lightgray"
 		},
 		historyTable : {
@@ -86,20 +86,13 @@ var cfg = {
 		},
 		historyRow : {
 			width : "100%",
-			height : 60,
+			height : 70,
 			touchEnabled : false
 		},
 		historyLabelView : {
 			width : 140,
 			height : 60,
 			right : 0
-		},
-		forView : {
-			width : 120,
-			height : 30,
-			top : 30,
-			left : 0,
-			layout : "horizontal"
 		}
 	},
 	labels : {
@@ -122,7 +115,11 @@ var cfg = {
 			height : 30,
 			color : "black",
 			width : 75,
-			ellipsize :true
+			ellipsize : true,
+			font : {
+				fontSize : 17,
+				fontWeight : "light"
+			}
 		},
 		historyTitle : {
 			left : 10,
@@ -138,41 +135,36 @@ var cfg = {
 			text : "Exchanges:"
 		},
 		historyDate : {
-			width : 80,
-			height : 70,
-			left : 10,
+			width : Ti.UI.SIZE,
+			height : 20,
+			right : 10,
+			top : 10,
 			color : "black",
 			font : {
-				fontSize : 14
+				fontSize : 17,
+				fontWeight : "light"
 			}
 		},
 		historyTokens : {
-			width : Ti.UI.SIZE,
-			height : 30,
-			left : 0,
-			top : 0,
+			width : 200,
+			height : 20,
+			left : 10,
+			top : 10,
 			color : "black",
 			font : {
-				fontSize : 14
-			}
-		},
-		historyFor : {
-			left : 0,
-			width : Ti.UI.SIZE,
-			height : 30,
-			text : "For:",
-			color : "black",
-			font : {
-				fontSize : 14
+				fontSize : 17,
+				fontWeight : "light"
 			}
 		},
 		historyAction : {
-			left : 5,
-			width : Ti.UI.SIZE,
-			height : 30,
+			left : 10,
+			width : "90%",
+			height : 20,
+			top : 40,
 			color : "black",
 			font : {
-				fontSize : 14
+				fontSize : 17,
+				fontWeight : "light"
 			}
 		}
 	},
@@ -206,28 +198,22 @@ var addHistoryRow = function(transaction) {
 
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
 
-	var view = Ti.UI.createView(cfg.views.historyLabelView);
-	var forView = Ti.UI.createView(cfg.views.forView);
-
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
 	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
-	var forLabel = Ti.UI.createLabel(cfg.labels.historyFor);
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
-	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#/#YYYY#");
-	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
-	actionLabel.text = transaction.actionName;
-
-	forView.add(forLabel);
-	forView.add(actionLabel);
-
-	view.add(tokensLabel);
-	view.add(forView);
+	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
+	tokensLabel.text = "You " + ( sent ? "sent" : "received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
+	actionLabel.text = "For \"" + transaction.actionName + "\"";
 
 	row.add(dateLabel);
-	row.add(view);
-	
-	row.addEventListener("click",function(){
+	row.add(tokensLabel);
+	row.add(actionLabel);
+
+	row.tokensLabel = tokensLabel;
+	row.actionLabel = actionLabel;
+
+	row.addEventListener("click", function() {
 		Ti.API.info("clcik");
 	});
 
@@ -280,13 +266,13 @@ var refreshBalance = function() {
 
 	ti.labels.myBalance.text = "You:";
 	ti.labels.friendBalance.text = App.Lib.Functions.getFirstName(friend.name) + ":";
-	
+
 	ti.views.balance.remove(ti.views.balanceBar1);
 	ti.views.balance.remove(ti.views.balanceBar2);
-	
+
 	ti.views.balanceBar1 = Ti.UI.createView(cfg.views.balanceBar1);
 	ti.views.balanceBar2 = Ti.UI.createView(cfg.views.balanceBar2);
-	
+
 	ti.views.balance.add(ti.views.balanceBar1);
 	ti.views.balance.add(ti.views.balanceBar2);
 
@@ -369,6 +355,12 @@ var buildHierarchy = function() {
 	ti.views.main.add(ti.views.balance);
 	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
+	ti.views.main.add(Ti.UI.createView({
+		top:0,
+		height : 10,
+		width : "100%",
+		backgroundColor : "transparent"
+	}));
 	ti.win.add(ti.views.main);
 
 };

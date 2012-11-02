@@ -121,7 +121,7 @@ exports.create = function(callback) {
 			ti.window.visible = false;
 		} else {
 			if (ti.fields.main.value.length > 28) { 
-				alert("Maximum length is 28 characters");
+				alert("Maximum length is 28 characters. You entered "+ti.fields.main.value.length);
 			} else {
 				alert("Please enter a name");
 			}
