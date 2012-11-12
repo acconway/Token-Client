@@ -150,6 +150,8 @@ var addRow = function(friend) {
 
 	if (file.exists()) {
 		image.image = file;
+	} else {
+		image.image = "/images/defaultprofile.png";
 	}
 
 	row.add(image);
@@ -168,7 +170,7 @@ var buildAddNew = function() {
 	ti.views.addNew.addEventListener("touchstart", function() {
 		ti.views.addNew.backgroundColor = "#a4b5ac";
 	});
-	
+
 	ti.views.addNew.addEventListener("touchend", function() {
 		ti.views.addNew.backgroundColor = "white";
 	});
@@ -189,7 +191,7 @@ var updateTable = exports.updateTable = function() {
 	buildRows();
 	if (rowData.length > 5) {
 		ti.table.height = 280;
-	}else{
+	} else {
 		ti.table.height = Ti.UI.SIZE;
 	}
 	ti.table.setData(rowData);
@@ -243,6 +245,8 @@ exports.refreshPictures = function(index) {
 
 			if (file.exists()) {
 				row.image.image = file;
+			} else {
+				ti.views.friend.profilePic.image = "/images/defaultprofile.png";
 			}
 		}
 	});

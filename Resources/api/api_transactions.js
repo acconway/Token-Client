@@ -17,27 +17,23 @@ var addTransactionHandleError = function(error, params) {
 	}
 	transactionInProcess = false;
 	Ti.UI.createAlertDialog({
-			title : "Derp",
-			message : "Failed to send tokens! Please try again!"
+		title : "Derp",
+		message : "Failed to send tokens! Please try again!"
 	}).show();
 };
 
 var addTransactionHandleSuccess = function(response, params) {
 	App.LOG("App.API.Transactions add transaction success! " + JSON.stringify(response));
-	App.Models.Transactions.addTransaction(params.data.recipientID, params.data.actionName, params.data.tokenValue, params.data.time);
-	App.Models.User.setByName("lastTransactionTime", (params.data.time).toString());
-	App.UI.Friends.Detail.update();
-	App.Models.User.save();
+	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
 	transactionInProcess = false;
-	App.UI.hideWait();
 	if (App.ANDROID) {
 		App.UI.Send.closeWindows();
 	} else {
 		App.UI.Send.close();
 	}
 	Ti.UI.createAlertDialog({
-			title : "",
-			message : "Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name
+		title : "",
+		message : "Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name
 	}).show();
 };
 
@@ -131,7 +127,9 @@ exports.syncTransactions = function(lastTransaction, afterRefresh) {
 		});
 
 	} else {
-		afterRefresh();
+		if (afterRefresh) {
+			afterRefresh();
+		}
 		App.UI.hideWait();
 	}
 };

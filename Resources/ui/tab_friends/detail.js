@@ -293,13 +293,13 @@ var update = function(_friend) {
 	if (file.exists()) {
 		ti.views.friend.profilePic.image = file;
 	}else{
-		ti.views.friend.profilePic.image = null; 
+		ti.views.friend.profilePic.image = "/images/defaultprofile.png";
 	}
 
 	refreshBalance();
 
 	refreshTable();
-
+	
 };
 
 exports.open = function(_friend) {

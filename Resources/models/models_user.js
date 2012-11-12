@@ -5,20 +5,20 @@ var App, model = {}, modelName = "userProperties";
  * Specific 'Object' Methods
  */
 
-exports.getMyName = function(){
-	return model.user?model.user.name:""; 
+exports.getMyName = function() {
+	return model.user ? model.user.name : "";
 };
 
-exports.getMyID = function(){
-	return model.user?model.user.id:"";
+exports.getMyID = function() {
+	return model.user ? model.user.id : "";
 };
 
-exports.getLastTransactionTime = function(){
-	return model.lastTransactionTime; 
+exports.getLastTransactionTime = function() {
+	return model.lastTransactionTime;
 };
 
-exports.getFriendsList = function(){
-	return model.friendsList?model.friendsList:[]; 
+exports.getFriendsList = function() {
+	return model.friendsList ? model.friendsList : [];
 };
 
 exports.getByName = function(key) {
@@ -41,13 +41,13 @@ exports.reset = function() {
 
 var read = exports.read = function() {
 	model = App.Lib.Data.read(modelName) || {};
-	return model; 
+	return model;
 };
 
 exports.initialize = function(app) {
 	App = app;
 };
 
-exports.userDataSet = function(){
-	return model.user && model.friendsList; 
+exports.userDataSet = function() {
+	return model.user && model.friendsList;
 };

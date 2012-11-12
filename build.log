@@ -5,16 +5,22 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.015725 seconds on emulator to get ready
+[DEBUG] waited 0.024308 seconds on emulator to get ready
 [DEBUG] com.sccs.token installed? False
 [INFO] Copying CommonJS modules...
 [INFO] Copying project resources..
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_login.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_login.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_transactions.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/cfg/cfg_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/cfg/cfg_app.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_facebook.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_facebook.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_transactions.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_user.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_user.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/facebook_friend_list.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/facebook_friend_list.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_app.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
 [DEBUG] found special platform files dir = /Users/alexanderconway/Documents/Token/Token-Client/platform/android
 [INFO] Copying platform-specific files ...
-[DEBUG] copying app icon: /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/icon.png
+[DEBUG] copying app icon: /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/icon2.png
 [DEBUG] generating theme.xml
 [DEBUG] found drawable-long-land-hdpi splash screen at /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/images/res-long-land-hdpi/default.png
 [DEBUG] copying /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/images/res-long-land-hdpi/default.png splash screen to /Users/alexanderconway/Documents/Token/Token-Client/build/android/res/drawable-long-land-hdpi/background.png
@@ -62,6 +68,7 @@ Logfile initialized
 [DEBUG] from resource zip => assets/Resources/images/icons/plus@2x.png
 [DEBUG] from resource zip => assets/Resources/images/icons/refresh.png
 [DEBUG] from resource zip => assets/Resources/images/icons/refresh@2x.png
+[DEBUG] from resource zip => assets/Resources/images/defaultprofile.png
 [DEBUG] from resource zip => assets/Resources/images/f_logo.png
 [DEBUG] from resource zip => assets/Resources/images/splash.png
 [DEBUG] from resource zip => assets/Resources/lib/joli.js
@@ -93,6 +100,7 @@ Logfile initialized
 [DEBUG] from resource zip => assets/Resources/appicon.png
 [DEBUG] from resource zip => assets/Resources/default.png
 [DEBUG] from resource zip => assets/Resources/icon.png
+[DEBUG] from resource zip => assets/Resources/icon2.png
 [DEBUG] from resource zip => assets/app.json
 [DEBUG] from resource zip => assets/index.json
 [DEBUG] from resource zip => assets/tiapp.xml
@@ -146,6 +154,5 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.014912 seconds on emulator to get ready
+[DEBUG] waited 0.014552 seconds on emulator to get ready
 [INFO] Installing application on device
-[INFO] Application installed. Launch from drawer on Home Screen

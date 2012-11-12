@@ -76,6 +76,7 @@ exports.login = function() {
 	if (!Models.User.userDataSet()) {
 		Lib.Facebook.afterLogin();
 	}else{
+		Lib.Facebook.getPics(0, Models.User.getByName("friendsList"));
 		UI.Notifications.updateTable();
 		UI.User.updateTable(); 
 		UI.hideWait(); 

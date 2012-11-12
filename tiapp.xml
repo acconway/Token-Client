@@ -22,7 +22,7 @@
     <description>not specified</description>
     <copyright>2012 by alexanderconway</copyright>
     <property name="ti.facebook.appid">224818800979354</property>
-    <icon>icon.png</icon>
+    <icon>icon2.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>

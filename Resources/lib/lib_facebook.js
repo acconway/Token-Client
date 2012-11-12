@@ -68,7 +68,9 @@ var afterRequestFriendsList = function(eventData) {
 		App.Models.User.setByName("friendsListLookup", friendsListNameLookup);
 		App.Models.User.save();
 
-		getPics(0, friendsList.sort(App.Lib.Functions.sortFriends));
+		if(!gettingPics){
+			getPics(0, friendsList.sort(App.Lib.Functions.sortFriends));
+		}
 
 		loginAfterAPICall();
 
@@ -90,10 +92,10 @@ var requestFriendList = exports.requestFriendsList = function() {
 };
 
 var getPics = exports.getPics = function(index, friendsList) {
-
+	
 	if (Ti.Network.online) {
-
-		gettingPics = true;
+		
+		gettingPics = true; 
 
 		if (friendsList[index]) {
 
@@ -127,8 +129,8 @@ var getPics = exports.getPics = function(index, friendsList) {
 				};
 
 				httpClient.onerror = function(e) {
-					Ti.API.info("Problem Connecting to Facebook");
-					getPics(index, friendsList);
+					Ti.API.info("Problem Connecting to Facebook "+e.error);
+					getPics(++index, friendsList);
 				};
 
 				Ti.API.info("Sending request to  " + "https://graph.facebook.com/" + friendsList[index].id + "/picture");
@@ -145,12 +147,18 @@ var getPics = exports.getPics = function(index, friendsList) {
 					gettingPics = false;
 				}
 			}
+		}else{
+			gettingPics = false; 
 		}
 	}
 };
 
 exports.initialize = function(app) {
 	App = app;
+};
+
+exports.isGettingPics = function(){
+	return gettingPics; 
 };
 
 exports.afterLogin = function() {

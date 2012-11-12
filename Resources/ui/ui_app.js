@@ -67,7 +67,6 @@ var cfg = {
 			height : 120,
 			borderRadius : 10,
 			backgroundColor : "black",
-			layout : "vertical",
 			opacity : 0.6
 		},
 		titleBar : {
@@ -105,7 +104,7 @@ var cfg = {
 			color : "white",
 			width : "auto",
 			height : 30,
-			top : 10
+			top : 70
 		},
 		titleBar : {
 			height : Ti.UI.SIZE,
@@ -227,7 +226,7 @@ var setupActivityIndicator = function() {
 exports.createSpacer = function() {
 	return Ti.UI.createView({
 		top : 0,
-		height : App.ANDROID?60:10,
+		height : App.ANDROID ? 60 : 10,
 		width : "100%",
 		backgroundColor : "transparent"
 	});
@@ -326,14 +325,17 @@ exports.createSendTokensButton = function() {
 	return button;
 };
 
-exports.createRefreshButton = function(){
+exports.createRefreshButton = function() {
 	var button = Ti.UI.createButton(cfg.buttons.refresh);
-	
-	button.addEventListener('click',function(){
+
+	button.addEventListener('click', function() {
 		App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
+		if (!App.Lib.Facebook.isGettingPics()) {
+			App.Lib.Facebook.getPics(0, App.Models.User.getByName("friendsList"));
+		}
 	});
-	
-	return button; 
+
+	return button;
 };
 
 exports.createSendTokensActionsButton = function() {

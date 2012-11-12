@@ -24,7 +24,7 @@ var cfg = {
 		row : {
 			backgroundColor : "white",
 			hasChild : true,
-			height:50,
+			height : 50,
 			selectedBackgroundColor : "#a4b5ac"
 		}
 	},
@@ -104,6 +104,8 @@ var addRow = function(friend) {
 
 	if (file.exists()) {
 		image.image = file;
+	} else {
+		image.image = "/images/defaultprofile.png";
 	}
 
 	row.add(image);
@@ -115,7 +117,7 @@ var buildRows = function() {
 
 	App._.each(friends, function(friend) {
 		rowData.push(addRow(friend));
-		ti.table.height += (cfg.views.row.height+(App.ANDROID?1:0)); 
+		ti.table.height += (cfg.views.row.height + (App.ANDROID ? 1 : 0));
 	});
 
 };
@@ -124,7 +126,7 @@ var updateTable = function() {
 	friends = App.Models.Friends.all();
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
-	ti.table.height = 0; 
+	ti.table.height = 0;
 	buildRows();
 	ti.table.setData(rowData);
 };
@@ -204,11 +206,15 @@ exports.addFriend = function(friend, update) {
 exports.refreshPictures = function(index) {
 
 	App._.each(rowData, function(row) {
+
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
 
-		if (file.exists() && !row.image.image) {
+		if (file.exists()) {
 			row.image.image = file;
+		} else {
+			row.image.image = "/images/defaultprofile.png";
 		}
+
 	});
 
 };

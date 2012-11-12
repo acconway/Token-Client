@@ -175,6 +175,8 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 
 	if (file.exists()) {
 		profilePic.image = file;
+	} else {
+		profilePic.image = "/images/defaultprofile.png";
 	}
 
 	row.add(dateLabel);
@@ -192,7 +194,7 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	row.friend = {
 		userID : friendID
 	};
-	
+
 	return row;
 };
 
@@ -201,11 +203,11 @@ var buildNotificationsTable = function() {
 	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
 
 	rowData = [];
-	ti.table.height = 0; 
-	
+	ti.table.height = 0;
+
 	App._.each(transactions, function(transaction) {
 		rowData.push(buildNotificationRow(transaction, friendLookupTable));
-		ti.table.height += (cfg.views.historyRow.height+(App.ANDROID?1:0)); 
+		ti.table.height += (cfg.views.historyRow.height + (App.ANDROID ? 1 : 0));
 	});
 
 	ti.table.setData(rowData);
@@ -224,15 +226,15 @@ var buildHierarchy = function() {
 		title : "User",
 		icon : "images/icons/tabs/user.png"
 	});
-	
+
 	ti.views.user = App.UI.createFriendRow();
 
 	if (App.ANDROID) {
-		
-		ti.views.main.top = 50; 
+
+		ti.views.main.top = 50;
 
 		ti.table.top = 15;
-				
+
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
 		ti.titleBar.rightNavButton.title = "Logout";
@@ -285,7 +287,10 @@ exports.initialize = function(app) {
 exports.setProfilePicture = function(file) {
 	if (file.exists()) {
 		ti.views.user.profilePic.image = file;
+	} else {
+		ti.views.user.profilePic.image = "/images/defaultprofile.png";
 	}
+
 };
 
 exports.refreshPictures = function(index) {
@@ -293,8 +298,10 @@ exports.refreshPictures = function(index) {
 	App._.each(rowData, function(row) {
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
 
-		if (file.exists() && !row.image.image) {
+		if (file.exists()) {
 			row.image.image = file;
+		} else {
+			row.image.image = "/images/defaultprofile.png";
 		}
 
 	});
@@ -321,6 +328,8 @@ var updateTable = exports.updateTable = function() {
 
 	if (file.exists()) {
 		ti.views.user.profilePic.image = file;
+	} else {
+		ti.views.user.profilePic.image = "/images/defaultprofile.png";
 	}
 
 };
@@ -339,8 +348,8 @@ exports.addRow = function(transaction) {
 			ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
 		}
 	}
-	
-	ti.table.height += cfg.views.historyRow.height+ App.ANDROID?1:0; 
+
+	ti.table.height += cfg.views.historyRow.height + App.ANDROID ? 1 : 0;
 
 };
 
