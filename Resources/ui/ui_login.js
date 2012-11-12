@@ -4,14 +4,24 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		tabBarHidden : true,
-		title : "Login"
+		title : "Login",
+		backgroundColor:"#DBDBDB"
 	},
 	views : {
 		main : {
 			width : "100%",
 			height : "100%",
-			layout : "vertical",
-			backgroundColor : "transparent"
+			backgroundColor : "transparent",
+			backgroundImage:"/images/splash.png"
+		},
+		button:{
+			top:280,
+			height : 55,
+			width : "90%",
+			borderWidth : 1,
+			borderColor : "white",
+			backgroundColor : "white",
+			borderRadius : 4
 		}
 	},
 	labels : {
@@ -25,12 +35,25 @@ var cfg = {
 			},
 			color : "black",
 			top : 75
+		},
+		login:{
+			text:"Log in with Facebook",
+			left:60,
+			height:50,
+			color:"black",
+			font : {
+				fontSize : 18,
+				fontWeight : "light"
+			},
+			width:Ti.UI.SIZE
 		}
 	},
-	buttons : {
-		facebook : {
-			style : 'wide',
-			top : 75
+	images:{
+		facebook:{
+			left : 5,
+			width : 45,
+			height : 45,
+			image:"/images/f_logo.png"
 		}
 	}
 };
@@ -38,26 +61,40 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
-		main : Ti.UI.createView(cfg.views.main)
+		main : Ti.UI.createView(cfg.views.main),
+		button:Ti.UI.createView(cfg.views.button)
 	},
 	labels : {
-		title : Ti.UI.createLabel(cfg.labels.title)
+		login : Ti.UI.createLabel(cfg.labels.login)
 	},
-	buttons : {
-		facebook : Ti.Facebook.createLoginButton(cfg.buttons.facebook)
+	images : {
+		facebook:Ti.UI.createImageView(cfg.images.facebook)
 	}
 };
 
 var buildHierarchy = function() {
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
-	ti.views.main.add(ti.labels.title);
-	ti.views.main.add(ti.buttons.facebook);
+	ti.views.button.add(ti.images.facebook);
+	ti.views.button.add(ti.labels.login);
+	ti.views.main.add(ti.views.button);
 
 	ti.win.add(ti.views.main);
 };
 
 var addEventListeners = function() {
+	
+	ti.views.button.addEventListener("click",function(){
+		Ti.Facebook.authorize();
+	}); 
+	
+	ti.views.button.addEventListener("touchstart", function() {
+		ti.views.button.backgroundColor = "#a4b5ac";
+	});
+	
+	ti.views.button.addEventListener("touchend", function() {
+		ti.views.button.backgroundColor = "white";
+	});
 };
 
 exports.initialize = function(app) {
@@ -69,5 +106,6 @@ exports.initialize = function(app) {
 };
 
 exports.getWin = function() {
+	ti.views.button.backgroundColor = "white";
 	return ti.win;
 };

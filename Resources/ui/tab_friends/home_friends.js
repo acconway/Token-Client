@@ -8,22 +8,32 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : "Token",
-		barColor:"6b8a8c",
-		backgroundColor:"#DBDBDB",
+		barColor : "6b8a8c",
+		backgroundColor : "#DBDBDB",
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {
+		main : {
+			height : "100%",
+			width : "100%",
+			contentHeight : Ti.UI.SIZE,
+			showVerticalScrollIndicator : true,
+			backgroundColor : "transparent",
+			layout : "vertical"
+		},
 		row : {
 			backgroundColor : "white",
 			hasChild : true,
+			height:50,
 			selectedBackgroundColor : "#a4b5ac"
 		}
 	},
 	table : {
-		top:15,
+		top : 15,
 		minRowHeight : 50,
 		width : "90%",
-		height : Ti.UI.SIZE,
+		scrollable : false,
+		height : 0,
 		borderWidth : 1,
 		borderColor : "white",
 		backgroundColor : "white",
@@ -53,6 +63,9 @@ var cfg = {
 
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
+	views : {
+		main : Ti.UI.createScrollView(cfg.views.main)
+	},
 	table : Ti.UI.createTableView(cfg.table)
 };
 
@@ -102,6 +115,7 @@ var buildRows = function() {
 
 	App._.each(friends, function(friend) {
 		rowData.push(addRow(friend));
+		ti.table.height += (cfg.views.row.height+(App.ANDROID?1:0)); 
 	});
 
 };
@@ -110,6 +124,7 @@ var updateTable = function() {
 	friends = App.Models.Friends.all();
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
+	ti.table.height = 0; 
 	buildRows();
 	ti.table.setData(rowData);
 };
@@ -125,7 +140,7 @@ var buildHierarchy = function() {
 
 	if (App.ANDROID) {
 
-		ti.table.top = 65;
+		ti.views.main.top = 50;
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
@@ -137,6 +152,14 @@ var buildHierarchy = function() {
 
 		ti.titleBar.rightNavButton.visible = true;
 
+		ti.titleBar.leftNavButton.title = "Refresh";
+
+		ti.titleBar.leftNavButton.addEventListener("click", function() {
+			App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
+		});
+
+		ti.titleBar.leftNavButton.visible = true;
+
 		ti.win.add(ti.titleBar);
 
 	} else {
@@ -144,10 +167,15 @@ var buildHierarchy = function() {
 		ti.table.top = 15;
 
 		ti.win.rightNavButton = App.UI.createSendTokensButton();
+		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 	}
 
-	ti.win.add(ti.table);
+	ti.views.main.add(ti.table);
+
+	ti.views.main.add(App.UI.createSpacer());
+
+	ti.win.add(ti.views.main);
 
 	updateTable();
 

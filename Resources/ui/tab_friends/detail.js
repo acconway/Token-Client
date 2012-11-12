@@ -159,7 +159,7 @@ var cfg = {
 		historyAction : {
 			left : 10,
 			width : "90%",
-			height : 20,
+			height : 25,
 			top : 40,
 			color : "black",
 			font : {
@@ -213,10 +213,6 @@ var addHistoryRow = function(transaction) {
 	row.tokensLabel = tokensLabel;
 	row.actionLabel = actionLabel;
 
-	row.addEventListener("click", function() {
-		Ti.API.info("clcik");
-	});
-
 	return row;
 
 };
@@ -234,13 +230,13 @@ var buildBalanceView = function() {
 
 var refreshTable = function() {
 
-	ti.views.historyTable.height = 0;
-
+	ti.views.historyTable.height = 0; 
+	
 	var tableData = [];
 
 	App._.each(currentData.transactions, function(transaction) {
 		tableData.push(addHistoryRow(transaction));
-		ti.views.historyTable.height += cfg.views.historyRow.height;
+		ti.views.historyTable.height += (cfg.views.historyRow.height + (App.ANDROID?1:0));
 	});
 
 	ti.views.historyTable.setData(tableData);
@@ -296,6 +292,8 @@ var update = function(_friend) {
 
 	if (file.exists()) {
 		ti.views.friend.profilePic.image = file;
+	}else{
+		ti.views.friend.profilePic.image = null; 
 	}
 
 	refreshBalance();
@@ -318,7 +316,6 @@ var buildHierarchy = function() {
 
 		ti.win.navBarHidden = true;
 		ti.views.main.top = 50;
-		cfg.views.historyRow.backgroundSelectedColor = 'white';
 
 		ti.titleBar = App.UI.createAndroidTitleBar();
 
@@ -355,12 +352,7 @@ var buildHierarchy = function() {
 	ti.views.main.add(ti.views.balance);
 	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
-	ti.views.main.add(Ti.UI.createView({
-		top:0,
-		height : 10,
-		width : "100%",
-		backgroundColor : "transparent"
-	}));
+	ti.views.main.add(App.UI.createSpacer());
 	ti.win.add(ti.views.main);
 
 };

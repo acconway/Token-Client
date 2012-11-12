@@ -21,9 +21,9 @@ var API = require('api/api_app');
 var CONSTANTS = {
 	TOTALPOINTS : 10,
 	//Production
-	//URL:"http://tokenservice.herokuapp.com"
+	URL:"http://tokenservice.herokuapp.com"
 	//Testing
-	URL:"http://localhost:5000"
+	//URL:"http://localhost:5000"
 };
 
 var logLevel = 1; 

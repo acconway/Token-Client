@@ -16,7 +16,10 @@ var addTransactionHandleError = function(error, params) {
 		App.UI.Send.close();
 	}
 	transactionInProcess = false;
-	alert("Failed to send tokens! Please try again!");
+	Ti.UI.createAlertDialog({
+			title : "Derp",
+			message : "Failed to send tokens! Please try again!"
+	}).show();
 };
 
 var addTransactionHandleSuccess = function(response, params) {
@@ -32,7 +35,10 @@ var addTransactionHandleSuccess = function(response, params) {
 	} else {
 		App.UI.Send.close();
 	}
-	alert("Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name);
+	Ti.UI.createAlertDialog({
+			title : "",
+			message : "Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name
+	}).show();
 };
 
 var afterAddTransaction = function(response, params) {

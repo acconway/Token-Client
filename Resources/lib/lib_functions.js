@@ -1,16 +1,20 @@
 exports.getShortName = function(name) {
-	var array = name.split(" ");
+	if (name) {
+		var array = name.split(" ");
 
-	var shortName = array[0];
+		var shortName = array[0];
 
-	if (array.length > 1) {
-		shortName += " " + array[array.length - 1].charAt(0) + ".";
+		if (array.length > 1) {
+			shortName += " " + array[array.length - 1].charAt(0) + ".";
+		}
+
+		return shortName;
+	} else {
+		return "";
 	}
-
-	return shortName;
 };
 
-exports.getFirstName = function(name){
+exports.getFirstName = function(name) {
 	var array = name.split(" ");
 	return array[0];
 };
@@ -25,8 +29,8 @@ var sort = exports.sort = function(string0, string1) {
 		} else {
 			return 0;
 		}
-	}else{
-		return 0; 
+	} else {
+		return 0;
 	}
 };
 
@@ -39,7 +43,7 @@ exports.createNotificationMessage = function(transaction) {
 
 };
 
-exports.removeWhitespace = function(string){
+exports.removeWhitespace = function(string) {
 	return string.replace(/\s+/g, '');
 };
 

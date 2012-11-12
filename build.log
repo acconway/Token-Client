@@ -5,61 +5,15 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.014362 seconds on emulator to get ready
+[DEBUG] waited 0.015725 seconds on emulator to get ready
 [DEBUG] com.sccs.token installed? False
 [INFO] Copying CommonJS modules...
 [INFO] Copying project resources..
-[INFO] Detected change in tiapp.xml, or assets deleted. Forcing full re-build...
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/appicon.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/appicon.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/default.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/default.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/icon.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/icon.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_app.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_friends.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_friends.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_transactions.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_user.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_user.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/app.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/cfg/cfg_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/cfg/cfg_app.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/cfg/cfg_models.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/cfg/cfg_models.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/plus.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/plus.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/plus@2x.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/plus@2x.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/refresh.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/refresh.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/refresh@2x.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/refresh@2x.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/friends.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/friends.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/friends@2x.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/friends@2x.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/notifications.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/notifications.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/notifications@2x.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/notifications@2x.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/user.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/user.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/images/icons/tabs/user@2x.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/images/icons/tabs/user@2x.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/KS_nav_ui.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/KS_nav_ui.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/KS_nav_views.png => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/KS_nav_views.png
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/joli.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/joli.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_data.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_data.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_date.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_date.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_facebook.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_facebook.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_functions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_functions.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_underscore.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_underscore.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_friends.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_friends.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_transactions.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_user.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_user.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/facebook_friend_list.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/facebook_friend_list.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/home_send.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/home_send.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/select_action.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/select_action.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/select_friend.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/select_friend.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/select_tokens.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/select_tokens.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/tab_friends/detail.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/tab_friends/detail.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/tab_friends/home_friends.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/tab_friends/home_friends.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/tab_notifications/home_notifications.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/tab_notifications/home_notifications.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/tab_user/home_user.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/tab_user/home_user.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_app.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_login.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_login.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_template.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_template.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/widgets/new_action.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/widgets/new_action.js
-[TRACE] COPYING CREATED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/widgets/token_slider.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/widgets/token_slider.js
+[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_login.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_login.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
 [DEBUG] found special platform files dir = /Users/alexanderconway/Documents/Token/Token-Client/platform/android
 [INFO] Copying platform-specific files ...
-[DEBUG] app stylesheet => /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/ApplicationStylesheet.java
 [DEBUG] copying app icon: /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/icon.png
 [DEBUG] generating theme.xml
 [DEBUG] found drawable-long-land-hdpi splash screen at /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/images/res-long-land-hdpi/default.png
@@ -84,12 +38,11 @@ Logfile initialized
 [DEBUG] copying /Users/alexanderconway/Documents/Token/Token-Client/Resources/android/images/res-notlong-port-mdpi/default.png splash screen to /Users/alexanderconway/Documents/Token/Token-Client/build/android/res/drawable-notlong-port-mdpi/background.png
 [DEBUG] found splash screen at /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/default.png
 [TRACE] Writing out AndroidManifest.xml
-[DEBUG] adding /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/ApplicationStylesheet.java to javac build list
 [DEBUG] adding /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/R.java to javac build list
 [DEBUG] adding /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenActivity.java to javac build list
 [DEBUG] adding /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenAppInfo.java to javac build list
 [DEBUG] adding /Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenApplication.java to javac build list
-[DEBUG] Building Java Sources: "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/ApplicationStylesheet.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/R.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenActivity.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenAppInfo.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenApplication.java"
+[DEBUG] Building Java Sources: "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/R.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenActivity.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenAppInfo.java" "/Users/alexanderconway/Documents/Token/Token-Client/build/android/gen/com/sccs/token/TokenApplication.java"
 [INFO] Compiling Android Resources... This could take some time
 [DEBUG] Android classes.dex built
 [DEBUG] creating unsigned apk: /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/app-unsigned.apk
@@ -109,6 +62,8 @@ Logfile initialized
 [DEBUG] from resource zip => assets/Resources/images/icons/plus@2x.png
 [DEBUG] from resource zip => assets/Resources/images/icons/refresh.png
 [DEBUG] from resource zip => assets/Resources/images/icons/refresh@2x.png
+[DEBUG] from resource zip => assets/Resources/images/f_logo.png
+[DEBUG] from resource zip => assets/Resources/images/splash.png
 [DEBUG] from resource zip => assets/Resources/lib/joli.js
 [DEBUG] from resource zip => assets/Resources/lib/lib_data.js
 [DEBUG] from resource zip => assets/Resources/lib/lib_date.js
@@ -191,6 +146,6 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.020080 seconds on emulator to get ready
+[DEBUG] waited 0.014912 seconds on emulator to get ready
 [INFO] Installing application on device
 [INFO] Application installed. Launch from drawer on Home Screen

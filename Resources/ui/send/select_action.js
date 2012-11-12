@@ -187,6 +187,8 @@ var updateTable = exports.updateTable = function() {
 
 	if (file.exists()) {
 		ti.views.toView.profilePic.image = file;
+	}else{
+		ti.views.toView.profilePic.image = null; 
 	}
 };
 

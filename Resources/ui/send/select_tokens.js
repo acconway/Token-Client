@@ -186,6 +186,8 @@ exports.open = function(_friend, _action) {
 
 	if (file.exists()) {
 		ti.views.toView.profilePic.image = file;
+	}else{
+		ti.views.toView.profilePic.image = null; 
 	}
 
 	App.UI.Send.openWindow(ti.win);

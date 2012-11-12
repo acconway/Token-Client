@@ -78,14 +78,14 @@ var cfg = {
 			borderColor : "black",
 			borderWidth : 1
 		},
-		friendRowBackground:{
-			height:Ti.UI.SIZE,
-			width:"100%",
-			layout:"vertical",
-			backgroundColor:"transparent"
+		friendRowBackground : {
+			height : Ti.UI.SIZE,
+			width : "100%",
+			layout : "vertical",
+			backgroundColor : "transparent"
 		},
 		friendRow : {
-			top:15, 
+			top : 15,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
@@ -155,6 +155,16 @@ var cfg = {
 				fontWeight : "bold",
 				fontSize : 20
 			}
+		},
+		refresh : {
+			width : 25,
+			height : 25,
+			left : 10,
+			title : "Refresh",
+			font : {
+				fontWeight : "bold",
+				fontSize : 20
+			}
 		}
 	},
 	images : {
@@ -214,32 +224,41 @@ var setupActivityIndicator = function() {
 
 };
 
+exports.createSpacer = function() {
+	return Ti.UI.createView({
+		top : 0,
+		height : App.ANDROID?60:10,
+		width : "100%",
+		backgroundColor : "transparent"
+	});
+};
+
 exports.createFriendRow = function(title) {
-	
+
 	var background = Ti.UI.createView(cfg.views.friendRowBackground);
-	
+
 	var row = Ti.UI.createView(cfg.views.friendRow);
 
-	if(title){
+	if (title) {
 		var header = Ti.UI.createLabel(cfg.labels.headerTitle);
 		background.add(header);
 	}
-	
+
 	var profilePic = Ti.UI.createImageView(cfg.images.profilePic);
-	
+
 	row.add(profilePic);
-	
-	background.profilePic = profilePic; 
-	
+
+	background.profilePic = profilePic;
+
 	var friend = Ti.UI.createLabel(cfg.labels.friendName);
-	
+
 	row.add(friend);
-	
-	background.label = friend; 
-	
+
+	background.label = friend;
+
 	background.add(row);
-	
-	return background; 
+
+	return background;
 };
 
 exports.createAddNewRow = function() {
@@ -305,6 +324,16 @@ exports.createSendTokensButton = function() {
 	});
 
 	return button;
+};
+
+exports.createRefreshButton = function(){
+	var button = Ti.UI.createButton(cfg.buttons.refresh);
+	
+	button.addEventListener('click',function(){
+		App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
+	});
+	
+	return button; 
 };
 
 exports.createSendTokensActionsButton = function() {
