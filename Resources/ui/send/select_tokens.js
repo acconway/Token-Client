@@ -14,7 +14,7 @@ var cfg = {
 	},
 	views : {
 		transaction : {
-			top:15, 
+			top : 15,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
@@ -101,8 +101,18 @@ var addEventListeners = function() {
 		if (App.API.Transactions.getTransactionInProcess()) {
 			return;
 		}
+		if (balance <= 0) {
+			Ti.UI.createAlertDialog({
+				title : "",
+				message : "You have no tokens left!"
+			}).show();
+			return; 
+		};
 		if (ti.slider.getValue() == 0) {
-			alert("Please select a number of tokens");
+			Ti.UI.createAlertDialog({
+				title : "",
+				message : "Please select a number of tokens"
+			}).show();
 			return;
 		}
 		var now = new Date();
@@ -186,7 +196,7 @@ exports.open = function(_friend, _action) {
 
 	if (file.exists()) {
 		ti.views.toView.profilePic.image = file;
-	}else{
+	} else {
 		ti.views.toView.profilePic.image = "/images/defaultprofile.png";
 	}
 

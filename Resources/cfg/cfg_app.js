@@ -17,16 +17,45 @@ var DB = Lib.Joli.connect('token');
 var Models = require('cfg/cfg_models');
 var API = require('api/api_app');
 
+var defaultActions = [{
+	name : "Letting me pick a movie",
+	lastValue : 1
+}, {
+	name : "Listening to me vent",
+	lastValue : 1
+}, {
+	name : "Waiting for me",
+	lastValue : 1
+}, {
+	name : "Coming over to my place",
+	lastValue : 2
+}, {
+	name : "Setting up a get together",
+	lastValue : 2
+}, {
+	name : "Cooking dinner",
+	lastValue : 3
+}, {
+	name : "A ride to the airport",
+	lastValue : 3
+}, {
+	name : "Letting me stay over",
+	lastValue : 4
+}, {
+	name : "Helping me move",
+	lastValue : 5
+}]
 
 var CONSTANTS = {
 	TOTALPOINTS : 10,
 	//Production
-	URL:"http://tokenservice.herokuapp.com"
+	URL:"http://tokenservice.herokuapp.com",
 	//Testing
-	//URL:"http://localhost:5000"
+	//URL : "http://localhost:5000",
+	defaultActions:defaultActions
 };
 
-var logLevel = 1; 
+var logLevel = 1;
 
 /*
 * clear out database
@@ -44,7 +73,7 @@ exports.Lib = Lib;
 exports.UI = UI;
 exports.DB = DB;
 exports.Models = Models;
-exports.API = API; 
+exports.API = API;
 
 exports.initialize = function() {
 	Lib.Facebook.initialize(this);
@@ -58,6 +87,8 @@ exports.logout = function() {
 	var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "profilepics");
 	dir.deleteDirectory(true);
 	UI.Friends.refresh();
+	UI.User.updateTable(); 
+	UI.Notifications.updateTable(); 
 	Ti.Facebook.logout();
 	UI.closeTabGroup();
 	UI.Login.getWin().open();
@@ -69,26 +100,26 @@ exports.login = function() {
 	if (!dir.exists()) {
 		dir.createDirectory();
 	}
-	UI.Login.getWin().close(); 
-	UI.openTabGroup(); 
+	UI.Login.getWin().close();
+	UI.openTabGroup();
 	UI.showWait("Logging In...");
 	Models.User.read();
 	if (!Models.User.userDataSet()) {
 		Lib.Facebook.afterLogin();
-	}else{
+	} else {
 		Lib.Facebook.getPics(0, Models.User.getByName("friendsList"));
 		UI.Notifications.updateTable();
-		UI.User.updateTable(); 
-		UI.hideWait(); 
+		UI.User.updateTable();
+		UI.hideWait();
 	}
 };
 
 var LOG = exports.LOG = function(str, level) {
-    if (level === undefined) {
-        level = 1;
-    }
+	if (level === undefined) {
+		level = 1;
+	}
 
-    if (level <= logLevel) {
-        Ti.API.info(str);
-    }
+	if (level <= logLevel) {
+		Ti.API.info(str);
+	}
 };

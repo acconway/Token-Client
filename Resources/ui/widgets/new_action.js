@@ -1,6 +1,6 @@
 var ANDROID = Ti.Platform.osname == "android";
 
-var App; 
+var App;
 
 var cfg = {
 	window : {
@@ -29,7 +29,7 @@ var cfg = {
 		},
 		buttons : {
 			top : 20,
-			height : ANDROID?50:30,
+			height : ANDROID ? 50 : 30,
 			width : "90%"
 		}
 	},
@@ -39,7 +39,7 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			text : "Add new action",
 			top : 20,
-			color:"black",
+			color : "black",
 			font : {
 				fontSize : 16,
 				fontWeight : "bold"
@@ -57,31 +57,31 @@ var cfg = {
 				fontWeight : "light"
 			},
 			borderColor : "black",
-			softKeyboardOnFocus : ANDROID?Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS:""
+			softKeyboardOnFocus : ANDROID ? Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS : ""
 		}
 	},
 	buttons : {
 		close : {
-			width : ANDROID?100:80,
-			height : ANDROID?40:30,
+			width : ANDROID ? 100 : 80,
+			height : ANDROID ? 40 : 30,
 			left : 20,
 			borderRadius : 10,
 			borderColor : 'black',
-			font:{
-				fontWeight:'light'
+			font : {
+				fontWeight : 'light'
 			},
 			color : "black",
 			title : "Close"
 		},
 		ok : {
-			width : ANDROID?100:80,
-			height : ANDROID?40:30,
+			width : ANDROID ? 100 : 80,
+			height : ANDROID ? 40 : 30,
 			right : 20,
 			borderRadius : 10,
 			borderColor : 'black',
 			color : "black",
-			font:{
-				fontWeight:'light'
+			font : {
+				fontWeight : 'light'
 			},
 			title : "OK"
 		}
@@ -120,10 +120,16 @@ exports.create = function(callback) {
 			ti.fields.main.blur();
 			ti.window.visible = false;
 		} else {
-			if (ti.fields.main.value.length > 28) { 
-				alert("Maximum length is 28 characters. You entered "+ti.fields.main.value.length);
+			if (ti.fields.main.value.length > 28) {
+				Ti.UI.createAlertDialog({
+					title : "",
+					message : "Maximum length is 28 characters. You entered " + ti.fields.main.value.length,
+				}).show();
 			} else {
-				alert("Please enter a name");
+				Ti.UI.createAlertDialog({
+					title : "",
+					message : "Please enter a name",
+				}).show();
 			}
 		}
 	});
@@ -137,9 +143,9 @@ exports.create = function(callback) {
 
 	ti.window.add(ti.views.cover);
 	ti.window.add(ti.views.main);
-	
-	if(App.ANDROID){
-		ti.views.main.height = 200; 
+
+	if (App.ANDROID) {
+		ti.views.main.height = 200;
 	}
 
 	ti.window.open = function() {
@@ -156,6 +162,6 @@ exports.create = function(callback) {
 
 };
 
-exports.initialize = function(app){
-	App= app;
+exports.initialize = function(app) {
+	App = app;
 };

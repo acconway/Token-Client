@@ -5,16 +5,11 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.024308 seconds on emulator to get ready
+[DEBUG] waited 0.024068 seconds on emulator to get ready
 [DEBUG] com.sccs.token installed? False
 [INFO] Copying CommonJS modules...
 [INFO] Copying project resources..
 [TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/api/api_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/api/api_transactions.js
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/cfg/cfg_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/cfg/cfg_app.js
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/lib/lib_facebook.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/lib/lib_facebook.js
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_transactions.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_transactions.js
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/models/models_user.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/models/models_user.js
-[TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/send/facebook_friend_list.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/send/facebook_friend_list.js
 [TRACE] COPYING MODIFIED FILE: /Users/alexanderconway/Documents/Token/Token-Client/Resources/ui/ui_app.js => /Users/alexanderconway/Documents/Token/Token-Client/build/android/bin/assets/Resources/ui/ui_app.js
 [TRACE] Generating Java Classes
 [DEBUG] Processing Android resource drawables
@@ -154,5 +149,6 @@ Logfile initialized
 [DEBUG] Waiting for device to be ready ...
 [TRACE] adb devices returned 1 devices/emulators
 [DEBUG] Device connected... (waited 0 seconds)
-[DEBUG] waited 0.014552 seconds on emulator to get ready
+[DEBUG] waited 0.015026 seconds on emulator to get ready
 [INFO] Installing application on device
+[INFO] Application installed. Launch from drawer on Home Screen

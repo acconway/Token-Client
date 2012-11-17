@@ -1,6 +1,7 @@
 var App;
 
 var transactionInProcess = false;
+var syncInProcess = false; 
 
 exports.getTransactionInProcess = function() {
 	return transactionInProcess;
@@ -18,7 +19,7 @@ var addTransactionHandleError = function(error, params) {
 	transactionInProcess = false;
 	Ti.UI.createAlertDialog({
 		title : "Derp",
-		message : "Failed to send tokens! Please try again!"
+		message : "Failed to send tokens! Please try again! If this keeps happening try logging out and back in"
 	}).show();
 };
 
@@ -66,10 +67,13 @@ exports.addTransaction = function(recipientID, actionName, tokenValue, time, nam
 var syncTransactionsHandleError = function(error, params) {
 	//Handle Error
 	App.LOG(JSON.stringify(error));
+	syncInProcess = false; 
 	App.UI.hideWait();
 };
 
 var syncTransactionsHandleSuccess = function(response, params) {
+	
+	syncInProcess = false; 
 
 	App.LOG("App.API.Transactions syncTransactions success! " + JSON.stringify(response));
 
@@ -84,20 +88,15 @@ var syncTransactionsHandleSuccess = function(response, params) {
 		App.Models.User.save();
 
 		App.Models.Transactions.loadNewTransactions(transactions);
-
-		App.UI.Friends.updateTable();
-
-		App.UI.Notifications.updateTable();
-
-		App.UI.User.updateTable();
-
-		App.UI.Friends.Detail.update();
-
 	}
 
-	if (params.afterRefresh) {
-		params.afterRefresh();
-	}
+	App.UI.Friends.updateTable();
+
+	App.UI.Notifications.updateTable();
+
+	App.UI.User.updateTable();
+
+	App.UI.Friends.Detail.update();
 
 	App.UI.hideWait();
 
@@ -107,7 +106,18 @@ var afterSyncTransactions = function(response, params) {
 	App.API.handleResponse("syncTransactions", response, params, syncTransactionsHandleError, syncTransactionsHandleSuccess);
 };
 
-exports.syncTransactions = function(lastTransaction, afterRefresh) {
+exports.syncTransactions = function() {
+	
+	if(syncInProcess){
+		return; 
+	}
+	
+	syncInProcess = true; 
+	
+	App.Models.Friends.purge();
+	App.Models.Transactions.purge();
+	
+	var lastTransaction = 0; 
 
 	var userID = App.Models.User.getMyID();
 
@@ -123,13 +133,9 @@ exports.syncTransactions = function(lastTransaction, afterRefresh) {
 			path : "/syncAllTransactions",
 			data : payload,
 			callback : afterSyncTransactions,
-			afterRefresh : afterRefresh
 		});
 
 	} else {
-		if (afterRefresh) {
-			afterRefresh();
-		}
 		App.UI.hideWait();
 	}
 };

@@ -114,7 +114,10 @@ var getAllActions = function(friendID) {
 
 	App._.each(transactions, function(transaction) {
 		if (transaction.senderID == myID) {
-			if (!actions[transaction.actionName]) {
+			var isDefault = App._.find(App.CONSTANTS.defaultActions,function(action){
+				return action.name == transaction.actionName;
+			});
+			if (!actions[transaction.actionName] && !isDefault) {
 				actions[transaction.actionName] = {
 					name : transaction.actionName,
 					lastValue : transaction.tokenValue

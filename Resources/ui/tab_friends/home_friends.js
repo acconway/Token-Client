@@ -64,7 +64,8 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
-		main : Ti.UI.createScrollView(cfg.views.main)
+		main : Ti.UI.createScrollView(cfg.views.main),
+		noFriends: Ti.UI.createView(cfg.views.row)
 	},
 	table : Ti.UI.createTableView(cfg.table)
 };
@@ -129,6 +130,19 @@ var updateTable = function() {
 	ti.table.height = 0;
 	buildRows();
 	ti.table.setData(rowData);
+	
+	if(rowData.length == 0){
+		if(ti.views.getStarted.visible == false){
+			ti.views.main.add(ti.views.getStarted);
+			ti.views.getStarted.visible = true; 	
+		}
+	}else{
+		if(ti.views.getStarted.visible){
+			ti.views.main.remove(ti.views.getStarted);
+			ti.views.getStarted.visible = false; 
+		}
+	}
+	
 };
 
 var buildHierarchy = function() {
@@ -172,6 +186,8 @@ var buildHierarchy = function() {
 		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 	}
+	
+	ti.views.getStarted = App.UI.createGetStartedRow(); 
 
 	ti.views.main.add(ti.table);
 

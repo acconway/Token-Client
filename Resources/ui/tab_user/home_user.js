@@ -79,7 +79,7 @@ var cfg = {
 		},
 		historyTo : {
 			left : 10,
-			width : 40,
+			width : Ti.UI.SIZE,
 			height : 20,
 			top : 45,
 			color : "black",
@@ -215,7 +215,7 @@ var buildNotificationsTable = function() {
 };
 
 var refresh = function() {
-	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime(), ti.table.afterRefresh);
+	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
 };
 
 var buildHierarchy = function() {
@@ -263,6 +263,8 @@ var buildHierarchy = function() {
 		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 	}
+	
+	ti.views.getStarted = App.UI.createGetStartedRow(); 
 
 	ti.views.main.add(ti.views.user);
 	ti.views.main.add(ti.labels.exchanges);
@@ -330,6 +332,18 @@ var updateTable = exports.updateTable = function() {
 		ti.views.user.profilePic.image = file;
 	} else {
 		ti.views.user.profilePic.image = "/images/defaultprofile.png";
+	}
+	
+	if(rowData.length == 0){
+		if(ti.views.getStarted.visible == false){
+			ti.views.main.add(ti.views.getStarted);
+			ti.views.getStarted.visible = true; 	
+		}
+	}else{
+		if(ti.views.getStarted.visible){
+			ti.views.main.remove(ti.views.getStarted);
+			ti.views.getStarted.visible = false; 
+		}
 	}
 
 };

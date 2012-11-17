@@ -97,7 +97,7 @@ exports.create = function() {
 		ti.slider = Ti.UI.createSlider({
 			top : 10,
 			min : 0,
-			max : Math.min(3, max),
+			max : Math.min(5, max),
 			width : "80%",
 			value : Math.min(value, max)
 		});

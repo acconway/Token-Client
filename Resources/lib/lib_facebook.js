@@ -97,7 +97,7 @@ var getPics = exports.getPics = function(index, friendsList) {
 		
 		gettingPics = true; 
 
-		if (friendsList[index]) {
+		if (friendsList && friendsList[index]) {
 
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "profilepics", friendsList[index].id + ".png");
 

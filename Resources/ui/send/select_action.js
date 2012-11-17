@@ -166,6 +166,7 @@ var buildRows = function() {
 var updateTable = exports.updateTable = function() {
 
 	actions = App.Models.Transactions.getAllActions(friend.userID);
+	actions = actions.concat(App.CONSTANTS.defaultActions);
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
@@ -194,13 +195,17 @@ var updateTable = exports.updateTable = function() {
 
 var hasAction = function(name) {
 	return App._.find(actions, function(action) {
-		return action.name == name;
+		return action.name.toLowerCase() == name.toLowerCase();
 	})
 };
 
 var afterCreateNewAction = function(name) {
 	if (hasAction(name)) {
-		alert("You already have an action named " + name);
+		Ti.UI.createAlertDialog({
+			title : "",
+			message : "You already have an action named "+ name,
+		}).show();
+
 	} else {
 		App.UI.Send.SelectTokens.open(friend, {
 			name : name,

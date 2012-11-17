@@ -260,6 +260,24 @@ exports.createFriendRow = function(title) {
 	return background;
 };
 
+exports.createGetStartedRow = function(){
+		
+	var row = Ti.UI.createView(cfg.views.friendRow);
+	
+	row.visible = false; 
+	row.top = 0;
+	
+	var label = Ti.UI.createLabel({
+		height:Ti.UI.SIZE,
+		width:Ti.UI.SIZE,
+		text:"None yet! Click Send to get started"
+	});
+	
+	row.add(label);
+
+	return row; 
+};
+
 exports.createAddNewRow = function() {
 
 };
@@ -329,6 +347,7 @@ exports.createRefreshButton = function() {
 	var button = Ti.UI.createButton(cfg.buttons.refresh);
 
 	button.addEventListener('click', function() {
+		App.UI.showWait("Refreshing");
 		App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
 		if (!App.Lib.Facebook.isGettingPics()) {
 			App.Lib.Facebook.getPics(0, App.Models.User.getByName("friendsList"));

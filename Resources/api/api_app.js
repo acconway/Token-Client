@@ -81,9 +81,9 @@ exports.handleResponse = function(name, response, params, errorCallback,successC
             responseObj = JSON.parse(response.source.responseText);
         }
 
-        if (responseObj && responseObj.Error) {
+        if (responseObj && responseObj.error) {
           //Error
-			errorCallback(responseObj.Error, params);
+			errorCallback(responseObj.error, params);
         } else {
           //Success 
             successCallback(responseObj, params); 
