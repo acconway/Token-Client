@@ -254,6 +254,8 @@ var buildHierarchy = function() {
 		ti.titleBar.leftNavButton.visible = true;
 
 		ti.win.add(ti.titleBar);
+		
+		cfg.views.historyRow.backgroundSelectedColor = "white";
 
 	} else {
 
@@ -261,6 +263,7 @@ var buildHierarchy = function() {
 
 		ti.win.rightNavButton = ti.buttons.logout;
 		ti.win.leftNavButton = App.UI.createRefreshButton();
+		cfg.views.historyRow.selectedBackgroundColor = "white";
 
 	}
 	

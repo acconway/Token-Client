@@ -4,7 +4,7 @@ var schema = {
 	table : "friends",
 	columns : {
 		id : 'INTEGER PRIMARY KEY',
-		userID : 'INTEGER',
+		userID : 'TEXT',
 		name : 'TEXT'
 	}
 };

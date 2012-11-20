@@ -318,6 +318,8 @@ var buildHierarchy = function() {
 		ti.views.main.top = 50;
 
 		ti.titleBar = App.UI.createAndroidTitleBar();
+		
+		cfg.views.historyRow.backgroundSelectedColor = 'white';
 
 		ti.titleBar.rightNavButton.title = "Send";
 		ti.titleBar.rightNavButton.addEventListener("click", function() {

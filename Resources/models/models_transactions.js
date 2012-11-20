@@ -4,8 +4,8 @@ var schema = {
 	table : "transactions",
 	columns : {
 		id : 'INTEGER PRIMARY KEY',
-		senderID : 'INTEGER',
-		recipientID : 'INTEGER',
+		senderID : 'TEXT',
+		recipientID : 'TEXT',
 		tokenValue : 'INTEGER',
 		actionName : "TEXT",
 		comment : "TEXT",
