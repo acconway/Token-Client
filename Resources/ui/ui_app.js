@@ -35,6 +35,12 @@ exports.User = User;
 
 var waitOpen = false;
 
+var fonts = {
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book"
+};
+
 var cfg = {
 	activityIndicator : {
 		top : 20,
@@ -73,7 +79,7 @@ var cfg = {
 			top : 0,
 			height : 50,
 			width : "100%",
-			backgroundColor : "#6B8A8C",
+			backgroundColor : "#60a4b1",
 			borderColor : "black",
 			borderWidth : 1
 		},
@@ -108,12 +114,13 @@ var cfg = {
 		},
 		titleBar : {
 			height : Ti.UI.SIZE,
-			width : Ti.UI.SIZE,
+			width : 200,
+			textAlign : "center",
 			font : {
-				fontSize : 16,
-				fontWeight : "bold"
+				fontSize : "18px",
+				fontFamily : fonts.bold
 			},
-			color : "white"
+			color : "#f26522"
 		},
 		friendName : {
 			width : Ti.UI.SIZE,
@@ -223,6 +230,10 @@ var setupActivityIndicator = function() {
 
 };
 
+exports.getTitleControl = function() {
+	return Ti.UI.createLabel(cfg.labels.titleBar);
+};
+
 exports.createSpacer = function() {
 	return Ti.UI.createView({
 		top : 0,
@@ -260,22 +271,22 @@ exports.createFriendRow = function(title) {
 	return background;
 };
 
-exports.createGetStartedRow = function(){
-		
+exports.createGetStartedRow = function() {
+
 	var row = Ti.UI.createView(cfg.views.friendRow);
-	
-	row.visible = false; 
+
+	row.visible = false;
 	row.top = 0;
-	
+
 	var label = Ti.UI.createLabel({
-		height:Ti.UI.SIZE,
-		width:Ti.UI.SIZE,
-		text:"None yet! Click Send to get started"
+		height : Ti.UI.SIZE,
+		width : Ti.UI.SIZE,
+		text : "None yet! Click Send to get started"
 	});
-	
+
 	row.add(label);
 
-	return row; 
+	return row;
 };
 
 exports.createAddNewRow = function() {
@@ -417,6 +428,18 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 		}
 	});
 
+};
+
+exports.getProfilePicture = function(id){
+	
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", id + ".png");
+
+	if (file.exists()) {
+		return file;
+	} else {
+		return "/images/defaultprofile.png";
+	}
+	
 };
 
 var refreshUIOnLogin = function() {

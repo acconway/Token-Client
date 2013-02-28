@@ -9,7 +9,7 @@
     <deployment-targets>
         <target device="mobileweb">true</target>
         <target device="iphone">true</target>
-        <target device="ipad">true</target>
+        <target device="ipad">false</target>
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
@@ -22,7 +22,7 @@
     <description>not specified</description>
     <copyright>2012 by alexanderconway</copyright>
     <property name="ti.facebook.appid">224818800979354</property>
-    <icon>Token_AppIcon.png</icon>
+    <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
@@ -33,6 +33,7 @@
     <guid>afc8f309-450d-445d-9c48-e7d077ea34ee</guid>
     <property name="ti.ui.defaultunit">system</property>
     <iphone>
+    	<prerendered-icon>true</prerendered-icon>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
         </orientations>

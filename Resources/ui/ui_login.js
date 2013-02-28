@@ -1,5 +1,11 @@
 var App;
 
+var fonts = {
+	black:"GoudySans Blk BT",
+	bold:"GoudySans Md BT",
+	book:"GoudySans LT Book"
+};
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
@@ -12,15 +18,15 @@ var cfg = {
 			width : "100%",
 			height : "100%",
 			backgroundColor : "transparent",
-			backgroundImage:"/images/splash.png"
+			backgroundImage:"/images/Default.png"
 		},
 		button:{
 			top:280,
 			height : 55,
 			width : "90%",
 			borderWidth : 1,
-			borderColor : "white",
-			backgroundColor : "white",
+			borderColor : "#f3e7da",
+			backgroundColor : "#f3e7da",
 			borderRadius : 4
 		}
 	},
@@ -40,10 +46,11 @@ var cfg = {
 			text:"Log in with Facebook",
 			left:60,
 			height:50,
-			color:"black",
+			backgroundColor:"transparent",
+			color:"#6292a1",
 			font : {
 				fontSize : 18,
-				fontWeight : "light"
+				fontFamily:fonts.book 
 			},
 			width:Ti.UI.SIZE
 		}
@@ -89,11 +96,11 @@ var addEventListeners = function() {
 	}); 
 	
 	ti.views.button.addEventListener("touchstart", function() {
-		ti.views.button.backgroundColor = "#a4b5ac";
+		ti.views.button.backgroundColor = "#e46d36";
 	});
 	
 	ti.views.button.addEventListener("touchend", function() {
-		ti.views.button.backgroundColor = "white";
+		ti.views.button.backgroundColor = "#f3e7da";
 	});
 };
 
