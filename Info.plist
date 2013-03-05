@@ -56,6 +56,8 @@
 		<string>/fonts/GoudysansBlack.ttf</string>
 		<string>/fonts/GoudySansBold.ttf</string>
 		<string>/fonts/GoudySansBook.ttf</string>
+		<string>/fonts/GoudySansMedium.ttf</string>
+		<string>/fonts/GoudySansBookItalic.ttf</string>
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDefault</string>
