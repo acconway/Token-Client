@@ -33,7 +33,7 @@ var cfg = {
 		user : {
 			width : Ti.UI.SIZE,
 			height : 60,
-			top : 10,
+			top : 5,
 			borderRadius : 10,
 			backgroundColor : "white",
 			layout : "horizontal",
@@ -51,7 +51,7 @@ var cfg = {
 			layout : 'vertical'
 		},
 		balanceRow : {
-			top : 10,
+			top : 5,
 			height : 67.5,
 			width : 295,
 			backgroundImage : "images/balanceBackground.png"
@@ -72,14 +72,14 @@ var cfg = {
 			backgroundImage : "images/friendTokensBackground.png"
 		},
 		historyTable : {
-			top : 10,
+			top : 5,
 			height : 0,
 			scrollable : false,
 			width : "90%",
-			borderColor : "f3e7da",
+			borderColor : "#f3e7da",
 			borderRadius : 4,
 			borderWidth : 1,
-			backgroundColor : "f3e7da"
+			backgroundColor : "#f3e7da"
 		},
 		historyRow : {
 			width : "100%",
@@ -142,7 +142,7 @@ var cfg = {
 		},
 		tokensTitle : {
 			right : 20,
-			top : 10,
+			top : 5,
 			color : "faa74a",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
@@ -171,7 +171,7 @@ var cfg = {
 		},
 		activityTitle : {
 			right : 20,
-			top : 10,
+			top : 0,
 			color : "faa74a",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
@@ -188,7 +188,7 @@ var cfg = {
 		},
 		historyDate : {
 			height : Ti.UI.SIZE,
-			top : 25,
+			top : 27,
 			color : "#6292a1",
 			font : {
 				fontSize : 12,

@@ -53,7 +53,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-		<string>/fonts/GoudysansBlack.ttf</string>
+		<string>/fonts/GoudySansBlack.ttf</string>
 		<string>/fonts/GoudySansBold.ttf</string>
 		<string>/fonts/GoudySansBook.ttf</string>
 		<string>/fonts/GoudySansMedium.ttf</string>

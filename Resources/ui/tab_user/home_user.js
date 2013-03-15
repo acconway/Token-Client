@@ -224,7 +224,7 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "User",
-		icon : "images/icons/tabs/user.png"
+		icon : "images/tab/profile.png"
 	});
 
 	ti.views.user = App.UI.createFriendRow();

@@ -4,12 +4,20 @@ var Detail = require("ui/tab_friends/detail");
 
 exports.Detail = Detail;
 
+var fonts = {
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book",
+	italic : "GoudySans LT Book Italic",
+	medium : "GoudySans Md BT Medium"
+};
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Token",
-		barColor : "6b8a8c",
-		backgroundColor : "#DBDBDB",
+		title : '',
+		backgroundImage : "images/background.png",
+		barColor : "#60a4b1",
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {
@@ -22,10 +30,10 @@ var cfg = {
 			layout : "vertical"
 		},
 		row : {
-			backgroundColor : "white",
-			hasChild : true,
+			backgroundColor : "#f5efe9",
+			hasChild : false,
 			height : 50,
-			selectedBackgroundColor : "#a4b5ac"
+			selectedBackgroundColor : "white"
 		}
 	},
 	table : {
@@ -34,21 +42,27 @@ var cfg = {
 		width : "90%",
 		scrollable : false,
 		height : 0,
+		filterAttribute : 'name',
 		borderWidth : 1,
-		borderColor : "white",
-		backgroundColor : "white",
-		borderRadius : 2
+		borderColor : "#f5efe9",
+		backgroundColor : "#f5efe9",
+		borderRadius : 4
 	},
+	search:{
+		barColor : "#f7ece0",
+		showCancel : false,
+		hintText : 'search'
+	}, 
 	labels : {
 		friend : {
 			font : {
 				fontSize : 16,
-				fontWeight : 'light'
+				fontFamily:fonts.bold
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "black",
+			color : "#6292a1",
 			touchEnabled : false
 		}
 	},
@@ -56,7 +70,14 @@ var cfg = {
 		friend : {
 			left : 5,
 			width : 40,
-			height : 40
+			height : 40,
+			borderRadius:4
+		},
+		arrow:{
+			image:"images/tablearrow.png",
+			height:7,
+			width:7,
+			right:10
 		}
 	}
 };
@@ -65,8 +86,10 @@ var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
 		main : Ti.UI.createScrollView(cfg.views.main),
-		noFriends: Ti.UI.createView(cfg.views.row)
+		noFriends : Ti.UI.createView(cfg.views.row)
 	},
+ 	search : Ti.UI.createSearchBar(cfg.search),
+	labels:{},
 	table : Ti.UI.createTableView(cfg.table)
 };
 
@@ -93,7 +116,9 @@ var addRow = function(friend) {
 	row.friend = friend;
 
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = App.Lib.Functions.getShortName(friend.name);
+	row.label.text = friend.name;
+	
+	row.name = friend.name; 
 
 	row.add(row.label);
 
@@ -110,6 +135,10 @@ var addRow = function(friend) {
 	}
 
 	row.add(image);
+	
+	var arrow = Ti.UI.createImageView(cfg.images.arrow);
+	
+	row.add(arrow); 
 
 	return row;
 };
@@ -130,19 +159,19 @@ var updateTable = function() {
 	ti.table.height = 0;
 	buildRows();
 	ti.table.setData(rowData);
-	
-	if(rowData.length == 0){
-		if(ti.views.getStarted.visible == false){
+
+	if (rowData.length == 0) {
+		if (ti.views.getStarted.visible == false) {
 			ti.views.main.add(ti.views.getStarted);
-			ti.views.getStarted.visible = true; 	
+			ti.views.getStarted.visible = true;
 		}
-	}else{
-		if(ti.views.getStarted.visible){
+	} else {
+		if (ti.views.getStarted.visible) {
 			ti.views.main.remove(ti.views.getStarted);
-			ti.views.getStarted.visible = false; 
+			ti.views.getStarted.visible = false;
 		}
 	}
-	
+
 };
 
 var buildHierarchy = function() {
@@ -151,7 +180,7 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "Friends",
-		icon : "images/icons/tabs/friends.png"
+		icon : "images/tab/Friends.png"
 	});
 
 	if (App.ANDROID) {
@@ -182,12 +211,18 @@ var buildHierarchy = function() {
 
 		ti.table.top = 15;
 
+		ti.labels.titleControl = App.UI.getTitleControl();
+		ti.labels.titleControl.text = "Friends";
+		ti.win.setTitleControl(ti.labels.titleControl);
+
 		ti.win.rightNavButton = App.UI.createSendTokensButton();
 		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 	}
-	
-	ti.views.getStarted = App.UI.createGetStartedRow(); 
+
+	ti.views.getStarted = App.UI.createGetStartedRow();
+
+	//ti.table.search = ti.search;
 
 	ti.views.main.add(ti.table);
 

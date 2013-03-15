@@ -174,7 +174,7 @@ var buildHierarchy = function() {
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
 		title : "Exchanges",
-		icon : "images/icons/tabs/notifications.png"
+		icon : "images/tab/exchange.png"
 	});
 
 	if (App.ANDROID) {

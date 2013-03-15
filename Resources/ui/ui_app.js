@@ -117,7 +117,7 @@ var cfg = {
 			width : 200,
 			textAlign : "center",
 			font : {
-				fontSize : "18px",
+				fontSize : "22px",
 				fontFamily : fonts.bold
 			},
 			color : "#f26522"
