@@ -4,88 +4,122 @@ var FacebookFriendList = require("ui/send/facebook_friend_list");
 
 exports.FacebookFriendList = FacebookFriendList;
 
+var fonts = {
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book",
+	italic : "GoudySans LT Book Italic",
+	medium : "GoudySans Md BT Medium"
+};
+
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Send Tokens",
-		barColor : "#6b8a8c",
+		title : '',
+		backgroundImage : "images/background.png",
+		barColor : "#60a4b1",
+		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT],
 		layout : "vertical"
 	},
 	views : {
 		row : {
 			width : "100%",
 			height : 50,
-			selectedBackgroundColor : "#a4b5ac",
-			backgroundColor : "transparent",
-			hasChild : true
+			selectedBackgroundColor : "white",
+			backgroundColor : "#f5efe9",
+			hasChild : false
 		},
 		addNew : {
-			top : 15,
+			top : 5,
 			backgroundImage : 'none',
-			backgroundColor : "white",
+			borderWidth : 1,
+			borderColor : "#f5efe9",
+			backgroundColor : "#f5efe9",
+			borderRadius : 4,
 			height : 50,
 			width : "90%"
 		}
 	},
 	table : {
-		top : 15,
+		top : 5,
 		minRowHeight : 50,
 		width : "90%",
 		height : Ti.UI.SIZE,
 		borderWidth : 1,
-		borderColor : "white",
-		backgroundColor : "white",
-		borderRadius : 2
+		borderColor : "#f5efe9",
+		backgroundColor : "#f5efe9",
+		borderRadius : 4
 	},
 	labels : {
 		title : {
-			left : 10,
-			top : 15,
-			font : {
-				fontSize : 16,
-				fontWeight : "bold"
-			},
-			text : "To:",
-			color : "black",
+			left : 20,
+			top : 5,
+			color : "faa74a",
 			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE
+			height : Ti.UI.SIZE,
+			shadowColor : '#eee',
+			shadowOffset : {
+				x : 0,
+				y : 1
+			},
+			font : {
+				fontSize : 17,
+				fontFamily : fonts.black
+			},
+			text : "TO"
 		},
 		friend : {
 			font : {
-				fontSize : 18,
-				fontWeight : "light"
+				fontSize : 16,
+				fontFamily : fonts.bold
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "black",
+			color : "#6292a1",
 			touchEnabled : false
 		},
 		addNewFriend : {
-			font : {
-				fontSize : 18,
-				fontWeight : "light"
-			},
-			left : 10,
-			height : 30,
-			backgroundColor : "transparent",
+			left : 20,
+			top : 5,
+			color : "faa74a",
 			width : Ti.UI.SIZE,
-			color : "black",
-			text : "Add New Friend"
+			height : Ti.UI.SIZE,
+			shadowColor : '#eee',
+			shadowOffset : {
+				x : 0,
+				y : 1
+			},
+			font : {
+				fontSize : 17,
+				fontFamily : fonts.black
+			},
+			text : "ADD NEW FRIEND"
+		},
+		addNewPlus : {
+			font : {
+				fontSize : 24,
+				fontFamily : fonts.black
+			},
+			color : "#9cb4b8",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			left : 10,
+			text : "+"
 		}
 	},
 	images : {
 		friend : {
 			left : 5,
 			width : 40,
-			height : 40
+			height : 40,
+			borderRadius : 4
 		},
-		addNew : {
-			right : 10,
-			width : 22,
-			backgroundImage : "none",
-			height : 22,
-			image : "/images/icons/plus.png"
+		arrow : {
+			image : "images/tablearrow.png",
+			height : 7,
+			width : 7,
+			right : 10
 		}
 	},
 	buttons : {
@@ -101,11 +135,10 @@ var ti = {
 	views : {},
 	labels : {
 		title : Ti.UI.createLabel(cfg.labels.title),
-		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend)
+		addNew : Ti.UI.createLabel(cfg.labels.addNewFriend),
+		addNewPlus : Ti.UI.createLabel(cfg.labels.addNewPlus)
 	},
-	images : {
-		addNew : Ti.UI.createImageView(cfg.images.addNew)
-	},
+	images : {},
 	buttons : {
 		close : Ti.UI.createButton(cfg.buttons.close)
 	}
@@ -122,7 +155,7 @@ var addEventListeners = function() {
 
 	ti.views.addNew.addEventListener("click", function(e) {
 		FacebookFriendList.open();
-		ti.views.addNew.backgroundColor = "white";
+		ti.views.addNew.backgroundColor = "#f5efe9";
 	});
 
 	ti.buttons.close.addEventListener("click", function() {
@@ -156,6 +189,10 @@ var addRow = function(friend) {
 
 	row.add(image);
 
+	var arrow = Ti.UI.createImageView(cfg.images.arrow);
+
+	row.add(arrow);
+
 	return row;
 
 };
@@ -164,15 +201,14 @@ var buildAddNew = function() {
 
 	ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
 
-	ti.views.addNew.add(ti.labels.addNew);
-	ti.views.addNew.add(ti.images.addNew);
+	ti.views.addNew.add(ti.labels.addNewPlus);
 
 	ti.views.addNew.addEventListener("touchstart", function() {
-		ti.views.addNew.backgroundColor = "#a4b5ac";
+		ti.views.addNew.backgroundColor = "white";
 	});
 
 	ti.views.addNew.addEventListener("touchend", function() {
-		ti.views.addNew.backgroundColor = "white";
+		ti.views.addNew.backgroundColor = "#f5efe9";
 	});
 
 };
@@ -211,6 +247,10 @@ var buildHierarchy = function() {
 
 		ti.win.add(ti.titleBar);
 
+	} else {
+		ti.labels.titleControl = App.UI.getTitleControl();
+		ti.labels.titleControl.text = "Send Tokens";
+		ti.win.setTitleControl(ti.labels.titleControl);
 	}
 
 	ti.win.add(ti.labels.title);
@@ -218,6 +258,8 @@ var buildHierarchy = function() {
 	ti.win.add(ti.table);
 
 	buildAddNew();
+
+	ti.win.add(ti.labels.addNew);
 
 	ti.win.add(ti.views.addNew);
 
