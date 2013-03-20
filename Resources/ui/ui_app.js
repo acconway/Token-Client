@@ -90,14 +90,28 @@ var cfg = {
 			backgroundColor : "transparent"
 		},
 		friendRow : {
-			top : 15,
+			top : 5,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
-			borderColor : "white",
-			backgroundColor : "white",
-			borderRadius : 2
+			borderColor : "#f3e7da",
+			backgroundColor : "#f3e7da",
+			borderRadius : 4
 		},
+		sliderBackground : {
+			width : 310,
+			height : 45,
+			left : 10,
+			top : 10,
+			backgroundImage : "images/tokenslidebackground.png"
+		},
+		sliderView : {
+			width : 308,
+			left : 0,
+			height : 45,
+			top : 0,
+			backgroundColor : "transparent"
+		}
 	},
 	labels : {
 		scrollToRefreshViewLabel : {
@@ -123,26 +137,44 @@ var cfg = {
 			color : "#f26522"
 		},
 		friendName : {
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			color : "black",
-			left : 60,
-			font : {
-				fontSize : 18,
-				fontWeight : "light"
-			}
-		},
-		headerTitle : {
-			left : 10,
-			top : 15,
-			text : "To:",
-			color : "black",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
 			font : {
 				fontSize : 16,
-				fontWeight : "bold"
-			}
+				fontFamily : fonts.bold
+			},
+			left : 70,
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			color : "#6292a1",
+			touchEnabled : false
+		},
+		headerTitle : {
+			left : 20,
+			top : 5,
+			color : "faa74a",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			shadowColor : '#eee',
+			shadowOffset : {
+				x : 0,
+				y : 1
+			},
+			font : {
+				fontSize : 17,
+				fontFamily : fonts.black
+			},
+			text : "TO"
+		},
+		slider : {
+			width : Ti.UI.SIZE,
+			top : 0,
+			height : 45,
+			left : 100,
+			text : "send a token",
+			font : {
+				fontFamily : fonts.black,
+				fontSize : 18
+			},
+			color : "#f8cb99"
 		}
 	},
 	buttons : {
@@ -177,7 +209,15 @@ var cfg = {
 		profilePic : {
 			left : 5,
 			width : 40,
-			height : 40
+			height : 40,
+			borderRadius : 4
+		},
+		sliderToken : {
+			height : 45,
+			width : 50,
+			top : 0,
+			left : 0,
+			image : "images/tokenlarge.png"
 		}
 	}
 };
@@ -267,6 +307,43 @@ exports.createFriendRow = function(title) {
 	background.label = friend;
 
 	background.add(row);
+
+	return background;
+};
+
+exports.buildSendTokensSlider = function(fullSize, callback) {
+
+	var background = Ti.UI.createView(cfg.views.sliderBackground);
+
+	var view = Ti.UI.createView(cfg.views.sliderView);
+
+	if (fullSize) {
+		background.backgroundImage = "images/sliderbackgroundfull.png";
+		background.width = "100%";
+		background.left = 0;
+		view.width = "100%";
+	}
+
+	var token = Ti.UI.createImageView(cfg.images.sliderToken);
+
+	var label = Ti.UI.createLabel(cfg.labels.slider);
+
+	view.add(token);
+	view.add(label);
+
+	view.addEventListener("swipe", function() {
+		view.animate({
+			left : 320,
+			duration : 200
+		}, function() {
+			callback();
+			view.left = 0; 
+		});
+	});
+
+	background.sliderView = view;
+
+	background.add(view);
 
 	return background;
 };
@@ -430,8 +507,8 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 
 };
 
-exports.getProfilePicture = function(id){
-	
+exports.getProfilePicture = function(id) {
+
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", id + ".png");
 
 	if (file.exists()) {
@@ -439,7 +516,7 @@ exports.getProfilePicture = function(id){
 	} else {
 		return "/images/defaultprofile.png";
 	}
-	
+
 };
 
 var refreshUIOnLogin = function() {

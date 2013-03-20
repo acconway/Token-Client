@@ -311,37 +311,6 @@ var buildHistoryRow = function(transaction) {
 
 };
 
-var buildSendTokensSlider = function() {
-
-	var background = Ti.UI.createView(cfg.views.sliderBackground);
-
-	var view = Ti.UI.createView(cfg.views.sliderView);
-
-	var token = Ti.UI.createImageView(cfg.images.sliderToken);
-
-	var label = Ti.UI.createLabel(cfg.labels.slider);
-
-	view.add(token);
-	view.add(label);
-
-	view.addEventListener("swipe", function() {
-		view.animate({
-			left : 320,
-			duration : 200
-		}, function() {
-			App.UI.Send.open(App.UI.Friends.getFriends());
-			App.UI.Send.SelectAction.open(friend);
-		});
-	});
-	
-	background.sliderView = view; 
-
-	background.add(view);
-
-	return background;
-
-};
-
 var buildBalanceRow = function() {
 
 	var balanceRow = {
@@ -487,7 +456,10 @@ var buildHierarchy = function() {
 	ti.friendBalance = buildBalanceRow();
 	ti.myBalance = buildBalanceRow();
 
-	ti.sendTokensSlider = buildSendTokensSlider();
+	ti.sendTokensSlider = App.UI.buildSendTokensSlider(false,function(){
+			App.UI.Send.open(App.UI.Friends.getFriends());
+			App.UI.Send.SelectAction.open(friend);
+	});
 
 	ti.views.main.add(ti.labels.tokensTitle);
 	ti.views.main.add(ti.friendBalance.main);

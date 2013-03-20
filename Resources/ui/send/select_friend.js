@@ -26,15 +26,15 @@ var cfg = {
 			width : "100%",
 			height : 50,
 			selectedBackgroundColor : "white",
-			backgroundColor : "#f5efe9",
+			backgroundColor : "#f3e7da",
 			hasChild : false
 		},
 		addNew : {
 			top : 5,
 			backgroundImage : 'none',
 			borderWidth : 1,
-			borderColor : "#f5efe9",
-			backgroundColor : "#f5efe9",
+			borderColor : "#f3e7da",
+			backgroundColor : "#f3e7da",
 			borderRadius : 4,
 			height : 50,
 			width : "90%"
@@ -208,7 +208,7 @@ var buildAddNew = function() {
 	});
 
 	ti.views.addNew.addEventListener("touchend", function() {
-		ti.views.addNew.backgroundColor = "#f5efe9";
+		ti.views.addNew.backgroundColor = "#f3e7da";
 	});
 
 };

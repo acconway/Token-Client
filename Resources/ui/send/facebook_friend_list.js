@@ -74,7 +74,7 @@ var addEventListeners = function() {
 var addRow = function(friend) {
 
 	var row = Ti.UI.createTableViewRow({
-		backgroundColor : "white",
+		backgroundColor : "#f5efe9",
 		className : "row",
 		title : friend.name
 	});
