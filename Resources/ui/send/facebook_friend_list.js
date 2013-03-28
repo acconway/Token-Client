@@ -1,22 +1,22 @@
 var App, friends = [], rowData = [];
 
 //Search and side index
-var indexHeader = "0", tableIndex = [], indexCounter = 0
+var indexHeader = "0", tableIndex = [], indexCounter = 0;
+
+var fonts = {
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book",
+	italic : "GoudySans LT Book Italic",
+	medium : "GoudySans Md BT Medium"
+};
 
 var cfg = {
 	win : {
-		backgroundColor : "white",
-		title : "Friends List",
-		barColor:"6b8a8c",
-		backgroundColor:"#DBDBDB"//,
-		//modal : true
+		barColor : "#60a4b1",
+		backgroundImage : "images/background.png"
 	},
-	views : {
-		row : {
-			backgroundColor : "white",
-			className : "row"
-		}
-	},
+	views : {},
 	table : {
 		top : 0,
 		minRowHeight : 50,
@@ -44,7 +44,7 @@ var cfg = {
 	},
 	buttons : {},
 	search : {
-		barColor : "6b8a8c",
+		barColor : "#f3e7da",
 		showCancel : false,
 		hintText : 'search'
 	}
@@ -53,6 +53,7 @@ var cfg = {
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	table : Ti.UI.createTableView(cfg.table),
+	labels : {},
 	search : Ti.UI.createSearchBar(cfg.search)
 };
 
@@ -74,9 +75,14 @@ var addEventListeners = function() {
 var addRow = function(friend) {
 
 	var row = Ti.UI.createTableViewRow({
-		backgroundColor : "#f5efe9",
+		backgroundColor : "#f3e7da",
 		className : "row",
-		title : friend.name
+		title : friend.name,
+		color : "#6292a1",
+		font : {
+			fontSize : 16,
+			fontFamily : fonts.bold
+		}
 	});
 
 	row.friend = friend;
@@ -166,6 +172,12 @@ var buildHierarchy = function() {
 		ti.win.add(ti.titleBar);
 
 		cfg.table.top = 50;
+
+	} else {
+
+		ti.labels.titleControl = App.UI.getTitleControl();
+		ti.labels.titleControl.text = "Friends List";
+		ti.win.setTitleControl(ti.labels.titleControl);
 
 	}
 

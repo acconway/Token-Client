@@ -1,8 +1,14 @@
 var App, actions = [], rowData = [];
 
 var friend;
+var balance;
 
 var NewAction = require("ui/widgets/new_action");
+
+var exchange = {
+	tokens : 0,
+	action : null
+};
 
 var fonts = {
 	black : "GoudySans Blk BT",
@@ -179,6 +185,7 @@ var addEventListeners = function() {
 				ti.table.lastRow.hasCheck = false;
 			}
 			ti.table.lastRow = e.row;
+			exchange.action = data.action;
 		}
 	});
 
@@ -264,6 +271,22 @@ var hasAction = function(name) {
 	})
 };
 
+var addAction = function(name) {
+	var action = {
+		name : name
+	};
+	actions.push(action);
+	var row = addRow(action);
+	ti.table.appendRow(row);
+	ti.table.scrollToIndex(actions.length-1);
+	row.hasCheck = true;
+	if (ti.table.lastRow) {
+		ti.table.lastRow.hasCheck = false;
+	}
+	ti.table.lastRow = row;
+	exchange.action = action;
+};
+
 var afterCreateNewAction = function(name) {
 	if (hasAction(name)) {
 		Ti.UI.createAlertDialog({
@@ -272,6 +295,15 @@ var afterCreateNewAction = function(name) {
 		}).show();
 
 	} else {
+		addAction(name);
+	}
+};
+
+var clearTokens = function() {
+	exchange.tokens = 0;
+	for (var j = 0; j < ti.tokens.length; j++) {
+		ti.tokens[j].selected = false;
+		ti.tokens[j].image = "images/tokensmallunselected.png";
 	}
 };
 
@@ -290,16 +322,16 @@ var createTokenSelectors = function() {
 		ti.views.tokens.add(token);
 		token.addEventListener("click", function() {
 			for (var j = 0; j < ti.tokens.length; j++) {
-				if (j <= this.index) {
+				if (j <= Math.min(this.index, balance - 1)) {
 					ti.tokens[j].selected = true;
 				} else {
 					ti.tokens[j].selected = false;
 				}
+				exchange.tokens = this.index+1;
 				ti.tokens[j].image = ti.tokens[j].selected ? "images/tokensmall.png" : "images/tokensmallunselected.png";
 			}
 		});
 	};
-
 };
 
 var buildHierarchy = function() {
@@ -342,6 +374,36 @@ var buildHierarchy = function() {
 	ti.newActionWindow = NewAction.create(afterCreateNewAction);
 
 	ti.sendTokensSlider = App.UI.buildSendTokensSlider(true, function() {
+
+		if (!exchange.action) {
+			Ti.UI.createAlertDialog({
+				title : "",
+				message : "Please select an action",
+			}).show();
+		} else if (!exchange.tokens) {
+			Ti.UI.createAlertDialog({
+				title : "",
+				message : "Please select how many tokens",
+			}).show();
+		} else {
+			if (App.API.Transactions.getTransactionInProcess()) {
+				return;
+			}
+			if (balance <= 0) {
+				Ti.UI.createAlertDialog({
+					title : "",
+					message : "You have no tokens left!"
+				}).show();
+				return;
+			}
+			var now = new Date();
+			App.UI.showWait("Sending Tokens...");
+			if (friend.newFriend) {
+				App.UI.Friends.addFriend(friend, true);
+			}
+			App.API.Transactions.addTransaction(friend.userID, exchange.action.name, exchange.tokens, now.getTime(), friend.name);
+		}
+
 	});
 
 	createTokenSelectors();
@@ -366,7 +428,9 @@ exports.initialize = function(app) {
 exports.open = function(_friend) {
 	friend = _friend;
 	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name);
+	balance = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID).myBalance;
 	updateTable();
+	clearTokens();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);
 };

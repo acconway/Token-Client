@@ -46,8 +46,8 @@ var cfg = {
 		width : "90%",
 		height : Ti.UI.SIZE,
 		borderWidth : 1,
-		borderColor : "#f5efe9",
-		backgroundColor : "#f5efe9",
+		borderColor : "#f3e7da",
+		backgroundColor : "#f3e7da",
 		borderRadius : 4
 	},
 	labels : {
@@ -155,7 +155,6 @@ var addEventListeners = function() {
 
 	ti.views.addNew.addEventListener("click", function(e) {
 		FacebookFriendList.open();
-		ti.views.addNew.backgroundColor = "#f5efe9";
 	});
 
 	ti.buttons.close.addEventListener("click", function() {
