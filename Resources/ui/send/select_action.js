@@ -47,7 +47,7 @@ var cfg = {
 			width : "90%"
 		},
 		tokens : {
-			top : 5,
+			top : 15,
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			layout : "horizontal",
@@ -180,17 +180,17 @@ var addEventListeners = function() {
 	ti.table.addEventListener("click", function(e) {
 		var data = App.ANDROID ? e.source : e.rowData;
 		if (data.action) {
-			e.row.hasCheck = true;
-			if (ti.table.lastRow && ti.table.lastRow != e.row) {
-				ti.table.lastRow.hasCheck = false;
+			if (data.action == "add new") {
+				ti.newActionWindow.open();
+			} else {
+				e.row.hasCheck = true;
+				if (ti.table.lastRow && ti.table.lastRow != e.row) {
+					ti.table.lastRow.hasCheck = false;
+				}
+				ti.table.lastRow = e.row;
+				exchange.action = data.action;
 			}
-			ti.table.lastRow = e.row;
-			exchange.action = data.action;
 		}
-	});
-
-	ti.views.addNew.addEventListener("click", function(e) {
-		ti.newActionWindow.open();
 	});
 
 };
@@ -202,7 +202,7 @@ var addRow = function(action) {
 	row.action = action;
 
 	row.label = Ti.UI.createLabel(cfg.labels.action);
-	row.label.text = action.name;
+	row.label.text = action.name.toLowerCase();
 
 	row.add(row.label);
 
@@ -212,22 +212,39 @@ var addRow = function(action) {
 
 var buildAddNewRow = function() {
 
-	ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
+	/*ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
 
-	ti.views.addNew.backgroundColor = "#f3e7da";
-	ti.views.addNew.add(ti.labels.addNewPlus);
+	 ti.views.addNew.backgroundColor = "#f3e7da";
+	 ti.views.addNew.add(ti.labels.addNewPlus);
 
-	ti.views.addNew.addEventListener("touchstart", function() {
-		ti.views.addNew.backgroundColor = "white";
-	});
+	 ti.views.addNew.addEventListener("touchstart", function() {
+	 ti.views.addNew.backgroundColor = "white";
+	 });
 
-	ti.views.addNew.addEventListener("touchend", function() {
-		ti.views.addNew.backgroundColor = "#f3e7da";
-	});
+	 ti.views.addNew.addEventListener("touchend", function() {
+	 ti.views.addNew.backgroundColor = "#f3e7da";
+	 });*/
+
+	var row = Ti.UI.createTableViewRow(cfg.views.row);
+
+	row.action = "add new";
+
+	row.label = Ti.UI.createLabel(cfg.labels.action);
+	row.label.font = {
+		fontSize : 16,
+		fontFamily : fonts.black
+	};
+	row.label.text = "+ add new action";
+
+	row.add(row.label);
+
+	return row;
 
 };
 
 var buildRows = function() {
+
+	rowData.push(buildAddNewRow());
 
 	App._.each(actions, function(action) {
 		rowData.push(addRow(action));
@@ -244,17 +261,17 @@ var updateTable = exports.updateTable = function() {
 	buildRows();
 	ti.table.setData(rowData);
 
-	if (rowData.length > 3) {
-		ti.table.height = 122;
+	if (rowData.length > 4) {
+		ti.table.height = 162;
 	} else {
 		ti.table.height = Ti.UI.SIZE;
 	}
 
-	if (rowData.length == 0) {
-		ti.views.addNew.top = 0;
-	} else {
-		ti.views.addNew.top = 5;
-	}
+	/*if (rowData.length == 0) {
+	 ti.views.addNew.top = 0;
+	 } else {
+	 ti.views.addNew.top = 5;
+	 }*/
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
 
@@ -278,7 +295,7 @@ var addAction = function(name) {
 	actions.push(action);
 	var row = addRow(action);
 	ti.table.appendRow(row);
-	ti.table.scrollToIndex(actions.length-1);
+	ti.table.scrollToIndex(actions.length);
 	row.hasCheck = true;
 	if (ti.table.lastRow) {
 		ti.table.lastRow.hasCheck = false;
@@ -302,8 +319,7 @@ var afterCreateNewAction = function(name) {
 var clearTokens = function() {
 	exchange.tokens = 0;
 	for (var j = 0; j < ti.tokens.length; j++) {
-		ti.tokens[j].selected = false;
-		ti.tokens[j].image = "images/tokensmallunselected.png";
+		ti.views.tokens.remove(ti.tokens[j]);
 	}
 };
 
@@ -311,7 +327,7 @@ var createTokenSelectors = function() {
 
 	ti.tokens = [];
 
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i < Math.min(balance, 3); i++) {
 		var token = Ti.UI.createImageView(cfg.images.token);
 		var index = i;
 		token.index = index;
@@ -327,7 +343,7 @@ var createTokenSelectors = function() {
 				} else {
 					ti.tokens[j].selected = false;
 				}
-				exchange.tokens = this.index+1;
+				exchange.tokens = this.index + 1;
 				ti.tokens[j].image = ti.tokens[j].selected ? "images/tokensmall.png" : "images/tokensmallunselected.png";
 			}
 		});
@@ -360,12 +376,6 @@ var buildHierarchy = function() {
 	ti.views.main.add(ti.labels.title);
 
 	ti.views.main.add(ti.table);
-
-	buildAddNewRow();
-
-	ti.views.main.add(ti.labels.addNew);
-
-	ti.views.main.add(ti.views.addNew);
 
 	ti.views.main.add(ti.labels.howMany);
 
@@ -408,6 +418,8 @@ var buildHierarchy = function() {
 
 	createTokenSelectors();
 
+	ti.sendTokensSlider.top = 15;
+
 	ti.views.main.add(ti.views.tokens);
 
 	ti.views.main.add(ti.sendTokensSlider);
@@ -427,10 +439,11 @@ exports.initialize = function(app) {
 
 exports.open = function(_friend) {
 	friend = _friend;
-	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name);
+	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name.toLowerCase());
 	balance = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID).myBalance;
 	updateTable();
 	clearTokens();
+	createTokenSelectors();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);
 };

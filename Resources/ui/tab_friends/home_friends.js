@@ -48,16 +48,16 @@ var cfg = {
 		backgroundColor : "#f5efe9",
 		borderRadius : 4
 	},
-	search:{
+	search : {
 		barColor : "#f7ece0",
 		showCancel : false,
 		hintText : 'search'
-	}, 
+	},
 	labels : {
 		friend : {
 			font : {
 				fontSize : 16,
-				fontFamily:fonts.bold
+				fontFamily : fonts.bold
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
@@ -71,13 +71,13 @@ var cfg = {
 			left : 5,
 			width : 40,
 			height : 40,
-			borderRadius:4
+			borderRadius : 4
 		},
-		arrow:{
-			image:"images/tablearrow.png",
-			height:7,
-			width:7,
-			right:10
+		arrow : {
+			image : "images/tablearrow.png",
+			height : 7,
+			width : 7,
+			right : 10
 		}
 	}
 };
@@ -88,8 +88,8 @@ var ti = {
 		main : Ti.UI.createScrollView(cfg.views.main),
 		noFriends : Ti.UI.createView(cfg.views.row)
 	},
- 	search : Ti.UI.createSearchBar(cfg.search),
-	labels:{},
+	search : Ti.UI.createSearchBar(cfg.search),
+	labels : {},
 	table : Ti.UI.createTableView(cfg.table)
 };
 
@@ -116,9 +116,9 @@ var addRow = function(friend) {
 	row.friend = friend;
 
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = friend.name;
-	
-	row.name = friend.name; 
+	row.label.text = friend.name.toLowerCase();
+
+	row.name = friend.name.toLowerCase();
 
 	row.add(row.label);
 
@@ -135,10 +135,10 @@ var addRow = function(friend) {
 	}
 
 	row.add(image);
-	
+
 	var arrow = Ti.UI.createImageView(cfg.images.arrow);
-	
-	row.add(arrow); 
+
+	row.add(arrow);
 
 	return row;
 };
@@ -212,7 +212,7 @@ var buildHierarchy = function() {
 		ti.table.top = 15;
 
 		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "Friends";
+		ti.labels.titleControl.text = "friends";
 		ti.win.setTitleControl(ti.labels.titleControl);
 
 		ti.win.rightNavButton = App.UI.createSendTokensButton();

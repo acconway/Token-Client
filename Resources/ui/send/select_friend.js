@@ -70,7 +70,7 @@ var cfg = {
 		},
 		friend : {
 			font : {
-				fontSize : 16,
+				fontSize : 18,
 				fontFamily : fonts.bold
 			},
 			left : 70,
@@ -170,7 +170,7 @@ var addRow = function(friend) {
 	row.friend = friend;
 
 	row.label = Ti.UI.createLabel(cfg.labels.friend);
-	row.label.text = App.Lib.Functions.getShortName(friend.name);
+	row.label.text = App.Lib.Functions.getShortName(friend.name.toLowerCase());
 
 	row.add(row.label);
 

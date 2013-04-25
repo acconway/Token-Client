@@ -1,5 +1,7 @@
 var App;
 
+var overrideTabs = require('lib/overrideTabs');
+
 /*
  * Login Window: this is outside of the main tabgroup. Opened on launch if the user is not logged in.
  * If the user logs out, the main tabgroup is closed and the Login Window is re-opened.
@@ -134,11 +136,11 @@ var cfg = {
 				fontSize : "22px",
 				fontFamily : fonts.bold
 			},
-			color : "#f26522"
+			color : "white"
 		},
 		friendName : {
 			font : {
-				fontSize : 16,
+				fontSize : 18,
 				fontFamily : fonts.bold
 			},
 			left : 70,
@@ -223,7 +225,10 @@ var cfg = {
 };
 
 var ti = {
-	tabGroup : Ti.UI.createTabGroup(),
+	tabGroup : Ti.UI.createTabGroup({
+		//tabsBackgroundColor:"#a5cbd4",
+		//tabsBackgroundSelectedColor:"#e45e2f"
+	}),
 	activityIndicator : Ti.UI.createActivityIndicator(cfg.activityIndicator),
 	waitWindow : Ti.UI.createWindow(cfg.views.waitWindow),
 	views : {
@@ -337,7 +342,7 @@ exports.buildSendTokensSlider = function(fullSize, callback) {
 			duration : 200
 		}, function() {
 			callback();
-			view.left = 0; 
+			view.left = 0;
 		});
 	});
 
@@ -545,6 +550,8 @@ exports.initialize = function(app) {
 
 	buildHierarchy();
 	addEventListeners();
+
+ 	overrideTabs.overrideTabs(ti.tabGroup);
 
 	if (Ti.Facebook.loggedIn) {
 		App.login();
