@@ -10,7 +10,7 @@ var fonts = {
 	black : "GoudySans Blk BT",
 	bold : "GoudySans Md BT",
 	book : "GoudySans LT Book",
-	italic : "GoudySans LT Book Italic",
+	italic : "Goudy Sans",
 	medium : "GoudySans Md BT Medium"
 };
 
@@ -56,7 +56,7 @@ var cfg = {
 			top : 27,
 			color : "#6292a1",
 			font : {
-				fontSize : 12,
+				fontSize : 17,
 				fontFamily : fonts.book
 			},
 			right : 5,
@@ -66,7 +66,7 @@ var cfg = {
 			width : 200,
 			height : Ti.UI.SIZE,
 			left : 70,
-			top : 20,
+			top : 25,
 			color : "#6292a1",
 			font : {
 				fontSize : 15,
@@ -88,11 +88,11 @@ var cfg = {
 			left : 70,
 			width : "90%",
 			height : Ti.UI.SIZE,
-			top : 40,
+			top : 43,
 			color : "#6292a1",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.medium
+				fontSize : 15,
+				fontFamily : fonts.italic
 			}
 		}
 	},
@@ -104,7 +104,7 @@ var cfg = {
 			right : 105
 		},
 		logout : {
-			title : "Logout",
+			title : "logout",
 			height : 30,
 			width : 200
 		}
@@ -152,9 +152,9 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = ( sent ? "Sent" : "Received") + " " + transaction.tokenValue + " Token" + (transaction.tokenValue > 1 ? "s" : "");
-	friendNameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]);
-	actionLabel.text = "For \"" + transaction.actionName + "\"";
+	tokensLabel.text = ( sent ? "sent" : "received") + " " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "")+" for";
+	friendNameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase();
+	actionLabel.text = transaction.actionName.toLowerCase();
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friendID + ".png");
 
@@ -207,11 +207,13 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "User",
+		title : "user",
 		icon : "images/tab/profile.png"
 	});
 
 	ti.views.user = App.UI.createFriendRow();
+	
+	ti.views.user.top = 10;
 
 	if (App.ANDROID) {
 
@@ -221,7 +223,7 @@ var buildHierarchy = function() {
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
-		ti.titleBar.rightNavButton.title = "Logout";
+		ti.titleBar.rightNavButton.title = "logout";
 
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
 			App.logout();
@@ -229,7 +231,7 @@ var buildHierarchy = function() {
 
 		ti.titleBar.rightNavButton.visible = true;
 
-		ti.titleBar.leftNavButton.title = "Refresh";
+		ti.titleBar.leftNavButton.title = "refresh";
 
 		ti.titleBar.leftNavButton.addEventListener("click", function() {
 			App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
@@ -244,6 +246,10 @@ var buildHierarchy = function() {
 	} else {
 
 		ti.table.top = 15;
+		
+		ti.labels.titleControl = App.UI.getTitleControl();
+		ti.labels.titleControl.text = "user";
+		ti.win.setTitleControl(ti.labels.titleControl);
 
 		ti.win.rightNavButton = ti.buttons.logout;
 		ti.win.leftNavButton = App.UI.createRefreshButton();
@@ -310,7 +316,7 @@ var updateTable = exports.updateTable = function() {
 
 	buildNotificationsTable();
 
-	ti.views.user.label.text = App.Lib.Functions.getShortName(App.Models.User.getMyName());
+	ti.views.user.label.text = App.Lib.Functions.getShortName(App.Models.User.getMyName()).toLowerCase();
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", "me.png");
 

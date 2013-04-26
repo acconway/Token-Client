@@ -1,9 +1,11 @@
 var App;
 
 var fonts = {
-	black:"GoudySans Blk BT",
-	bold:"GoudySans Md BT",
-	book:"GoudySans LT Book"
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book",
+	italic : "GoudySans LT Book Italic",
+	medium : "GoudySans Md BT Medium"
 };
 
 var cfg = {
@@ -49,8 +51,8 @@ var cfg = {
 			backgroundColor:"transparent",
 			color:"#6292a1",
 			font : {
-				fontSize : 18,
-				fontFamily:fonts.book 
+				fontSize : 17,
+				fontFamily:fonts.bold 
 			},
 			width:Ti.UI.SIZE
 		}
@@ -113,6 +115,6 @@ exports.initialize = function(app) {
 };
 
 exports.getWin = function() {
-	ti.views.button.backgroundColor = "white";
+	ti.views.button.backgroundColor = "#f3e7da";
 	return ti.win;
 };

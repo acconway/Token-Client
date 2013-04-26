@@ -30,7 +30,6 @@ var cfg = {
 			layout : "vertical"
 		},
 		row : {
-			backgroundColor : "#f5efe9",
 			hasChild : false,
 			height : 50,
 			selectedBackgroundColor : "white"
@@ -44,8 +43,8 @@ var cfg = {
 		height : 0,
 		filterAttribute : 'name',
 		borderWidth : 1,
-		borderColor : "#f5efe9",
-		backgroundColor : "#f5efe9",
+		borderColor : "#f3e7da",
+		backgroundColor : "#f3e7da",
 		borderRadius : 4
 	},
 	search : {
@@ -56,7 +55,7 @@ var cfg = {
 	labels : {
 		friend : {
 			font : {
-				fontSize : 16,
+				fontSize : 18,
 				fontFamily : fonts.bold
 			},
 			left : 70,
@@ -179,7 +178,7 @@ var buildHierarchy = function() {
 
 	ti.tab = Ti.UI.createTab({
 		window : ti.win,
-		title : "Friends",
+		title : "friends",
 		icon : "images/tab/Friends.png"
 	});
 

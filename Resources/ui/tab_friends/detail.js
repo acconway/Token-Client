@@ -10,7 +10,7 @@ var fonts = {
 	black : "GoudySans Blk BT",
 	bold : "GoudySans Md BT",
 	book : "GoudySans LT Book",
-	italic : "GoudySans LT Book Italic",
+	italic : "Goudy Sans",
 	medium : "GoudySans Md BT Medium"
 };
 
@@ -111,7 +111,7 @@ var cfg = {
 			height : 20,
 			color : "#6292a1",
 			font : {
-				fontSize : 17,
+				fontSize : 18,
 				fontFamily : fonts.bold,
 			},
 			left : 0,
@@ -167,7 +167,7 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			color : "#6292a1",
 			font : {
-				fontSize : 16,
+				fontSize : 17,
 				fontFamily : fonts.book
 			},
 			right : 5,
@@ -180,7 +180,7 @@ var cfg = {
 			top : 5,
 			color : "#6292a1",
 			font : {
-				fontSize : 17,
+				fontSize : 16,
 				fontFamily : fonts.italic
 			}
 		},
@@ -188,11 +188,11 @@ var cfg = {
 			left : 10,
 			width : "90%",
 			height : Ti.UI.SIZE,
-			top : 25,
+			top : 22,
 			color : "#6292a1",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.medium
+				fontSize : 16,
+				fontFamily : fonts.italic
 			}
 		},
 		slider : {
@@ -361,7 +361,7 @@ var update = function(_friend) {
 
 	currentData = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID);
 
-	ti.labels.titleControl.text = friend.name;
+	ti.labels.titleControl.text = friend.name.toLowerCase();
 
 	ti.friendBalance.setFriend(friend);
 	ti.myBalance.setMe();
@@ -402,7 +402,7 @@ var buildHierarchy = function() {
 	} else {
 
 		cfg.views.historyRow.selectedBackgroundColor = 'white';
-		ti.win.backButtonTitle = "Back";
+		ti.win.backButtonTitle = "back";
 
 		ti.labels.titleControl = App.UI.getTitleControl();
 

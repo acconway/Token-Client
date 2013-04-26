@@ -171,7 +171,7 @@ var cfg = {
 			top : 0,
 			height : 45,
 			left : 100,
-			text : "send a token",
+			text : "send tokens",
 			font : {
 				fontFamily : fonts.black,
 				fontSize : 18
@@ -190,17 +190,17 @@ var cfg = {
 			width : 25,
 			height : 25,
 			right : 10,
-			title : "Send",
+			title : "send",
 			font : {
 				fontWeight : "bold",
-				fontSize : 20
+				fontSize : 40
 			}
 		},
 		refresh : {
 			width : 25,
 			height : 25,
 			left : 10,
-			title : "Refresh",
+			title : "refresh",
 			font : {
 				fontWeight : "bold",
 				fontSize : 20
@@ -427,6 +427,7 @@ exports.createAndroidTitleBar = function(title) {
 };
 
 exports.createSendTokensButton = function() {
+	
 	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	button.addEventListener("click", function() {
@@ -434,6 +435,7 @@ exports.createSendTokensButton = function() {
 	});
 
 	return button;
+	
 };
 
 exports.createRefreshButton = function() {

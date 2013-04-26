@@ -183,7 +183,7 @@ var buildHierarchy = function() {
 
 	ti.win.add(ti.table);
 
-	ti.win.backButtonTitle = "Back";
+	ti.win.backButtonTitle = "back";
 
 	updateTable();
 

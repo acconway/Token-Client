@@ -357,7 +357,7 @@ var buildHierarchy = function() {
 
 		ti.win.navBarHidden = true;
 
-		ti.titleBar = App.UI.createAndroidTitleBar("Send Tokens");
+		ti.titleBar = App.UI.createAndroidTitleBar("send tokens");
 
 		ti.win.add(ti.titleBar);
 
@@ -365,7 +365,7 @@ var buildHierarchy = function() {
 
 	} else {
 		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "Send Tokens";
+		ti.labels.titleControl.text = "send Tokens";
 		ti.win.setTitleControl(ti.labels.titleControl);
 	}
 
@@ -379,7 +379,7 @@ var buildHierarchy = function() {
 
 	ti.views.main.add(ti.labels.howMany);
 
-	ti.win.backButtonTitle = "Back";
+	ti.win.backButtonTitle = "back";
 
 	ti.newActionWindow = NewAction.create(afterCreateNewAction);
 
