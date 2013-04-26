@@ -95,7 +95,7 @@ var cfg = {
 			color : "#6292a1",
 			font : {
 				fontSize : 16,
-				fontFamily : fonts.italic
+				fontFamily : fonts.bold
 			}
 		}
 	},
@@ -130,8 +130,8 @@ var buildNotificationRow = function(transaction) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "") + " exchanged for";
-	actionLabel.text = transaction.actionName.toLowerCase();
+	tokensLabel.text = transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "") + " exchanged";
+	actionLabel.text = "for "+transaction.actionName.toLowerCase();
 
 	row.add(dateLabel);
 	row.add(tokensLabel);

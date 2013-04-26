@@ -43,7 +43,7 @@ var cfg = {
 			layout : "vertical"
 		},
 		historyRow : {
-			height : 70,
+			height : 50,
 			borderColor : "#f3e7da",
 			backgroundColor : "#f3e7da",
 			className : "row",
@@ -53,7 +53,6 @@ var cfg = {
 	labels : {
 		historyDate : {
 			height : Ti.UI.SIZE,
-			top : 27,
 			color : "#6292a1",
 			font : {
 				fontSize : 17,
@@ -65,8 +64,8 @@ var cfg = {
 		historyTokens : {
 			width : 200,
 			height : Ti.UI.SIZE,
-			left : 70,
-			top : 25,
+			left : 65,
+			top : 3,
 			color : "#6292a1",
 			font : {
 				fontSize : 15,
@@ -85,14 +84,14 @@ var cfg = {
 			width : Ti.UI.SIZE
 		},
 		historyAction : {
-			left : 70,
+			left : 65,
 			width : "90%",
 			height : Ti.UI.SIZE,
-			top : 43,
+			top : 24,
 			color : "#6292a1",
 			font : {
 				fontSize : 15,
-				fontFamily : fonts.italic
+				fontFamily : fonts.bold
 			}
 		}
 	},
@@ -111,9 +110,9 @@ var cfg = {
 	},
 	images : {
 		profilePic : {
-			left : 10,
-			height : 50,
-			width : 50,
+			left : 5,
+			height : 40,
+			width : 40,
 			borderRadius : 4
 		},
 		historyIcon : {
@@ -152,9 +151,8 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = ( sent ? "sent" : "received") + " " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "")+" for";
-	friendNameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase();
-	actionLabel.text = transaction.actionName.toLowerCase();
+	tokensLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase() + ( sent ? " sent" : " received") + " " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "");
+	actionLabel.text = "for "+transaction.actionName.toLowerCase();
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friendID + ".png");
 
@@ -167,7 +165,6 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	row.add(dateLabel);
 	row.add(tokensLabel);
 	row.add(profilePic);
-	row.add(friendNameLabel);
 	row.add(actionLabel);
 
 	row.image = profilePic;

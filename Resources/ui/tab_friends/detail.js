@@ -188,11 +188,11 @@ var cfg = {
 			left : 10,
 			width : "90%",
 			height : Ti.UI.SIZE,
-			top : 22,
+			top : 24,
 			color : "#6292a1",
 			font : {
 				fontSize : 16,
-				fontFamily : fonts.italic
+				fontFamily : fonts.bold
 			}
 		},
 		slider : {
@@ -262,8 +262,8 @@ var buildHistoryRow = function(transaction) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = ( sent ? "you" : "they") + " sent " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "") + " for";
-	actionLabel.text = transaction.actionName.toLowerCase();
+	tokensLabel.text = ( sent ? "you" : "they") + " sent " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "");
+	actionLabel.text = "for "+transaction.actionName.toLowerCase();
 
 	row.add(dateLabel);
 	row.add(tokensLabel);
