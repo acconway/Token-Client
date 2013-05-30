@@ -344,7 +344,7 @@ var createTokenSelectors = function() {
 					ti.tokens[j].selected = false;
 				}
 				exchange.tokens = this.index + 1;
-				ti.tokens[j].image = ti.tokens[j].selected ? "images/tokensmall.png" : "images/tokensmallunselected.png";
+				ti.tokens[j].image = ti.tokens[j].selected ? "images/tokenSmall.png" : "images/tokensmallunselected.png";
 			}
 		});
 	};
