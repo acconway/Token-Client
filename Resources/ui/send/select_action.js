@@ -136,6 +136,22 @@ var cfg = {
 				fontFamily : fonts.black
 			},
 			text : "HOW MANY"
+		},
+		noTokens : {
+			bottom : 60,
+			color : "faa74a",
+			width : Ti.UI.SIZE,
+			height : Ti.UI.SIZE,
+			shadowColor : '#eee',
+			shadowOffset : {
+				x : 0,
+				y : 1
+			},
+			font : {
+				fontSize : 17,
+				fontFamily : fonts.black
+			},
+			text : "NO TOKENS LEFT!"
 		}
 	},
 	buttons : {},
@@ -165,7 +181,8 @@ var ti = {
 		title : Ti.UI.createLabel(cfg.labels.title),
 		addNew : Ti.UI.createLabel(cfg.labels.addNew),
 		addNewPlus : Ti.UI.createLabel(cfg.labels.addNewPlus),
-		howMany : Ti.UI.createLabel(cfg.labels.howMany)
+		howMany : Ti.UI.createLabel(cfg.labels.howMany),
+		noTokens : Ti.UI.createLabel(cfg.labels.noTokens)
 	},
 	buttons : {},
 	images : {
@@ -350,6 +367,19 @@ var createTokenSelectors = function() {
 	};
 };
 
+var handleZeroTokens = function() {
+
+	if (balance <= 0) {
+		ti.labels.howMany.visible = false;
+		ti.sendTokensSlider.visible = false;
+		ti.labels.noTokens.visible = true;
+	} else {
+		ti.labels.howMany.visible = true;
+		ti.sendTokensSlider.visible = true;
+		ti.labels.noTokens.visible = false;
+	}
+
+}
 var buildHierarchy = function() {
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
@@ -365,7 +395,7 @@ var buildHierarchy = function() {
 
 	} else {
 		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "send Tokens";
+		ti.labels.titleControl.text = "send tokens";
 		ti.win.setTitleControl(ti.labels.titleControl);
 	}
 
@@ -425,6 +455,7 @@ var buildHierarchy = function() {
 	ti.views.main.add(ti.sendTokensSlider);
 
 	ti.win.add(ti.views.main);
+	ti.win.add(ti.labels.noTokens);
 	ti.win.add(ti.newActionWindow);
 
 };
@@ -444,6 +475,7 @@ exports.open = function(_friend) {
 	updateTable();
 	clearTokens();
 	createTokenSelectors();
+	handleZeroTokens();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);
 };

@@ -9,7 +9,7 @@ exports.SelectAction = SelectAction;
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : "Send Tokens",
+		title : "send tokens",
 		modal : true,
 		navBarHidden : true
 	},

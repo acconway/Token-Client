@@ -248,7 +248,7 @@ var buildHierarchy = function() {
 
 	} else {
 		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "send Tokens";
+		ti.labels.titleControl.text = "send tokens";
 		ti.win.setTitleControl(ti.labels.titleControl);
 	}
 
