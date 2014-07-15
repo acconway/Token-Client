@@ -19,7 +19,6 @@ var cfg = {
 };
 
 var ti = {
-	win : Ti.UI.createWindow(cfg.win),
 	views : {},
 	labels : {},
 	buttons : {}
@@ -27,13 +26,13 @@ var ti = {
 
 var buildHierarchy = function() {
 
-	if (!App.ANDROID) {
+	if (App.ANDROID) {
 
-		ti.nav = Titanium.UI.iOS.createNavigationWindow({
-			window : SelectFriend.getWin()
-		});
+		ti.win = Ti.UI.createWindow(cfg.win);
 
-		ti.win.add(ti.nav);
+	} else {
+
+		ti.win = SelectFriend.getWin();
 
 	}
 
@@ -58,7 +57,7 @@ exports.open = function(friends) {
 	if (App.ANDROID) {
 		SelectFriend.getWin().open();
 	} else {
-		ti.win.open();
+		App.UI.getTab(0).open(ti.win);
 	}
 };
 
@@ -67,15 +66,15 @@ exports.close = function() {
 };
 
 exports.closeWindows = function() {
-	SelectFriend.getWin().close();
-	SelectFriend.FacebookFriendList.getWin().close();
-	SelectAction.getWin().close();
+	//	SelectFriend.getWin().close();
+	//	SelectFriend.FacebookFriendList.getWin().close();
+	//	SelectAction.getWin().close();
 };
 
 exports.openWindow = function(window) {
 	if (App.ANDROID) {
 		window.open();
 	} else {
-		ti.nav.open(window);
+		App.UI.getTab(0).open(window);
 	}
 };

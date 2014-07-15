@@ -427,7 +427,7 @@ exports.createAndroidTitleBar = function(title) {
 };
 
 exports.createSendTokensButton = function() {
-	
+
 	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	button.addEventListener("click", function() {
@@ -435,7 +435,7 @@ exports.createSendTokensButton = function() {
 	});
 
 	return button;
-	
+
 };
 
 exports.createRefreshButton = function() {
@@ -553,7 +553,7 @@ exports.initialize = function(app) {
 	buildHierarchy();
 	addEventListeners();
 
- 	overrideTabs.overrideTabs(ti.tabGroup);
+	overrideTabs.overrideTabs(ti.tabGroup);
 
 	if (App.Lib.Facebook.loggedIn()) {
 		App.login();
@@ -563,10 +563,14 @@ exports.initialize = function(app) {
 
 };
 
+exports.getTab = function(index) {
+	return ti.tabGroup.getTabs()[index];
+};
+
 exports.openTabGroup = function() {
 	ti.tabGroup.open();
 };
 
 exports.closeTabGroup = function() {
 	ti.tabGroup.close();
-}
+};

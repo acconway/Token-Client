@@ -263,7 +263,7 @@ var buildHistoryRow = function(transaction) {
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
 	tokensLabel.text = ( sent ? "you" : "they") + " sent " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "");
-	actionLabel.text = "for "+transaction.actionName.toLowerCase();
+	actionLabel.text = "for " + transaction.actionName.toLowerCase();
 
 	row.add(dateLabel);
 	row.add(tokensLabel);
@@ -408,9 +408,18 @@ var buildHierarchy = function() {
 
 		ti.win.setTitleControl(ti.labels.titleControl);
 
-		var button = App.UI.createSendTokensButton();
+		var button = Ti.UI.createButton({
+			width : 25,
+			height : 25,
+			right : 10,
+			title : "send",
+			font : {
+				fontWeight : "bold",
+				fontSize : 40
+			}
+		});
+
 		button.addEventListener("click", function() {
-			App.UI.Send.open(App.UI.Friends.getFriends());
 			App.UI.Send.SelectAction.open(friend);
 		});
 		ti.win.rightNavButton = button;
