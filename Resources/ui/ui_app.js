@@ -1,5 +1,7 @@
 var App;
 
+var overrideTabs = require('lib/overrideTabs');
+
 /*
  * Login Window: this is outside of the main tabgroup. Opened on launch if the user is not logged in.
  * If the user logs out, the main tabgroup is closed and the Login Window is re-opened.
@@ -34,6 +36,12 @@ exports.Send = Send;
 exports.User = User;
 
 var waitOpen = false;
+
+var fonts = {
+	black : "GoudySans Blk BT",
+	bold : "GoudySans Md BT",
+	book : "GoudySans LT Book"
+};
 
 var cfg = {
 	activityIndicator : {
@@ -73,7 +81,7 @@ var cfg = {
 			top : 0,
 			height : 50,
 			width : "100%",
-			backgroundColor : "#6B8A8C",
+			backgroundColor : "#60a4b1",
 			borderColor : "black",
 			borderWidth : 1
 		},
@@ -84,14 +92,28 @@ var cfg = {
 			backgroundColor : "transparent"
 		},
 		friendRow : {
-			top : 15,
+			top : 5,
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
-			borderColor : "white",
-			backgroundColor : "white",
-			borderRadius : 2
+			borderColor : "#f3e7da",
+			backgroundColor : "#f3e7da",
+			borderRadius : 4
 		},
+		sliderBackground : {
+			width : 310,
+			height : 45,
+			left : 10,
+			top : 10,
+			backgroundImage : "images/tokenslidebackground.png"
+		},
+		sliderView : {
+			width : 308,
+			left : 0,
+			height : 45,
+			top : 0,
+			backgroundColor : "transparent"
+		}
 	},
 	labels : {
 		scrollToRefreshViewLabel : {
@@ -108,34 +130,53 @@ var cfg = {
 		},
 		titleBar : {
 			height : Ti.UI.SIZE,
-			width : Ti.UI.SIZE,
+			width : 200,
+			textAlign : "center",
 			font : {
-				fontSize : 16,
-				fontWeight : "bold"
+				fontSize : "22px",
+				fontFamily : fonts.bold
 			},
 			color : "white"
 		},
 		friendName : {
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			color : "black",
-			left : 60,
 			font : {
 				fontSize : 18,
-				fontWeight : "light"
-			}
+				fontFamily : fonts.bold
+			},
+			left : 70,
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			color : "#6292a1",
+			touchEnabled : false
 		},
 		headerTitle : {
-			left : 10,
-			top : 15,
-			text : "To:",
-			color : "black",
+			left : 20,
+			top : 5,
+			color : "faa74a",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
+			shadowColor : '#eee',
+			shadowOffset : {
+				x : 0,
+				y : 1
+			},
 			font : {
-				fontSize : 16,
-				fontWeight : "bold"
-			}
+				fontSize : 17,
+				fontFamily : fonts.black
+			},
+			text : "TO"
+		},
+		slider : {
+			width : Ti.UI.SIZE,
+			top : 0,
+			height : 45,
+			left : 100,
+			text : "send tokens",
+			font : {
+				fontFamily : fonts.black,
+				fontSize : 18
+			},
+			color : "#f8cb99"
 		}
 	},
 	buttons : {
@@ -149,17 +190,17 @@ var cfg = {
 			width : 25,
 			height : 25,
 			right : 10,
-			title : "Send",
+			title : "send",
 			font : {
 				fontWeight : "bold",
-				fontSize : 20
+				fontSize : 40
 			}
 		},
 		refresh : {
 			width : 25,
 			height : 25,
 			left : 10,
-			title : "Refresh",
+			title : "refresh",
 			font : {
 				fontWeight : "bold",
 				fontSize : 20
@@ -170,13 +211,24 @@ var cfg = {
 		profilePic : {
 			left : 5,
 			width : 40,
-			height : 40
+			height : 40,
+			borderRadius : 4
+		},
+		sliderToken : {
+			height : 45,
+			width : 50,
+			top : 0,
+			left : 0,
+			image : "images/tokenlarge.png"
 		}
 	}
 };
 
 var ti = {
-	tabGroup : Ti.UI.createTabGroup(),
+	tabGroup : Ti.UI.createTabGroup({
+		//tabsBackgroundColor:"#a5cbd4",
+		//tabsBackgroundSelectedColor:"#e45e2f"
+	}),
 	activityIndicator : Ti.UI.createActivityIndicator(cfg.activityIndicator),
 	waitWindow : Ti.UI.createWindow(cfg.views.waitWindow),
 	views : {
@@ -223,6 +275,10 @@ var setupActivityIndicator = function() {
 
 };
 
+exports.getTitleControl = function() {
+	return Ti.UI.createLabel(cfg.labels.titleBar);
+};
+
 exports.createSpacer = function() {
 	return Ti.UI.createView({
 		top : 0,
@@ -260,22 +316,59 @@ exports.createFriendRow = function(title) {
 	return background;
 };
 
-exports.createGetStartedRow = function(){
-		
-	var row = Ti.UI.createView(cfg.views.friendRow);
-	
-	row.visible = false; 
-	row.top = 0;
-	
-	var label = Ti.UI.createLabel({
-		height:Ti.UI.SIZE,
-		width:Ti.UI.SIZE,
-		text:"None yet! Click Send to get started"
+exports.buildSendTokensSlider = function(fullSize, callback) {
+
+	var background = Ti.UI.createView(cfg.views.sliderBackground);
+
+	var view = Ti.UI.createView(cfg.views.sliderView);
+
+	if (fullSize) {
+		background.backgroundImage = "images/sliderbackgroundfull.png";
+		background.width = "100%";
+		background.left = 0;
+		view.width = "100%";
+	}
+
+	var token = Ti.UI.createImageView(cfg.images.sliderToken);
+
+	var label = Ti.UI.createLabel(cfg.labels.slider);
+
+	view.add(token);
+	view.add(label);
+
+	view.addEventListener("swipe", function() {
+		view.animate({
+			left : 320,
+			duration : 200
+		}, function() {
+			callback();
+			view.left = 0;
+		});
 	});
-	
+
+	background.sliderView = view;
+
+	background.add(view);
+
+	return background;
+};
+
+exports.createGetStartedRow = function() {
+
+	var row = Ti.UI.createView(cfg.views.friendRow);
+
+	row.visible = false;
+	row.top = 0;
+
+	var label = Ti.UI.createLabel({
+		height : Ti.UI.SIZE,
+		width : Ti.UI.SIZE,
+		text : "None yet! Click Send to get started"
+	});
+
 	row.add(label);
 
-	return row; 
+	return row;
 };
 
 exports.createAddNewRow = function() {
@@ -334,6 +427,7 @@ exports.createAndroidTitleBar = function(title) {
 };
 
 exports.createSendTokensButton = function() {
+	
 	var button = Ti.UI.createButton(cfg.buttons.sendTokens);
 
 	button.addEventListener("click", function() {
@@ -341,6 +435,7 @@ exports.createSendTokensButton = function() {
 	});
 
 	return button;
+	
 };
 
 exports.createRefreshButton = function() {
@@ -419,6 +514,18 @@ exports.addScrollToRefreshViewToTable = function(tableView, callback) {
 
 };
 
+exports.getProfilePicture = function(id) {
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", id + ".png");
+
+	if (file.exists()) {
+		return file;
+	} else {
+		return "/images/defaultprofile.png";
+	}
+
+};
+
 var refreshUIOnLogin = function() {
 
 };
@@ -445,6 +552,8 @@ exports.initialize = function(app) {
 
 	buildHierarchy();
 	addEventListeners();
+
+ 	overrideTabs.overrideTabs(ti.tabGroup);
 
 	if (Ti.Facebook.loggedIn) {
 		App.login();
