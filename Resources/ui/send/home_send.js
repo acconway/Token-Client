@@ -29,7 +29,7 @@ var buildHierarchy = function() {
 
 	if (!App.ANDROID) {
 
-		ti.nav = Titanium.UI.iPhone.createNavigationGroup({
+		ti.nav = Titanium.UI.iOS.createNavigationWindow({
 			window : SelectFriend.getWin()
 		});
 
@@ -66,10 +66,9 @@ exports.close = function() {
 	ti.win.close();
 };
 
-
 exports.closeWindows = function() {
-	SelectFriend.getWin().close(); 
-	SelectFriend.FacebookFriendList.getWin().close(); 
+	SelectFriend.getWin().close();
+	SelectFriend.FacebookFriendList.getWin().close();
 	SelectAction.getWin().close();
 };
 
@@ -79,4 +78,4 @@ exports.openWindow = function(window) {
 	} else {
 		ti.nav.open(window);
 	}
-}
+};

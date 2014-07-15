@@ -13,17 +13,17 @@ var cfg = {
 		backgroundColor : "white",
 		tabBarHidden : true,
 		title : "Login",
-		backgroundColor:"#DBDBDB"
+		backgroundColor : "#DBDBDB"
 	},
 	views : {
 		main : {
 			width : "100%",
 			height : "100%",
 			backgroundColor : "transparent",
-			backgroundImage:"/images/Default.png"
+			backgroundImage : "/images/Default.png"
 		},
-		button:{
-			top:280,
+		button : {
+			top : 280,
 			height : 55,
 			width : "90%",
 			borderWidth : 1,
@@ -44,25 +44,25 @@ var cfg = {
 			color : "black",
 			top : 75
 		},
-		login:{
-			text:"Log in with Facebook",
-			left:60,
-			height:50,
-			backgroundColor:"transparent",
-			color:"#6292a1",
+		login : {
+			text : "Log in with Facebook",
+			left : 60,
+			height : 50,
+			backgroundColor : "transparent",
+			color : "#6292a1",
 			font : {
 				fontSize : 17,
-				fontFamily:fonts.bold 
+				fontFamily : fonts.bold
 			},
-			width:Ti.UI.SIZE
+			width : Ti.UI.SIZE
 		}
 	},
-	images:{
-		facebook:{
+	images : {
+		facebook : {
 			left : 5,
 			width : 45,
 			height : 45,
-			image:"/images/f_logo.png"
+			image : "/images/f_logo.png"
 		}
 	}
 };
@@ -71,13 +71,13 @@ var ti = {
 	win : Ti.UI.createWindow(cfg.win),
 	views : {
 		main : Ti.UI.createView(cfg.views.main),
-		button:Ti.UI.createView(cfg.views.button)
+		button : Ti.UI.createView(cfg.views.button)
 	},
 	labels : {
 		login : Ti.UI.createLabel(cfg.labels.login)
 	},
 	images : {
-		facebook:Ti.UI.createImageView(cfg.images.facebook)
+		facebook : Ti.UI.createImageView(cfg.images.facebook)
 	}
 };
 
@@ -92,15 +92,15 @@ var buildHierarchy = function() {
 };
 
 var addEventListeners = function() {
-	
-	ti.views.button.addEventListener("click",function(){
-		Ti.Facebook.authorize();
-	}); 
-	
+
+	ti.views.button.addEventListener("click", function() {
+		App.Lib.Facebook.authorize();
+	});
+
 	ti.views.button.addEventListener("touchstart", function() {
 		ti.views.button.backgroundColor = "#e46d36";
 	});
-	
+
 	ti.views.button.addEventListener("touchend", function() {
 		ti.views.button.backgroundColor = "#f3e7da";
 	});

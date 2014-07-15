@@ -555,7 +555,7 @@ exports.initialize = function(app) {
 
  	overrideTabs.overrideTabs(ti.tabGroup);
 
-	if (Ti.Facebook.loggedIn) {
+	if (App.Lib.Facebook.loggedIn()) {
 		App.login();
 	} else {
 		Login.getWin().open();

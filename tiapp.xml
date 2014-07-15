@@ -6,6 +6,7 @@
     <property name="acs-oauth-secret-development" type="string">PVlzyXLGqzSNvLaXBmjShhDgyQBeqpIw</property>
     <property name="acs-oauth-key-development" type="string">NjZkhzsIA3cwrhiVYcPJ3TgnfnPYbTG0</property>
     <property name="acs-api-key-development" type="string">t9hSZ3DCzbYAG8chWjXW7eqA6MNDLuwJ</property>
+    <property name="ti.facebook.appid">224818800979354</property>
     <deployment-targets>
         <target device="tizen">false</target>
         <target device="mobileweb">true</target>
@@ -14,7 +15,7 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.0.2.GA</sdk-version>
+    <sdk-version>3.2.3.GA</sdk-version>
     <id>com.sccs.tokens</id>
     <name>Tokens</name>
     <version>1.1.1</version>
@@ -55,5 +56,8 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="android">facebook</module>
+        <module platform="iphone">facebook</module>
+    </modules>
 </ti:app>

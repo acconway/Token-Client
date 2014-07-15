@@ -44,15 +44,15 @@ var defaultActions = [{
 }, {
 	name : "Helping me move",
 	lastValue : 5
-}]
+}]; 
 
 var CONSTANTS = {
 	TOTALPOINTS : 10,
 	//Production
-	URL:"http://tokenservice.herokuapp.com",
+	URL : "http://tokenservice.herokuapp.com",
 	//Testing
 	//URL : "http://localhost:5000",
-	defaultActions:defaultActions
+	defaultActions : defaultActions
 };
 
 var logLevel = 1;
@@ -87,9 +87,9 @@ exports.logout = function() {
 	var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "profilepics");
 	dir.deleteDirectory(true);
 	UI.Friends.refresh();
-	UI.User.updateTable(); 
-	UI.Notifications.updateTable(); 
-	Ti.Facebook.logout();
+	UI.User.updateTable();
+	UI.Notifications.updateTable();
+	App.Lib.Facebook.logout();
 	UI.closeTabGroup();
 	UI.Login.getWin().open();
 };
