@@ -15,9 +15,7 @@ var fonts = {
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : '',
-		backgroundImage : "images/background.png",
-		barColor : "#60a4b1",
+		title : 'send',
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT],
 		layout : "vertical"
 	},
@@ -26,15 +24,15 @@ var cfg = {
 			width : "100%",
 			height : 50,
 			selectedBackgroundColor : "white",
-			backgroundColor : "#f3e7da",
-			hasChild : false
+			backgroundColor : "white",
+			hasChild : true
 		},
 		addNew : {
 			top : 5,
 			backgroundImage : 'none',
 			borderWidth : 1,
-			borderColor : "#f3e7da",
-			backgroundColor : "#f3e7da",
+			borderColor : "black",
+			backgroundColor : "white",
 			borderRadius : 4,
 			height : 50,
 			width : "90%"
@@ -46,62 +44,48 @@ var cfg = {
 		width : "90%",
 		height : Ti.UI.SIZE,
 		borderWidth : 1,
-		borderColor : "#f3e7da",
-		backgroundColor : "#f3e7da",
+		borderColor : "black",
+		backgroundColor : "white",
 		borderRadius : 4
 	},
 	labels : {
 		title : {
 			left : 20,
 			top : 5,
-			color : "faa74a",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.black
+				fontSize : 17
 			},
-			text : "TO"
+			text : "To"
 		},
 		friend : {
 			font : {
 				fontSize : 18,
-				fontFamily : fonts.bold
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			touchEnabled : false
 		},
 		addNewFriend : {
 			left : 20,
 			top : 5,
-			color : "faa74a",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
 			font : {
 				fontSize : 17,
-				fontFamily : fonts.black
 			},
-			text : "ADD NEW FRIEND"
+			text : "Add new friend"
 		},
 		addNewPlus : {
 			font : {
-				fontSize : 24,
-				fontFamily : fonts.black
+				fontSize : 24
 			},
-			color : "#9cb4b8",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
 			left : 10,
@@ -114,12 +98,6 @@ var cfg = {
 			width : 40,
 			height : 40,
 			borderRadius : 4
-		},
-		arrow : {
-			image : "images/tablearrow.png",
-			height : 7,
-			width : 7,
-			right : 10
 		}
 	},
 	buttons : {
@@ -188,10 +166,6 @@ var addRow = function(friend) {
 
 	row.add(image);
 
-	var arrow = Ti.UI.createImageView(cfg.images.arrow);
-
-	row.add(arrow);
-
 	return row;
 
 };
@@ -201,14 +175,6 @@ var buildAddNew = function() {
 	ti.views.addNew = Ti.UI.createView(cfg.views.addNew);
 
 	ti.views.addNew.add(ti.labels.addNewPlus);
-
-	ti.views.addNew.addEventListener("touchstart", function() {
-		ti.views.addNew.backgroundColor = "white";
-	});
-
-	ti.views.addNew.addEventListener("touchend", function() {
-		ti.views.addNew.backgroundColor = "#f3e7da";
-	});
 
 };
 
@@ -234,23 +200,17 @@ var updateTable = exports.updateTable = function() {
 
 var buildHierarchy = function() {
 
-	ti.win.backgroundColor = "#DBDBDB";
-
 	ti.win.orientationModes = [Ti.UI.PORTRAIT];
 
 	if (App.ANDROID) {
 
 		ti.win.navBarHidden = true;
 
-		ti.titleBar = App.UI.createAndroidTitleBar("send tokens");
+		ti.titleBar = App.UI.createAndroidTitleBar("send");
 
 		ti.win.add(ti.titleBar);
 
-	} else {
-		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "send tokens";
-		ti.win.setTitleControl(ti.labels.titleControl);
-	}
+	} 
 
 	ti.win.add(ti.labels.title);
 

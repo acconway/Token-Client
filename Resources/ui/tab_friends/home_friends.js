@@ -4,20 +4,10 @@ var Detail = require("ui/tab_friends/detail");
 
 exports.Detail = Detail;
 
-var fonts = {
-	black : "GoudySans Blk BT",
-	bold : "GoudySans Md BT",
-	book : "GoudySans LT Book",
-	italic : "GoudySans LT Book Italic",
-	medium : "GoudySans Md BT Medium"
-};
-
 var cfg = {
 	win : {
 		backgroundColor : "white",
-		title : '',
-		backgroundImage : "images/background.png",
-		barColor : "#60a4b1",
+		title : 'friends',
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	views : {
@@ -30,38 +20,33 @@ var cfg = {
 			layout : "vertical"
 		},
 		row : {
-			hasChild : false,
+			hasChild : true,
 			height : 50,
 			selectedBackgroundColor : "white"
 		}
 	},
 	table : {
-		top : 15,
+		top : 0,
 		minRowHeight : 50,
-		width : "90%",
+		width : "100%",
+		height : "100%",
 		scrollable : false,
-		height : 0,
-		filterAttribute : 'name',
-		borderWidth : 1,
-		borderColor : "#f3e7da",
-		backgroundColor : "#f3e7da",
-		borderRadius : 4
+		filterAttribute : 'name'
 	},
 	search : {
-		barColor : "#f7ece0",
+		barColor : "white",
 		showCancel : false,
 		hintText : 'search'
 	},
 	labels : {
 		friend : {
 			font : {
-				fontSize : 18,
-				fontFamily : fonts.bold
+				fontSize : 18
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			touchEnabled : false
 		}
 	},
@@ -71,12 +56,6 @@ var cfg = {
 			width : 40,
 			height : 40,
 			borderRadius : 4
-		},
-		arrow : {
-			image : "images/tablearrow.png",
-			height : 7,
-			width : 7,
-			right : 10
 		}
 	}
 };
@@ -135,10 +114,6 @@ var addRow = function(friend) {
 
 	row.add(image);
 
-	var arrow = Ti.UI.createImageView(cfg.images.arrow);
-
-	row.add(arrow);
-
 	return row;
 };
 
@@ -146,7 +121,6 @@ var buildRows = function() {
 
 	App._.each(friends, function(friend) {
 		rowData.push(addRow(friend));
-		ti.table.height += (cfg.views.row.height + (App.ANDROID ? 1 : 0));
 	});
 
 };
@@ -155,7 +129,6 @@ var updateTable = function() {
 	friends = App.Models.Friends.all();
 	friends.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
-	ti.table.height = 0;
 	buildRows();
 	ti.table.setData(rowData);
 
@@ -207,12 +180,6 @@ var buildHierarchy = function() {
 		ti.win.add(ti.titleBar);
 
 	} else {
-
-		ti.table.top = 15;
-
-		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "friends";
-		ti.win.setTitleControl(ti.labels.titleControl);
 
 		ti.win.rightNavButton = App.UI.createSendTokensButton();
 		ti.win.leftNavButton = App.UI.createRefreshButton();

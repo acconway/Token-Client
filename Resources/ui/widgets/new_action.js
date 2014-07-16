@@ -2,22 +2,12 @@ var ANDROID = Ti.Platform.osname == "android";
 
 var App;
 
-var fonts = {
-	black : "GoudySans Blk BT",
-	bold : "GoudySans Md BT",
-	book : "GoudySans LT Book",
-	italic : "GoudySans LT Book Italic",
-	medium : "GoudySans Md BT Medium"
-};
-
-
 var cfg = {
 	window : {
 		height : "100%",
 		width : "100%",
 		visible : false,
 		contentHeight : Ti.UI.SIZE,
-		
 		backgroundColor : "transparent"
 	},
 	views : {
@@ -31,8 +21,8 @@ var cfg = {
 			top : "5%",
 			width : "90%",
 			height : 160,
-			backgroundImage : "images/background.png",
-			borderColor : "#f5efe9",
+			borderColor : "black",
+			backgroundColor : "white",
 			borderWidth : 1,
 			borderRadius : 4,
 			layout : "vertical"
@@ -46,35 +36,28 @@ var cfg = {
 	labels : {
 		main : {
 			top : 20,
-			color : "faa74a",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.black
+				fontSize : 17
 			},
-			text : "ADD NEW ACTION"
+			text : "ADD NEW"
 		}
 	},
 	fields : {
 		main : {
 			width : "90%",
 			top : 20,
-			backgroundColor : "#f3e7da",
+			backgroundColor : "white",
 			height : ANDROID ? 50 : 40,
 			borderWidth : ANDROID ? 0 : 1,
-			borderRadius:4, 
-			color : "#6292a1",
+			borderRadius : 4,
+			color : "black",
 			font : {
-				fontSize : 18,
-				fontFamily : fonts.medium
+				fontSize : 18
 			},
-			borderColor : "#f3e7da",
+			borderColor : "black",
 			softKeyboardOnFocus : ANDROID ? Titanium.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS : ""
 		}
 	},
@@ -84,13 +67,12 @@ var cfg = {
 			height : ANDROID ? 40 : 30,
 			left : 20,
 			borderRadius : 10,
-			borderColor : '#f3e7da',
-			backgroundImage:"null",
-			backgroundColor : "#f3e7da",
-			color : "#6292a1",
+			borderColor : 'black',
+			backgroundImage : "null",
+			backgroundColor : "white",
+			color : "black",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.medium
+				fontSize : 17
 			},
 			title : "Close"
 		},
@@ -99,13 +81,12 @@ var cfg = {
 			height : ANDROID ? 40 : 30,
 			right : 20,
 			borderRadius : 10,
-			borderColor : '#f3e7da',
-			backgroundImage:"null",
-			backgroundColor : "#f3e7da",
-			color : "#6292a1",
+			borderColor : 'black',
+			backgroundImage : "null",
+			backgroundColor : "white",
+			color : "black",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.medium
+				fontSize : 17
 			},
 			title : "OK"
 		}

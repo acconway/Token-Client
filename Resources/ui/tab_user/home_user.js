@@ -6,32 +6,19 @@ Ti.include("/lib/lib_date.js");
 
 var rowData = [];
 
-var fonts = {
-	black : "GoudySans Blk BT",
-	bold : "GoudySans Md BT",
-	book : "GoudySans LT Book",
-	italic : "Goudy Sans",
-	medium : "GoudySans Md BT Medium"
-};
-
 var cfg = {
 	tab : "",
 	win : {
+		title : "user",
 		backgroundColor : "white",
-		backgroundImage : "images/background.png",
-		barColor : "#60a4b1",
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	table : {
 		top : 15,
 		minRowHeight : 50,
-		width : "90%",
-		scrollable : false,
-		height : 0,
-		borderWidth : 1,
-		borderColor : "#f3e7da",
-		backgroundColor : "#f3e7da",
-		borderRadius : 4
+		width : "100%",
+		height : "Ti.UI.FILL",
+		backgroundColor : "white"
 	},
 	views : {
 		main : {
@@ -44,8 +31,7 @@ var cfg = {
 		},
 		historyRow : {
 			height : 50,
-			borderColor : "#f3e7da",
-			backgroundColor : "#f3e7da",
+			backgroundColor : "white",
 			className : "row",
 			touchEnabled : false
 		},
@@ -55,43 +41,29 @@ var cfg = {
 			height : Ti.UI.SIZE,
 			color : "#6292a1",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.book
+				fontSize : 17
 			},
 			right : 5,
 			width : Ti.UI.SIZE
 		},
-		historyTokens : {
+		historyName : {
 			width : 200,
 			height : Ti.UI.SIZE,
 			left : 65,
 			top : 3,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 15,
-				fontFamily : fonts.italic
+				fontSize : 15
 			}
-		},
-		historyFriend : {
-			height : 20,
-			color : "#6292a1",
-			font : {
-				fontSize : 17,
-				fontFamily : fonts.bold,
-			},
-			top:5,
-			left : 70,
-			width : Ti.UI.SIZE
 		},
 		historyAction : {
 			left : 65,
 			width : "90%",
 			height : Ti.UI.SIZE,
 			top : 24,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 15,
-				fontFamily : fonts.bold
+				fontSize : 15
 			}
 		}
 	},
@@ -145,14 +117,13 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
 
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
-	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
+	var nameLabel = Ti.UI.createLabel(cfg.labels.historyName);
 	var profilePic = Ti.UI.createImageView(cfg.images.profilePic);
-	var friendNameLabel = Ti.UI.createLabel(cfg.labels.historyFriend);
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase() + ( sent ? " sent" : " received") + " " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "");
-	actionLabel.text = "for "+transaction.actionName.toLowerCase();
+	nameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase() + ( sent ? " sent" : " received");
+	actionLabel.text = '"' + transaction.actionName.toLowerCase() + '"';
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friendID + ".png");
 
@@ -163,13 +134,13 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	}
 
 	row.add(dateLabel);
-	row.add(tokensLabel);
+	row.add(nameLabel);
 	row.add(profilePic);
 	row.add(actionLabel);
 
 	row.image = profilePic;
 
-	row.tokensLabel = tokensLabel;
+	row.nameLabel = nameLabel;
 	row.actionLabel = actionLabel;
 
 	row.friend = {
@@ -209,7 +180,7 @@ var buildHierarchy = function() {
 	});
 
 	ti.views.user = App.UI.createFriendRow();
-	
+
 	ti.views.user.top = 10;
 
 	if (App.ANDROID) {
@@ -243,10 +214,6 @@ var buildHierarchy = function() {
 	} else {
 
 		ti.table.top = 15;
-		
-		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "user";
-		ti.win.setTitleControl(ti.labels.titleControl);
 
 		ti.win.rightNavButton = ti.buttons.logout;
 		ti.win.leftNavButton = App.UI.createRefreshButton();

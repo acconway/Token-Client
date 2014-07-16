@@ -18,8 +18,6 @@ var cfg = {
 	win : {
 		backgroundColor : "white",
 		title : '',
-		backgroundImage : "images/background.png",
-		barColor : "#60a4b1"
 	},
 	views : {
 		main : {
@@ -50,36 +48,15 @@ var cfg = {
 			height : 50,
 			layout : 'vertical'
 		},
-		balanceRow : {
-			top : 5,
-			height : 67.5,
-			width : 295,
-			backgroundImage : "images/balanceBackground.png"
-		},
-		balanceNameRow : {
-			top : 5,
-			height : 20,
-			left : 85,
-			layout : "horizontal",
-			width : Ti.UI.SIZE,
-			backgroundColor : "transparent"
-		},
-		balanceTokenBackground : {
-			left : 80,
-			top : 30,
-			width : 206,
-			height : 25,
-			backgroundImage : "images/friendTokensBackground.png"
-		},
 		historyTable : {
 			top : 5,
 			height : 0,
 			scrollable : false,
 			width : "90%",
-			borderColor : "#f3e7da",
+			borderColor : "black",
 			borderRadius : 4,
 			borderWidth : 1,
-			backgroundColor : "#f3e7da"
+			backgroundColor : "white"
 		},
 		historyRow : {
 			width : "100%",
@@ -90,145 +67,41 @@ var cfg = {
 			width : 140,
 			height : 60,
 			right : 0
-		},
-		sliderBackground : {
-			width : 310,
-			height : 45,
-			left : 10,
-			top : 10,
-			backgroundImage : "images/tokenslidebackground.png"
-		},
-		sliderView : {
-			width : 308,
-			left : 0,
-			height : 45,
-			top : 0,
-			backgroundColor : "transparent"
 		}
 	},
 	labels : {
-		balanceName : {
-			height : 20,
-			color : "#6292a1",
-			font : {
-				fontSize : 18,
-				fontFamily : fonts.bold,
-			},
-			left : 0,
-			width : Ti.UI.SIZE
-		},
-		tokensTitle : {
+		historyTitle : {
 			left : 20,
 			top : 5,
-			color : "faa74a",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
-			font : {
-				fontSize : 17,
-				fontFamily : fonts.black
-			},
-			text : "TOKENS"
-		},
-		balance : {
-			top : 5,
-			left : 10,
-			height : 30,
 			color : "black",
-			width : 75,
-			ellipsize : true,
-			font : {
-				fontSize : 17,
-				fontWeight : "light"
-			}
-		},
-		activityTitle : {
-			left : 20,
-			top : 5,
-			color : "faa74a",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
 			font : {
 				fontSize : 17,
-				fontFamily : fonts.black
 			},
-			text : "ACTIVITY"
+			text : "History"
 		},
 		historyDate : {
 			height : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.book
+				fontSize : 15
 			},
 			right : 5,
 			width : Ti.UI.SIZE
-		},
-		historyTokens : {
-			width : 200,
-			height : Ti.UI.SIZE,
-			left : 10,
-			top : 5,
-			color : "#6292a1",
-			font : {
-				fontSize : 16,
-				fontFamily : fonts.italic
-			}
 		},
 		historyAction : {
 			left : 10,
 			width : "90%",
 			height : Ti.UI.SIZE,
-			top : 24,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 16,
-				fontFamily : fonts.bold
+				fontSize : 14
 			}
-		},
-		slider : {
-			width : Ti.UI.SIZE,
-			top : 0,
-			height : 45,
-			left : 100,
-			text : "send a token",
-			font : {
-				fontFamily : fonts.black,
-				fontSize : 18
-			},
-			color : "#f8cb99"
 		}
 	},
 	buttons : {},
-	images : {
-		balancePic : {
-			left : 10,
-			height : 50,
-			width : 50,
-			borderRadius : 4
-		},
-		smallToken : {
-			width : 27.5,
-			height : 23.5,
-			image : "images/tokenSmall.png"
-		},
-		sliderToken : {
-			height : 45,
-			width : 50,
-			top : 0,
-			left : 0,
-			image : "images/tokenlarge.png"
-		}
-	}
+	images : {}
 };
 
 var ti = {
@@ -236,16 +109,10 @@ var ti = {
 	views : {
 		main : Ti.UI.createScrollView(cfg.views.main),
 		padding : Ti.UI.createView(cfg.views.padding),
-		balance : Ti.UI.createView(cfg.views.balance),
-		balanceBar1 : Ti.UI.createView(cfg.views.balanceBar1),
-		balanceBar2 : Ti.UI.createView(cfg.views.balanceBar2),
 		historyTable : Ti.UI.createTableView(cfg.views.historyTable)
 	},
 	labels : {
-		tokensTitle : Ti.UI.createLabel(cfg.labels.tokensTitle),
-		myBalance : Ti.UI.createLabel(cfg.labels.balance),
-		friendBalance : Ti.UI.createLabel(cfg.labels.balance),
-		activityTitle : Ti.UI.createLabel(cfg.labels.activityTitle),
+		historyTitle : Ti.UI.createLabel(cfg.labels.historyTitle),
 	},
 	buttons : {},
 	images : {}
@@ -258,74 +125,17 @@ var buildHistoryRow = function(transaction) {
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
 
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
-	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = ( sent ? "you" : "they") + " sent " + transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "");
-	actionLabel.text = "for " + transaction.actionName.toLowerCase();
+	actionLabel.text = ( sent ? "you" : "they") + " sent " + transaction.actionName.toLowerCase();
 
 	row.add(dateLabel);
-	row.add(tokensLabel);
 	row.add(actionLabel);
 
-	row.tokensLabel = tokensLabel;
 	row.actionLabel = actionLabel;
 
 	return row;
-
-};
-
-var buildBalanceRow = function() {
-
-	var balanceRow = {
-		tokens : []
-	};
-
-	var main = Ti.UI.createView(cfg.views.balanceRow);
-
-	var balanceNameRow = Ti.UI.createView(cfg.views.balanceNameRow);
-
-	var profilePic = Ti.UI.createImageView(cfg.images.balancePic);
-	var name = Ti.UI.createLabel(cfg.labels.balanceName);
-	var tokenBackground = Ti.UI.createView(cfg.views.balanceTokenBackground);
-
-	balanceNameRow.add(name);
-
-	main.add(profilePic);
-	main.add(balanceNameRow);
-	main.add(tokenBackground);
-
-	balanceRow.setFriend = function(friend) {
-		profilePic.image = App.UI.getProfilePicture(friend.userID);
-		name.text = App.Lib.Functions.getShortName(friend.name.toLowerCase());
-	};
-
-	balanceRow.setMe = function() {
-		profilePic.image = App.UI.getProfilePicture("me");
-		name.text = "you";
-	};
-
-	balanceRow.setBalance = function(balance) {
-
-		for (var i = 0; i < balanceRow.tokens.length; i++) {
-			main.remove(balanceRow.tokens[i]);
-		}
-
-		balanceRow.tokens = [];
-
-		for (var i = 0; i < balance; i++) {
-			var token = Ti.UI.createImageView(cfg.images.smallToken);
-			token.left = tokenBackground.left + 5 + i * 15;
-			token.top = tokenBackground.top + 1;
-			main.add(token);
-			balanceRow.tokens.push(token);
-		}
-	};
-
-	balanceRow.main = main;
-
-	return balanceRow;
 
 };
 
@@ -344,29 +154,13 @@ var refreshTable = function() {
 
 };
 
-var refreshBalance = function() {
-
-	var myBalance = currentData.myBalance;
-
-	var friendBalance = App.CONSTANTS.TOTALPOINTS - myBalance;
-
-	ti.friendBalance.setBalance(friendBalance);
-	ti.myBalance.setBalance(myBalance);
-
-};
-
 var update = function(_friend) {
 
 	friend = _friend;
 
 	currentData = App.Models.Transactions.getAllTransactionsWithFriendAndBalance(friend.userID);
 
-	ti.labels.titleControl.text = friend.name.toLowerCase();
-
-	ti.friendBalance.setFriend(friend);
-	ti.myBalance.setMe();
-
-	refreshBalance();
+	ti.win.title = friend.name.toLowerCase();
 
 	refreshTable();
 
@@ -404,10 +198,6 @@ var buildHierarchy = function() {
 		cfg.views.historyRow.selectedBackgroundColor = 'white';
 		ti.win.backButtonTitle = "back";
 
-		ti.labels.titleControl = App.UI.getTitleControl();
-
-		ti.win.setTitleControl(ti.labels.titleControl);
-
 		var button = Ti.UI.createButton({
 			width : 25,
 			height : 25,
@@ -425,13 +215,7 @@ var buildHierarchy = function() {
 		ti.win.rightNavButton = button;
 	}
 
-	ti.friendBalance = buildBalanceRow();
-	ti.myBalance = buildBalanceRow();
-
-	ti.views.main.add(ti.labels.tokensTitle);
-	ti.views.main.add(ti.friendBalance.main);
-	ti.views.main.add(ti.myBalance.main);
-	ti.views.main.add(ti.labels.activityTitle);
+	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
 	ti.views.main.add(App.UI.createSpacer());
 	ti.win.add(ti.views.main);

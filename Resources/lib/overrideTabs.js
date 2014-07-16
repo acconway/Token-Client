@@ -42,15 +42,13 @@ var cfg = {
 	selected : {
 		top : 0,
 		bottom : 0,
-		backgroundImage : "images/tab/selectedTabBG.png",
 		visible : false
 	},
 	deselected : {
 		top : 0,
 		bottom : 0,
-		backgroundImage : "images/tab/deselectedTabBG.png"
 	}
-}
+};
 
 exports.overrideTabs = function(tabGroup) {
 
@@ -107,10 +105,11 @@ exports.overrideTabs = function(tabGroup) {
 
 	tabGroup.add(background);
 	tabGroup.overrideTabs = background;
-}
+};
+
 function overrideFocusTab(evt) {
 	if (evt.previousIndex >= 0) {
 		evt.source.tabs[evt.previousIndex].selected.visible = false;
 	}
 	evt.tab.selected.visible = true;
-}
+}; 

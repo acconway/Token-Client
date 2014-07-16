@@ -80,7 +80,7 @@ var cfg = {
 		titleBar : {
 			top : 0,
 			height : 50,
-			width : "100%",
+			width : Ti.UI.SIZE,
 			backgroundColor : "#60a4b1",
 			borderColor : "black",
 			borderWidth : 1
@@ -96,8 +96,8 @@ var cfg = {
 			height : 50,
 			width : "90%",
 			borderWidth : 1,
-			borderColor : "#f3e7da",
-			backgroundColor : "#f3e7da",
+			borderColor : "black",
+			backgroundColor : "white",
 			borderRadius : 4
 		},
 		sliderBackground : {
@@ -133,36 +133,28 @@ var cfg = {
 			width : 200,
 			textAlign : "center",
 			font : {
-				fontSize : "22px",
-				fontFamily : fonts.bold
+				fontSize : "22px"
 			},
-			color : "white"
+			color : "black"
 		},
 		friendName : {
 			font : {
-				fontSize : 18,
-				fontFamily : fonts.bold
+				fontSize : 18
 			},
 			left : 70,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			touchEnabled : false
 		},
 		headerTitle : {
 			left : 20,
 			top : 5,
-			color : "faa74a",
+			color : "black",
 			width : Ti.UI.SIZE,
 			height : Ti.UI.SIZE,
-			shadowColor : '#eee',
-			shadowOffset : {
-				x : 0,
-				y : 1
-			},
 			font : {
-				fontSize : 17,
-				fontFamily : fonts.black
+				fontSize : 17
 			},
 			text : "TO"
 		},
@@ -553,7 +545,7 @@ exports.initialize = function(app) {
 	buildHierarchy();
 	addEventListeners();
 
-	overrideTabs.overrideTabs(ti.tabGroup);
+	//overrideTabs.overrideTabs(ti.tabGroup);
 
 	if (App.Lib.Facebook.loggedIn()) {
 		App.login();

@@ -6,33 +6,19 @@ Ti.include("/lib/lib_date.js");
 
 var rowData = [];
 
-var fonts = {
-	black : "GoudySans Blk BT",
-	bold : "GoudySans Md BT",
-	book : "GoudySans LT Book",
-	italic : "Goudy Sans",
-	medium : "GoudySans Md BT Medium"
-};
-
 var cfg = {
 	tab : "",
 	win : {
+		title : "exchanges",
 		backgroundColor : "white",
-		backgroundImage : "images/background.png",
-		barColor : "#60a4b1",
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	},
 	table : {
-		top : 15,
+		top : 0,
 		minRowHeight : 50,
-		width : "90%",
-		scrollable : false,
+		width : "100%",
 		touchEnabled : false,
 		height : 0,
-		borderWidth : 1,
-		borderColor : "#f3e7da",
-		backgroundColor : "#f3e7da",
-		borderRadius : 4
 	},
 	views : {
 		main : {
@@ -46,8 +32,7 @@ var cfg = {
 		historyRow : {
 			width : "100%",
 			height : 60,
-			borderColor : "#f3e7da",
-			backgroundColor : "#f3e7da",
+			backgroundColor : "white",
 			touchEnabled : false
 		},
 		topRow : {
@@ -68,34 +53,21 @@ var cfg = {
 	labels : {
 		historyDate : {
 			height : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 16,
-				fontFamily : fonts.book
+				fontSize : 16
 			},
 			right : 5,
 			width : Ti.UI.SIZE
-		},
-		historyTokens : {
-			width : 200,
-			height : Ti.UI.SIZE,
-			left : 10,
-			top : 10,
-			color : "#6292a1",
-			font : {
-				fontSize : 16,
-				fontFamily : fonts.italic
-			}
 		},
 		historyAction : {
 			left : 10,
 			width : "90%",
 			height : Ti.UI.SIZE,
 			top : 30,
-			color : "#6292a1",
+			color : "black",
 			font : {
-				fontSize : 16,
-				fontFamily : fonts.bold
+				fontSize : 16
 			}
 		}
 	},
@@ -126,18 +98,14 @@ var buildNotificationRow = function(transaction) {
 	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
 
 	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
-	var tokensLabel = Ti.UI.createLabel(cfg.labels.historyTokens);
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	tokensLabel.text = transaction.tokenValue + " token" + (transaction.tokenValue > 1 ? "s" : "") + " exchanged";
-	actionLabel.text = "for "+transaction.actionName.toLowerCase();
+	actionLabel.text = transaction.actionName.toLowerCase();
 
 	row.add(dateLabel);
-	row.add(tokensLabel);
 	row.add(actionLabel);
 
-	row.tokensLabel = tokensLabel;
 	row.actionLabel = actionLabel;
 
 	return row;
@@ -198,15 +166,6 @@ var buildHierarchy = function() {
 
 	} else {
 
-		ti.table.top = 15;
-
-		//App.UI.addScrollToRefreshViewToTable(ti.table, refresh);
-
-		ti.labels.titleControl = App.UI.getTitleControl();
-		ti.labels.titleControl.text = "exchanges";
-		ti.win.setTitleControl(ti.labels.titleControl);
-
-		ti.win.rightNavButton = App.UI.createSendTokensButton();
 		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 		cfg.views.historyRow.selectedBackgroundColor = 'white';
