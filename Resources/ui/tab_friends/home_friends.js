@@ -1,8 +1,6 @@
 var App, friends = [], rowData = [];
 
-var Detail = require("ui/tab_friends/detail");
-
-exports.Detail = Detail;
+var FacebookFriendList = require("ui/send/facebook_friend_list");
 
 var cfg = {
 	win : {
@@ -77,17 +75,24 @@ var addEventListeners = function() {
 
 	ti.table.addEventListener("click", function(e) {
 
-		var rowFriend = App.ANDROID ? e.source.friend : e.rowData.friend;
+		if (e.source.addNew) {
 
-		if (rowFriend) {
-			Detail.open(rowFriend);
+			FacebookFriendList.open();
+
+		} else {
+
+			var rowFriend = App.ANDROID ? e.source.friend : e.rowData.friend;
+
+			if (rowFriend) {
+				App.UI.Send.SelectAction.open(rowFriend);
+			}
 		}
 
 	});
 
 };
 
-var addRow = function(friend) {
+var buildRow = function(friend) {
 
 	var row = Ti.UI.createTableViewRow(cfg.views.row);
 
@@ -117,18 +122,37 @@ var addRow = function(friend) {
 	return row;
 };
 
+var buildAddNewFriendRow = function() {
+
+	var row = Ti.UI.createTableViewRow(cfg.views.row);
+
+	var label = Ti.UI.createLabel(cfg.labels.friend);
+
+	row.addNew = true;
+	label.text = "+ new friend";
+	label.left = 10;
+
+	row.add(label);
+
+	return row;
+
+};
+
 var buildRows = function() {
 
+	rowData = [];
+
 	App._.each(friends, function(friend) {
-		rowData.push(addRow(friend));
+		rowData.push(buildRow(friend));
 	});
+
+	rowData.push(buildAddNewFriendRow());
 
 };
 
 var updateTable = function() {
 	friends = App.Models.Friends.all();
 	friends.sort(App.Lib.Functions.sortFriends);
-	rowData = [];
 	buildRows();
 	ti.table.setData(rowData);
 
@@ -161,7 +185,7 @@ var buildHierarchy = function() {
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
-		ti.titleBar.rightNavButton.title = "Send";
+		ti.titleBar.rightNavButton.title = "f";
 
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
 			App.UI.Send.open(App.UI.Friends.getFriends());
@@ -181,14 +205,11 @@ var buildHierarchy = function() {
 
 	} else {
 
-		ti.win.rightNavButton = App.UI.createSendTokensButton();
 		ti.win.leftNavButton = App.UI.createRefreshButton();
 
 	}
 
 	ti.views.getStarted = App.UI.createGetStartedRow();
-
-	//ti.table.search = ti.search;
 
 	ti.views.main.add(ti.table);
 
@@ -205,7 +226,7 @@ exports.initialize = function(app) {
 	buildHierarchy();
 	addEventListeners();
 
-	Detail.initialize(app, ti.tab);
+	FacebookFriendList.initialize(app);
 
 };
 

@@ -18,6 +18,7 @@ var Notifications = require("ui/tab_notifications/home_notifications");
 var User = require("ui/tab_user/home_user");
 
 var tabs = [Friends, Notifications, User];
+var tabsToShow = [Friends, Notifications];
 
 /*
  * Send Tokens Starting Window (Select Friend)
@@ -233,7 +234,7 @@ var ti = {
 };
 
 var buildHierarchy = function() {
-	App._.each(tabs, function(tab) {
+	App._.each(tabsToShow, function(tab) {
 		ti.tabGroup.addTab(tab.getTab());
 	});
 	setupActivityIndicator();

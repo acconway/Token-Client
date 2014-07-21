@@ -6,14 +6,6 @@ var friend;
 
 Ti.include("/lib/lib_date.js");
 
-var fonts = {
-	black : "GoudySans Blk BT",
-	bold : "GoudySans Md BT",
-	book : "GoudySans LT Book",
-	italic : "Goudy Sans",
-	medium : "GoudySans Md BT Medium"
-};
-
 var cfg = {
 	win : {
 		backgroundColor : "white",
@@ -49,13 +41,9 @@ var cfg = {
 			layout : 'vertical'
 		},
 		historyTable : {
-			top : 5,
-			height : 0,
-			scrollable : false,
-			width : "90%",
-			borderColor : "black",
-			borderRadius : 4,
-			borderWidth : 1,
+			top : 0,
+			height : "100%",
+			width : "100%",
 			backgroundColor : "white"
 		},
 		historyRow : {
@@ -70,17 +58,6 @@ var cfg = {
 		}
 	},
 	labels : {
-		historyTitle : {
-			left : 20,
-			top : 5,
-			color : "black",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			font : {
-				fontSize : 17,
-			},
-			text : "History"
-		},
 		historyDate : {
 			height : Ti.UI.SIZE,
 			color : "black",
@@ -111,9 +88,7 @@ var ti = {
 		padding : Ti.UI.createView(cfg.views.padding),
 		historyTable : Ti.UI.createTableView(cfg.views.historyTable)
 	},
-	labels : {
-		historyTitle : Ti.UI.createLabel(cfg.labels.historyTitle),
-	},
+	labels : {},
 	buttons : {},
 	images : {}
 };
@@ -141,13 +116,10 @@ var buildHistoryRow = function(transaction) {
 
 var refreshTable = function() {
 
-	ti.views.historyTable.height = 0;
-
 	var tableData = [];
 
 	App._.each(currentData.transactions, function(transaction) {
 		tableData.push(buildHistoryRow(transaction));
-		ti.views.historyTable.height += (cfg.views.historyRow.height + (App.ANDROID ? 1 : 0));
 	});
 
 	ti.views.historyTable.setData(tableData);
@@ -198,24 +170,8 @@ var buildHierarchy = function() {
 		cfg.views.historyRow.selectedBackgroundColor = 'white';
 		ti.win.backButtonTitle = "back";
 
-		var button = Ti.UI.createButton({
-			width : 25,
-			height : 25,
-			right : 10,
-			title : "send",
-			font : {
-				fontWeight : "bold",
-				fontSize : 40
-			}
-		});
-
-		button.addEventListener("click", function() {
-			App.UI.Send.SelectAction.open(friend);
-		});
-		ti.win.rightNavButton = button;
 	}
 
-	ti.views.main.add(ti.labels.historyTitle);
 	ti.views.main.add(ti.views.historyTable);
 	ti.views.main.add(App.UI.createSpacer());
 	ti.win.add(ti.views.main);

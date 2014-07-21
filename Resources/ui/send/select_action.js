@@ -23,7 +23,7 @@ var cfg = {
 			backgroundColor : "transparent"
 		},
 		row : {
-			hasChild : false,
+			hasChild : true,
 			selectedBackgroundColor : "white",
 			backgroundColor : "white",
 		}
@@ -31,25 +31,11 @@ var cfg = {
 	table : {
 		top : 5,
 		minRowHeight : 35,
-		width : "90%",
-		height : Ti.UI.SIZE,
-		borderWidth : 1,
-		borderColor : "black",
-		backgroundColor : "white",
-		borderRadius : 4
+		width : "100%",
+		height : "100%",
+		backgroundColor : "white"
 	},
 	labels : {
-		title : {
-			left : 20,
-			top : 5,
-			color : "black",
-			width : Ti.UI.SIZE,
-			height : Ti.UI.SIZE,
-			font : {
-				fontSize : 17
-			},
-			text : "FOR"
-		},
 		action : {
 			left : 10,
 			color : "black",
@@ -60,20 +46,7 @@ var cfg = {
 			width : Ti.UI.SIZE,
 		}
 	},
-	buttons : {
-		send : {
-			top : 20,
-			width : 150,
-			height : 40,
-			title : "send",
-			color : "black",
-			backgroundColor : "white",
-			borderRadius : 4,
-			borderWidth : 1,
-			borderColor : "black",
-			backgroundImage : null
-		}
-	},
+	buttons : {},
 	images : {}
 };
 
@@ -83,12 +56,8 @@ var ti = {
 	views : {
 		main : Ti.UI.createView(cfg.views.main)
 	},
-	labels : {
-		title : Ti.UI.createLabel(cfg.labels.title)
-	},
-	buttons : {
-		send : Ti.UI.createButton(cfg.buttons.send)
-	},
+	labels : {},
+	buttons : {},
 	images : {}
 };
 
@@ -99,27 +68,7 @@ var addEventListeners = function() {
 	ti.table.addEventListener("click", function(e) {
 		var data = App.ANDROID ? e.source : e.rowData;
 		if (data.action) {
-			if (data.action == "add new") {
-				ti.newActionWindow.open();
-			} else {
-				e.row.hasCheck = true;
-				if (ti.table.lastRow && ti.table.lastRow != e.row) {
-					ti.table.lastRow.hasCheck = false;
-				}
-				ti.table.lastRow = e.row;
-				exchange.action = data.action;
-			}
-		}
-	});
-
-	ti.buttons.send.addEventListener("click", function(e) {
-
-		if (!exchange.action) {
-			Ti.UI.createAlertDialog({
-				title : "",
-				message : "Please select an action",
-			}).show();
-		} else {
+			exchange.action = data.action;
 			if (App.API.Transactions.getTransactionInProcess()) {
 				return;
 			}
@@ -149,31 +98,11 @@ var addRow = function(action) {
 
 };
 
-var buildAddNewRow = function() {
-
-	var row = Ti.UI.createTableViewRow(cfg.views.row);
-
-	row.action = "add new";
-
-	row.label = Ti.UI.createLabel(cfg.labels.action);
-	row.label.font = {
-		fontSize : 16
-	};
-	row.label.text = "+ add new";
-
-	row.add(row.label);
-
-	return row;
-
-};
-
 var buildRows = function() {
 
 	App._.each(actions, function(action) {
 		rowData.push(addRow(action));
 	});
-
-	rowData.push(buildAddNewRow());
 
 };
 
@@ -186,25 +115,6 @@ var updateTable = exports.updateTable = function() {
 	buildRows();
 	ti.table.setData(rowData);
 
-	if (rowData.length > 4) {
-		ti.table.height = 162;
-	} else {
-		ti.table.height = Ti.UI.SIZE;
-	}
-
-	/*if (rowData.length == 0) {
-	 ti.views.addNew.top = 0;
-	 } else {
-	 ti.views.addNew.top = 5;
-	 }*/
-
-	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
-
-	if (file.exists()) {
-		ti.views.toView.profilePic.image = file;
-	} else {
-		ti.views.toView.profilePic.image = "/images/defaultprofile.png";
-	}
 };
 
 var hasAction = function(name) {
@@ -219,7 +129,7 @@ var addAction = function(name) {
 	};
 	actions.push(action);
 	var row = addRow(action);
-	ti.table.insertRowBefore(actions.length-1, row);
+	ti.table.insertRowBefore(actions.length - 1, row);
 	ti.table.scrollToIndex(actions.length);
 	row.hasCheck = true;
 	if (ti.table.lastRow) {
@@ -256,15 +166,7 @@ var buildHierarchy = function() {
 
 	}
 
-	ti.views.toView = App.UI.createFriendRow("To");
-
-	ti.views.main.add(ti.views.toView);
-
-	ti.views.main.add(ti.labels.title);
-
 	ti.views.main.add(ti.table);
-
-	ti.views.main.add(ti.buttons.send);
 
 	ti.win.backButtonTitle = "back";
 
@@ -285,7 +187,7 @@ exports.initialize = function(app) {
 
 exports.open = function(_friend) {
 	friend = _friend;
-	ti.views.toView.label.text = App.Lib.Functions.getShortName(friend.name.toLowerCase());
+	ti.win.title = App.Lib.Functions.getShortName(friend.name.toLowerCase());
 	updateTable();
 	ti.newActionWindow.visible = false;
 	App.UI.Send.openWindow(ti.win);

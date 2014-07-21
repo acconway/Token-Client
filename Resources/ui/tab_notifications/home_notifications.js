@@ -1,132 +1,163 @@
-var App;
+var App, friends = [], rowData = [];
 
-var transactions;
+var Detail = require("ui/tab_friends/detail");
 
-Ti.include("/lib/lib_date.js");
-
-var rowData = [];
+exports.Detail = Detail;
 
 var cfg = {
-	tab : "",
 	win : {
-		title : "exchanges",
 		backgroundColor : "white",
+		title : 'exchanges',
 		orientationModes : [Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
-	},
-	table : {
-		top : 0,
-		minRowHeight : 50,
-		width : "100%",
-		touchEnabled : false,
-		height : 0,
 	},
 	views : {
 		main : {
 			height : "100%",
 			width : "100%",
-			layout : "vertical",
-			showVerticalScrollIndicator : true,
 			contentHeight : Ti.UI.SIZE,
-			backgroundColor : "transparent"
+			showVerticalScrollIndicator : true,
+			backgroundColor : "transparent",
+			layout : "vertical"
 		},
-		historyRow : {
-			width : "100%",
-			height : 60,
-			backgroundColor : "white",
-			touchEnabled : false
-		},
-		topRow : {
-			top : 0,
-			left : 10,
-			width : Ti.UI.SIZE,
-			height : 40,
-			layout : "horizontal"
-		},
-		bottomRow : {
-			top : 40,
-			left : 10,
-			width : Ti.UI.SIZE,
-			height : 40,
-			layout : "horizontal"
+		row : {
+			hasChild : true,
+			height : 50,
+			selectedBackgroundColor : "white"
 		}
 	},
+	table : {
+		top : 0,
+		minRowHeight : 50,
+		width : "100%",
+		height : "100%",
+		scrollable : false,
+		filterAttribute : 'name'
+	},
+	search : {
+		barColor : "white",
+		showCancel : false,
+		hintText : 'search'
+	},
 	labels : {
-		historyDate : {
-			height : Ti.UI.SIZE,
-			color : "black",
+		friend : {
 			font : {
-				fontSize : 16
+				fontSize : 18
 			},
-			right : 5,
-			width : Ti.UI.SIZE
-		},
-		historyAction : {
-			left : 10,
-			width : "90%",
+			left : 70,
 			height : Ti.UI.SIZE,
-			top : 30,
+			width : Ti.UI.SIZE,
 			color : "black",
-			font : {
-				fontSize : 16
-			}
+			touchEnabled : false
+		}
+	},
+	images : {
+		friend : {
+			left : 5,
+			width : 40,
+			height : 40,
+			borderRadius : 4
 		}
 	},
 	buttons : {
-		refresh : {
-			backgroundImage : "/images/icons/refresh@2x.png",
-			width : 30,
+		logout : {
+			title : "logout",
 			height : 30,
-			left : 30
+			width : 200
 		}
 	}
 };
 
 var ti = {
 	win : Ti.UI.createWindow(cfg.win),
-	table : Ti.UI.createTableView(cfg.table),
 	views : {
-		main : Ti.UI.createScrollView(cfg.views.main)
+		main : Ti.UI.createScrollView(cfg.views.main),
+		noFriends : Ti.UI.createView(cfg.views.row)
 	},
 	labels : {},
-	buttons : {}
+	table : Ti.UI.createTableView(cfg.table),
+	buttons : {
+		logout : Ti.UI.createButton(cfg.buttons.logout)
+	}
 };
 
-var buildNotificationRow = function(transaction) {
+var friends = [];
 
-	var sent = (transaction.senderID == App.Models.User.getMyID());
+var addEventListeners = function() {
 
-	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
+	ti.table.addEventListener("click", function(e) {
 
-	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
-	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
+		var rowFriend = App.ANDROID ? e.source.friend : e.rowData.friend;
 
-	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	actionLabel.text = transaction.actionName.toLowerCase();
+		if (rowFriend) {
+			Detail.open(rowFriend);
+		}
 
-	row.add(dateLabel);
-	row.add(actionLabel);
+	});
 
-	row.actionLabel = actionLabel;
+	ti.buttons.logout.addEventListener("click", function() {
+		App.logout();
+	});
+
+};
+
+var buildRow = function(friend) {
+
+	var row = Ti.UI.createTableViewRow(cfg.views.row);
+
+	row.friend = friend;
+
+	row.label = Ti.UI.createLabel(cfg.labels.friend);
+	row.label.text = friend.name.toLowerCase();
+
+	row.name = friend.name.toLowerCase();
+
+	row.add(row.label);
+
+	var image = Ti.UI.createImageView(cfg.images.friend);
+
+	row.image = image;
+
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friend.userID + ".png");
+
+	if (file.exists()) {
+		image.image = file;
+	} else {
+		image.image = "/images/defaultprofile.png";
+	}
+
+	row.add(image);
 
 	return row;
 };
 
-var buildNotificationsTable = function() {
+var buildRows = function() {
 
 	rowData = [];
-	ti.table.height = 0;
 
-	App._.each(transactions, function(transaction) {
-		rowData.push(buildNotificationRow(transaction));
-		ti.table.height += (cfg.views.historyRow.height + (App.ANDROID ? 1 : 0));
+	App._.each(friends, function(friend) {
+		rowData.push(buildRow(friend));
 	});
-
-	ti.table.setData(rowData);
 
 };
 
-var refresh = function() {
-	App.API.Transactions.syncTransactions(App.Models.User.getLastTransactionTime());
+var updateTable = function() {
+	friends = App.Models.Friends.all();
+	friends.sort(App.Lib.Functions.sortFriends);
+	buildRows();
+	ti.table.setData(rowData);
+
+	if (rowData.length == 0) {
+		if (ti.views.getStarted.visible == false) {
+			ti.views.main.add(ti.views.getStarted);
+			ti.views.getStarted.visible = true;
+		}
+	} else {
+		if (ti.views.getStarted.visible) {
+			ti.views.main.remove(ti.views.getStarted);
+			ti.views.getStarted.visible = false;
+		}
+	}
+
 };
 
 var buildHierarchy = function() {
@@ -144,7 +175,7 @@ var buildHierarchy = function() {
 
 		ti.titleBar = App.UI.createAndroidTitleBar("Token");
 
-		ti.titleBar.rightNavButton.title = "Send";
+		ti.titleBar.rightNavButton.title = "f";
 
 		ti.titleBar.rightNavButton.addEventListener("click", function() {
 			App.UI.Send.open(App.UI.Friends.getFriends());
@@ -162,23 +193,22 @@ var buildHierarchy = function() {
 
 		ti.win.add(ti.titleBar);
 
-		cfg.views.historyRow.backgroundSelectedColor = 'white';
-
 	} else {
 
 		ti.win.leftNavButton = App.UI.createRefreshButton();
+		ti.win.rightNavButton = ti.buttons.logout;
 
-		cfg.views.historyRow.selectedBackgroundColor = 'white';
 	}
 
+	ti.views.getStarted = App.UI.createGetStartedRow();
+
 	ti.views.main.add(ti.table);
+
 	ti.views.main.add(App.UI.createSpacer());
 
 	ti.win.add(ti.views.main);
 
-};
-
-var addEventListeners = function() {
+	updateTable();
 
 };
 
@@ -186,35 +216,44 @@ exports.initialize = function(app) {
 	App = app;
 	buildHierarchy();
 	addEventListeners();
-};
 
-var updateTable = exports.updateTable = function() {
-
-	transactions = App.Models.Transactions.all();
-
-	transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
-
-	buildNotificationsTable();
-
-};
-
-exports.addRow = function(transaction) {
-
-	var friendLookupTable = App.Models.User.getByName("friendsListLookup");
-
-	if (App.ANDROID) {
-		rowData.splice(0, 0, buildNotificationRow(transaction, friendLookupTable));
-		ti.table.setData(rowData);
-	} else {
-		if (rowData.length > 0) {
-			ti.table.insertRowBefore(0, buildNotificationRow(transaction, friendLookupTable));
-		} else {
-			ti.table.appendRow(buildNotificationRow(transaction, friendLookupTable));
-		}
-	}
+	Detail.initialize(app, ti.tab);
 
 };
 
 exports.getTab = function() {
 	return ti.tab;
+};
+
+exports.addFriend = function(friend, update) {
+	App.Models.Friends.addFriend(friend.name, friend.userID);
+	if (update) {
+		updateTable();
+	}
+};
+
+exports.refreshPictures = function(index) {
+
+	App._.each(rowData, function(row) {
+
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
+
+		if (file.exists()) {
+			row.image.image = file;
+		} else {
+			row.image.image = "/images/defaultprofile.png";
+		}
+
+	});
+
+};
+
+exports.getFriends = function() {
+	return friends;
+};
+
+exports.updateTable = updateTable;
+
+exports.refresh = function() {
+	updateTable();
 };

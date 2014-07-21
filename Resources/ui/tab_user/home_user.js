@@ -39,7 +39,7 @@ var cfg = {
 	labels : {
 		historyDate : {
 			height : Ti.UI.SIZE,
-			color : "#6292a1",
+			color : "black",
 			font : {
 				fontSize : 17
 			},
@@ -122,7 +122,7 @@ var buildNotificationRow = function(transaction, friendLookupTable) {
 	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
 
 	dateLabel.text = (new Date(parseInt(transaction.time))).customFormat("#MM#/#DD#");
-	nameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase() + ( sent ? " sent" : " received");
+	nameLabel.text = App.Lib.Functions.getShortName(friendLookupTable[friendID]).toLowerCase() + ( !sent ? " sent" : " received");
 	actionLabel.text = '"' + transaction.actionName.toLowerCase() + '"';
 
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", friendID + ".png");

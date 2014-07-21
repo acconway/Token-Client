@@ -1,7 +1,7 @@
 var App;
 
 var transactionInProcess = false;
-var syncInProcess = false; 
+var syncInProcess = false;
 
 exports.getTransactionInProcess = function() {
 	return transactionInProcess;
@@ -34,7 +34,7 @@ var addTransactionHandleSuccess = function(response, params) {
 	}
 	Ti.UI.createAlertDialog({
 		title : "",
-		message : "Sent " + params.data.tokenValue + " Token" + (params.data.tokenValue > 1 ? "s" : "") + " To " + params.name
+		message : "Sent " + params.data.actionName + " to " + params.name
 	}).show();
 };
 
@@ -67,13 +67,13 @@ exports.addTransaction = function(recipientID, actionName, tokenValue, time, nam
 var syncTransactionsHandleError = function(error, params) {
 	//Handle Error
 	App.LOG(JSON.stringify(error));
-	syncInProcess = false; 
+	syncInProcess = false;
 	App.UI.hideWait();
 };
 
 var syncTransactionsHandleSuccess = function(response, params) {
-	
-	syncInProcess = false; 
+
+	syncInProcess = false;
 
 	App.LOG("App.API.Transactions syncTransactions success! " + JSON.stringify(response));
 
@@ -107,17 +107,17 @@ var afterSyncTransactions = function(response, params) {
 };
 
 exports.syncTransactions = function() {
-	
-	if(syncInProcess){
-		return; 
+
+	if (syncInProcess) {
+		return;
 	}
-	
-	syncInProcess = true; 
-	
+
+	syncInProcess = true;
+
 	App.Models.Friends.purge();
 	App.Models.Transactions.purge();
-	
-	var lastTransaction = 0; 
+
+	var lastTransaction = 0;
 
 	var userID = App.Models.User.getMyID();
 
