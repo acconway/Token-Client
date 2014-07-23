@@ -17,13 +17,13 @@
 			<string>com.sccs.tokens</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tokens</string>
+				<string>oblique</string>
 				<string>fb224818800979354</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.sccs.tokens</string>
+	<string>com.sccs.oblique</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

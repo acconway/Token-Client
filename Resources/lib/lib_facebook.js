@@ -1,6 +1,6 @@
 var fb = require('facebook');
 fb.appid = 224818800979354;
-fb.permissions = ['offline_access'];
+//fb.permissions = ['offline_access'];
 fb.forceDialogAuth = false;
 
 var App, userData, profilePicture, friendsList = [], listErrorCounter = 0;
@@ -165,6 +165,8 @@ exports.authorize = fb.authorize;
 exports.logout = fb.logout; 
 
 exports.afterLogin = function() {
+	
+	Ti.API.info("after login");
 
 	getUserData();
 	requestFriendList();

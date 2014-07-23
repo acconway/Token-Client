@@ -245,12 +245,15 @@ exports.refreshPictures = function(index) {
 
 	App._.each(rowData, function(row) {
 
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
+		if (!row.addNew) {
 
-		if (file.exists()) {
-			row.image.image = file;
-		} else {
-			row.image.image = "/images/defaultprofile.png";
+			var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
+
+			if (file.exists()) {
+				row.image.image = file;
+			} else {
+				row.image.image = "/images/defaultprofile.png";
+			}
 		}
 
 	});

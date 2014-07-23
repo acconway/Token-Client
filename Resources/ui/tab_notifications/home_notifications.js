@@ -1,4 +1,7 @@
-var App, friends = [], rowData = [];
+var App;
+var transactions = [];
+var rowData = [];
+var friendLookupTable;
 
 var Detail = require("ui/tab_friends/detail");
 
@@ -23,6 +26,16 @@ var cfg = {
 			hasChild : true,
 			height : 50,
 			selectedBackgroundColor : "white"
+		},
+		historyRow : {
+			width : "100%",
+			height : 50,
+			touchEnabled : false
+		},
+		historyLabelView : {
+			width : 140,
+			height : 60,
+			right : 0
 		}
 	},
 	table : {
@@ -30,7 +43,6 @@ var cfg = {
 		minRowHeight : 50,
 		width : "100%",
 		height : "100%",
-		scrollable : false,
 		filterAttribute : 'name'
 	},
 	search : {
@@ -48,6 +60,24 @@ var cfg = {
 			width : Ti.UI.SIZE,
 			color : "black",
 			touchEnabled : false
+		},
+		historyDate : {
+			height : Ti.UI.SIZE,
+			color : "black",
+			font : {
+				fontSize : 15
+			},
+			right : 5,
+			width : Ti.UI.SIZE
+		},
+		historyAction : {
+			left : 10,
+			width : "90%",
+			height : Ti.UI.SIZE,
+			color : "black",
+			font : {
+				fontSize : 14
+			}
 		}
 	},
 	images : {
@@ -79,8 +109,6 @@ var ti = {
 		logout : Ti.UI.createButton(cfg.buttons.logout)
 	}
 };
-
-var friends = [];
 
 var addEventListeners = function() {
 
@@ -130,33 +158,92 @@ var buildRow = function(friend) {
 	return row;
 };
 
+var buildHistoryRow = function(transaction) {
+
+	var sent = (transaction.senderID == App.Models.User.getMyID());
+
+	var delimiterIndex = transaction.actionName.indexOf(":");
+
+	var transactionWord = delimiterIndex >= 0 ? transaction.actionName.substring(0, delimiterIndex) : transaction.actionName;
+	var transactionDefinition = delimiterIndex >= 0 ? transaction.actionName.substring(delimiterIndex + 1, transaction.actionName.length) : "No definition sorry (it's a bug)')";
+
+	var row = Ti.UI.createTableViewRow(cfg.views.historyRow);
+
+	var dateLabel = Ti.UI.createLabel(cfg.labels.historyDate);
+	var actionLabel = Ti.UI.createLabel(cfg.labels.historyAction);
+
+	dateLabel.text = App.moment(parseInt(transaction.time)).format("h:mm a");
+
+	if (sent) {
+		actionLabel.text = App.Lib.Functions.getFirstName(App.Models.User.getMyName()).toLowerCase() + ": " + transactionWord.toLowerCase() + " to " + App.Lib.Functions.getFirstName(friendLookupTable[transaction.recipientID]).toLowerCase();
+	} else {
+		actionLabel.text = App.Lib.Functions.getFirstName(friendLookupTable[transaction.senderID]).toLowerCase() + ": " + transactionWord.toLowerCase();
+	}
+
+	row.addEventListener("click", function() {
+		Ti.UI.createAlertDialog({
+			title : transactionWord,
+			message : transactionDefinition
+		}).show();
+	});
+
+	row.add(dateLabel);
+	row.add(actionLabel);
+
+	row.actionLabel = actionLabel;
+
+	return row;
+
+};
+
 var buildRows = function() {
 
-	rowData = [];
+	var tableData = [];
 
-	App._.each(friends, function(friend) {
-		rowData.push(buildRow(friend));
+	var currDate;
+	var currHeader;
+
+	App._.each(transactions, function(transaction) {
+
+		var transactionMoment = App.moment(parseInt(transaction.time));
+
+		if (!currDate) {
+
+			currDate = transactionMoment;
+			currHeader = Ti.UI.createTableViewSection({
+				headerTitle : App.moment().isSame(currDate, "day") ? "today" : currDate.format("M/D/YYYY")
+			});
+
+		} else if (!currDate.isSame(transactionMoment, "day")) {
+
+			tableData.push(currHeader);
+			currDate = transactionMoment;
+			currHeader = Ti.UI.createTableViewSection({
+				headerTitle : currDate.format("M/D/YYYY")
+			});
+
+		}
+
+		currHeader.add(buildHistoryRow(transaction));
+
 	});
+
+	if (tableData.length == 0) {
+		tableData.push(currHeader);
+	}
+
+	ti.table.setData(tableData);
 
 };
 
 var updateTable = function() {
-	friends = App.Models.Friends.all();
-	friends.sort(App.Lib.Functions.sortFriends);
-	buildRows();
-	ti.table.setData(rowData);
 
-	if (rowData.length == 0) {
-		if (ti.views.getStarted.visible == false) {
-			ti.views.main.add(ti.views.getStarted);
-			ti.views.getStarted.visible = true;
-		}
-	} else {
-		if (ti.views.getStarted.visible) {
-			ti.views.main.remove(ti.views.getStarted);
-			ti.views.getStarted.visible = false;
-		}
-	}
+	transactions = App.Models.Transactions.all();
+	transactions = App.Models.Transactions.sortTransactionsDescendingByTime(transactions);
+
+	friendLookupTable = App.Models.User.getByName("friendsListLookup");
+
+	buildRows();
 
 };
 
@@ -200,15 +287,11 @@ var buildHierarchy = function() {
 
 	}
 
-	ti.views.getStarted = App.UI.createGetStartedRow();
-
 	ti.views.main.add(ti.table);
 
 	ti.views.main.add(App.UI.createSpacer());
 
 	ti.win.add(ti.views.main);
-
-	updateTable();
 
 };
 
@@ -223,33 +306,6 @@ exports.initialize = function(app) {
 
 exports.getTab = function() {
 	return ti.tab;
-};
-
-exports.addFriend = function(friend, update) {
-	App.Models.Friends.addFriend(friend.name, friend.userID);
-	if (update) {
-		updateTable();
-	}
-};
-
-exports.refreshPictures = function(index) {
-
-	App._.each(rowData, function(row) {
-
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + "/profilepics", row.friend.userID + ".png");
-
-		if (file.exists()) {
-			row.image.image = file;
-		} else {
-			row.image.image = "/images/defaultprofile.png";
-		}
-
-	});
-
-};
-
-exports.getFriends = function() {
-	return friends;
 };
 
 exports.updateTable = updateTable;

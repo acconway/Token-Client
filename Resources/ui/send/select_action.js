@@ -77,7 +77,17 @@ var addEventListeners = function() {
 			if (friend.newFriend) {
 				App.UI.Friends.addFriend(friend, true);
 			}
-			App.API.Transactions.addTransaction(friend.userID, exchange.action.name, exchange.tokens, now.getTime(), friend.name);
+			App.API.Transactions.addTransaction(friend.userID, exchange.action.word + ":" + exchange.action.definition, exchange.tokens, now.getTime(), friend.name);
+		}
+	});
+
+	ti.table.addEventListener("longpress", function(e) {
+		var data = App.ANDROID ? e.source : e.rowData;
+		if (data.action) {
+			Ti.UI.createAlertDialog({
+				title : data.action.word,
+				message : data.action.definition
+			}).show();
 		}
 	});
 
@@ -90,7 +100,7 @@ var addRow = function(action) {
 	row.action = action;
 
 	row.label = Ti.UI.createLabel(cfg.labels.action);
-	row.label.text = action.name.toLowerCase();
+	row.label.text = action.word.toLowerCase();
 
 	row.add(row.label);
 
@@ -108,8 +118,14 @@ var buildRows = function() {
 
 var updateTable = exports.updateTable = function() {
 
-	actions = App.Models.Transactions.getAllActions(friend.userID);
-	actions = actions.concat(App.CONSTANTS.defaultActions);
+	var words = [];
+
+	for (var i = 0; i < 8; i++) {
+		var rand = Math.floor(Math.random() * (App.wordList.length - 1));
+		words.push(App.wordList[rand]);
+	}
+
+	actions = words;
 	actions.sort(App.Lib.Functions.sortFriends);
 	rowData = [];
 	buildRows();
@@ -119,7 +135,7 @@ var updateTable = exports.updateTable = function() {
 
 var hasAction = function(name) {
 	return App._.find(actions, function(action) {
-		return action.name.toLowerCase() == name.toLowerCase();
+		return action.word.toLowerCase() == name.toLowerCase();
 	});
 };
 

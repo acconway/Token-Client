@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=SCWT
+iosLaunchConfigurationAttributes/ATTR_UPLOAD_DEBUG_SYMBOLS=false
+iosLaunchConfigurationAttributes/appid=com.sccs.tokens
+iosLaunchConfigurationAttributes/certificate=Alexander Conway (E68U2BLV4L)
+iosLaunchConfigurationAttributes/distribute_path=/Users/aconway/Desktop
+iosLaunchConfigurationAttributes/keychain=
+iosLaunchConfigurationAttributes/output_format=ipa
+iosLaunchConfigurationAttributes/sdk_version=7.1
+iosLaunchConfigurationAttributes/uuid=C3D53DFD-62A5-4516-839A-EED293E7FA79

@@ -62,7 +62,7 @@ exports.open = function(friends) {
 };
 
 exports.close = function() {
-	ti.win.close();
+	SelectAction.getWin().close();
 };
 
 exports.closeWindows = function() {

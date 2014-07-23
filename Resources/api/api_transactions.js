@@ -34,7 +34,7 @@ var addTransactionHandleSuccess = function(response, params) {
 	}
 	Ti.UI.createAlertDialog({
 		title : "",
-		message : "Sent " + params.data.actionName + " to " + params.name
+		message : "Sent " + params.data.actionName.split(":", 1) + " to " + params.name
 	}).show();
 };
 
@@ -93,10 +93,9 @@ var syncTransactionsHandleSuccess = function(response, params) {
 	App.UI.Friends.updateTable();
 
 	App.UI.Notifications.updateTable();
+	App.UI.Notifications.Detail.update();
 
 	App.UI.User.updateTable();
-
-	App.UI.Friends.Detail.update();
 
 	App.UI.hideWait();
 

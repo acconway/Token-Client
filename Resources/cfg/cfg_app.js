@@ -1,5 +1,6 @@
 var App = this;
-var _ = require('/lib/lib_underscore')._;
+var _ = require('/lib/underscore')._;
+var moment = require("/lib/moment");
 
 //Constant for Android platform
 
@@ -9,7 +10,7 @@ var Lib = {
 	Facebook : require("lib/lib_facebook"),
 	Functions : require("lib/lib_functions"),
 	Joli : require("lib/joli"),
-	Data : require("lib/lib_data")
+	Data : require("lib/lib_data"),
 };
 
 var UI = require("/ui/ui_app");
@@ -44,7 +45,7 @@ var defaultActions = [{
 }, {
 	name : "Helping me move",
 	lastValue : 5
-}]; 
+}];
 
 var CONSTANTS = {
 	TOTALPOINTS : 10,
@@ -65,9 +66,16 @@ var logLevel = 1;
 //DB.connection.database.remove();
 //DB = Lib.Joli.connect('token');
 
+var file = Ti.Filesystem.getFile("lib/arrayDictionary.json");
+var data = file.read().text;
+var array = JSON.parse(data);
+
+exports.wordList = array;
+
 exports.ANDROID = ANDROID;
 exports.CONSTANTS = CONSTANTS;
 exports._ = _;
+exports.moment = moment;
 
 exports.Lib = Lib;
 exports.UI = UI;
@@ -89,7 +97,7 @@ exports.logout = function() {
 	UI.Friends.refresh();
 	UI.User.updateTable();
 	UI.Notifications.updateTable();
-	App.Lib.Facebook.logout();
+	Lib.Facebook.logout();
 	UI.closeTabGroup();
 	UI.Login.getWin().open();
 };
@@ -105,6 +113,7 @@ exports.login = function() {
 	UI.showWait("Logging In...");
 	Models.User.read();
 	if (!Models.User.userDataSet()) {
+		Ti.API.info("afterLogin");
 		Lib.Facebook.afterLogin();
 	} else {
 		Lib.Facebook.getPics(0, Models.User.getByName("friendsList"));

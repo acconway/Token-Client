@@ -6,7 +6,7 @@
     <property name="acs-oauth-secret-development" type="string">PVlzyXLGqzSNvLaXBmjShhDgyQBeqpIw</property>
     <property name="acs-oauth-key-development" type="string">NjZkhzsIA3cwrhiVYcPJ3TgnfnPYbTG0</property>
     <property name="acs-api-key-development" type="string">t9hSZ3DCzbYAG8chWjXW7eqA6MNDLuwJ</property>
-    <property name="ti.facebook.appid">224818800979354</property>
+    <property name="ti.facebook.appid">1478584459050832</property>
     <deployment-targets>
         <target device="tizen">false</target>
         <target device="mobileweb">true</target>
@@ -17,13 +17,12 @@
     </deployment-targets>
     <sdk-version>3.2.3.GA</sdk-version>
     <id>com.sccs.tokens</id>
-    <name>Tokens</name>
+    <name>Oblique</name>
     <version>1.1.1</version>
     <publisher>alexanderconway</publisher>
     <url>http://</url>
     <description>not specified</description>
     <copyright>2012 by alexanderconway</copyright>
-    <property name="ti.facebook.appid">224818800979354</property>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>

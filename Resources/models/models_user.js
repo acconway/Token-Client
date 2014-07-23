@@ -30,7 +30,7 @@ exports.setByName = function(key, value) {
 };
 
 var save = exports.save = function() {
-	App.Lib.Data.save(modelName, model)
+	App.Lib.Data.save(modelName, model);
 };
 
 exports.reset = function() {

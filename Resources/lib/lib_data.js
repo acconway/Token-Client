@@ -1,4 +1,4 @@
-var _ = require('/lib/lib_underscore')._;
+var _ = require('/lib/underscore')._;
 
 var readString = function(key) {
 	var value = Ti.App.Properties.getString(key,null);
